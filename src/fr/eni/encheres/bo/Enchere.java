@@ -6,5 +6,5 @@ public class Enchere {
 	private int montantEnchere;
 	private Date dateEnchere;
 	private Utilisateur unUtilisateur;
-	private Enchere uneEnchere; // commentaire pour modifier la class 3 fois
+	private Enchere uneEnchere; // commentaire pour modifier la class 4 fois
 }
