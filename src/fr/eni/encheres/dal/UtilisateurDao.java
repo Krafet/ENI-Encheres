@@ -5,7 +5,6 @@ import java.util.List;
 import fr.eni.encheres.bo.Utilisateur;
 
 public interface UtilisateurDao {
-
 	List<Utilisateur> getAllUtilisateur();
 	Utilisateur getUtilisateurById(int id);
 	Utilisateur getUtilisateurByPseudoPassword(String pseudo, String MotDePasse);
