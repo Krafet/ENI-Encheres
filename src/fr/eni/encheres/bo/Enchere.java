@@ -38,14 +38,7 @@ public class Enchere {
 	public void setUnArticleVendu(ArticleVendu unArticleVendu) {
 		this.unArticleVendu = unArticleVendu;
 	}
-	
-	public String getDateEnchereFormate() {
-		Instant dateInstant = dateEnchere.toInstant();
-		LocalDateTime dateEnchereLdt = dateInstant.atOffset(ZoneOffset.UTC).toLocalDateTime();
-		DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		
-		return dateEnchereLdt.format(formatDate);
-	}
+
 	
 	@Override
 	public String toString() {
