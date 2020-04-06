@@ -13,7 +13,19 @@ public class Enchere {
 	private Utilisateur unUtilisateur;
 	private ArticleVendu unArticleVendu; // commentaire pour modifier la class 4 fois
 	
+	public Enchere() {
+		super();
+	}
 	
+	public Enchere(int montantEnchere, Date dateEnchere, Utilisateur unUtilisateur, ArticleVendu unArticleVendu) {
+		super();
+		this.montantEnchere = montantEnchere;
+		this.dateEnchere = dateEnchere;
+		this.unUtilisateur = unUtilisateur;
+		this.unArticleVendu = unArticleVendu;
+	}
+	
+
 	public int getMontantEnchere() {
 		return montantEnchere;
 	}

@@ -4,17 +4,17 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class Utils {
-
 	
-	
-/*	public private String getDateEnchereFormat() {
-		Instant dateInstant = dateEnchere.toInstant();
-		LocalDateTime dateEnchereLdt = dateInstant.atOffset(ZoneOffset.UTC).toLocalDateTime();
-		DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	//Date vient de utuls.date, le format peut se traduire comme : dd/MM/yyyy
+	public String getDateFormate(Date date, String format) {
+		Instant dateInstant = date.toInstant();
+		LocalDateTime ldt = dateInstant.atOffset(ZoneOffset.UTC).toLocalDateTime();
+		DateTimeFormatter formatDate = DateTimeFormatter.ofPattern(format);
 		
-		return dateEnchereLdt.format(formatDate);
+		return ldt.format(formatDate);
 	}
-	*/
+	
 }
