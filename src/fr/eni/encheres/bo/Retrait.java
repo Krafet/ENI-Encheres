@@ -10,10 +10,10 @@ public class Retrait  implements Serializable {
 	}
 	
 	
-	public Retrait(String rue, String code_postal, String ville) {
+	public Retrait(String rue, String codePostal, String ville) {
 		super();
 		this.rue = rue;
-		this.code_postal = code_postal;
+		this.codePostal = codePostal;
 		this.ville = ville;
 	}
 
@@ -24,7 +24,7 @@ public class Retrait  implements Serializable {
 	
 	
 	private String rue;
-	private String code_postal;
+	private String codePostal;
 	private String ville;
 	
 	
@@ -34,11 +34,11 @@ public class Retrait  implements Serializable {
 	public void setRue(String rue) {
 		this.rue = rue;
 	}
-	public String getCode_postal() {
-		return code_postal;
+	public String getCodePostal() {
+		return codePostal;
 	}
-	public void setCode_postal(String code_postal) {
-		this.code_postal = code_postal;
+	public void setCode_postal(String codePostal) {
+		this.codePostal = codePostal;
 	}
 	public String getVille() {
 		return ville;
@@ -50,7 +50,7 @@ public class Retrait  implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Retrait [getRue()=" + getRue() + ", getCode_postal()=" + getCode_postal() + ", getVille()=" + getVille()
+		return "Retrait [getRue()=" + getRue() + ", getCodePostal()=" + getCodePostal() + ", getVille()=" + getVille()
 				+ "]";
 	}
 	
@@ -60,7 +60,7 @@ public class Retrait  implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((code_postal == null) ? 0 : code_postal.hashCode());
+		result = prime * result + ((codePostal == null) ? 0 : codePostal.hashCode());
 		result = prime * result + ((rue == null) ? 0 : rue.hashCode());
 		result = prime * result + ((ville == null) ? 0 : ville.hashCode());
 		return result;
@@ -75,10 +75,10 @@ public class Retrait  implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Retrait other = (Retrait) obj;
-		if (code_postal == null) {
-			if (other.code_postal != null)
+		if (codePostal == null) {
+			if (other.codePostal != null)
 				return false;
-		} else if (!code_postal.equals(other.code_postal))
+		} else if (!codePostal.equals(other.codePostal))
 			return false;
 		if (rue == null) {
 			if (other.rue != null)
