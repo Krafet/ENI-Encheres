@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import fr.eni.encheres.bo.Enchere;
 
-public interface EnchereDAO {
+public interface EnchereDao {
 	Enchere insert(Enchere uneEnchere);
 	boolean delete();
 	boolean update();
