@@ -1,5 +1,10 @@
 package fr.eni.encheres.bo;
 
-public class Enchere {
+import java.util.Date;
 
+public class Enchere {
+	private int montantEnchere;
+	private Date dateEnchere;
+	private Utilisateur unUtilisateur;
+	private Enchere uneEnchere;
 }
