@@ -32,6 +32,7 @@
 .project
 .classpath
 .settings
+.metadata
 
 # Netbeans
 nbactions*.xml
