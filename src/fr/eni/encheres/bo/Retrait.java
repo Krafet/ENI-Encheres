@@ -5,6 +5,18 @@ import java.io.Serializable;
 public class Retrait  implements Serializable {
 	
 
+	public Retrait() {
+		super();
+	}
+	
+	
+	public Retrait(String rue, String code_postal, String ville) {
+		super();
+		this.rue = rue;
+		this.code_postal = code_postal;
+		this.ville = ville;
+	}
+
 	/**
 	 * 
 	 */

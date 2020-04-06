@@ -5,6 +5,15 @@ import java.io.Serializable;
 public class Categorie implements Serializable {
 	
 
+	public Categorie() {
+		super();
+	}
+	
+	public Categorie(int noCategorie, String libelle) {
+		super();
+		this.noCategorie = noCategorie;
+		this.libelle = libelle;
+	}
 	/**
 	 * 
 	 */
