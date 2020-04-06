@@ -11,9 +11,9 @@ public class Utilisateur implements Serializable {
 	private String email;
 	private String telephone;
 	private String rue;
-	private String code_postal;
+	private String codePostal;
 	private String ville;
-	private String mot_de_passe;
+	private String motDePasse;
 	private int credit;
 	private boolean administrateur;
 	
@@ -33,14 +33,14 @@ public class Utilisateur implements Serializable {
 	 * @param email
 	 * @param telephone
 	 * @param rue
-	 * @param code_postal
+	 * @param codePostal
 	 * @param ville
-	 * @param mot_de_passe
+	 * @param motDePasse
 	 * @param credit
 	 * @param administrateur
 	 */	
 	public Utilisateur(int noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
-			String rue, String code_postal, String ville, String mot_de_passe, int credit, boolean administrateur) {
+			String rue, String codePostal, String ville, String motDePasse, int credit, boolean administrateur) {
 		super();
 		this.noUtilisateur = noUtilisateur;
 		this.pseudo = pseudo;
@@ -49,9 +49,9 @@ public class Utilisateur implements Serializable {
 		this.email = email;
 		this.telephone = telephone;
 		this.rue = rue;
-		this.code_postal = code_postal;
+		this.codePostal = codePostal;
 		this.ville = ville;
-		this.mot_de_passe = mot_de_passe;
+		this.motDePasse = motDePasse;
 		this.credit = credit;
 		this.administrateur = administrateur;
 	}
@@ -62,14 +62,14 @@ public class Utilisateur implements Serializable {
 	 * @param email
 	 * @param telephone
 	 * @param rue
-	 * @param code_postal
+	 * @param codePostal
 	 * @param ville
-	 * @param mot_de_passe
+	 * @param motDePasse
 	 * @param credit
 	 * @param administrateur
 	 */
 	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue,
-			String code_postal, String ville, String mot_de_passe, int credit, boolean administrateur) {
+			String codePostal, String ville, String motDePasse, int credit, boolean administrateur) {
 		super();
 		this.pseudo = pseudo;
 		this.nom = nom;
@@ -77,9 +77,9 @@ public class Utilisateur implements Serializable {
 		this.email = email;
 		this.telephone = telephone;
 		this.rue = rue;
-		this.code_postal = code_postal;
+		this.codePostal = codePostal;
 		this.ville = ville;
-		this.mot_de_passe = mot_de_passe;
+		this.motDePasse = motDePasse;
 		this.credit = credit;
 		this.administrateur = administrateur;
 	}
@@ -168,16 +168,16 @@ public class Utilisateur implements Serializable {
 		this.rue = rue;
 	}
 	/**
-	 * @return the code_postal
+	 * @return the codePostal
 	 */
 	public String getCode_postal() {
-		return code_postal;
+		return codePostal;
 	}
 	/**
 	 * @param code_postal the code_postal to set
 	 */
-	public void setCode_postal(String code_postal) {
-		this.code_postal = code_postal;
+	public void setCode_postal(String codePostal) {
+		this.codePostal = codePostal;
 	}
 	/**
 	 * @return the ville
@@ -192,16 +192,16 @@ public class Utilisateur implements Serializable {
 		this.ville = ville;
 	}
 	/**
-	 * @return the mot_de_passe
+	 * @return the motDePasse
 	 */
 	public String getMot_de_passe() {
-		return mot_de_passe;
+		return motDePasse;
 	}
 	/**
 	 * @param mot_de_passe the mot_de_passe to set
 	 */
-	public void setMot_de_passe(String mot_de_passe) {
-		this.mot_de_passe = mot_de_passe;
+	public void setMot_de_passe(String motDePasse) {
+		this.motDePasse = motDePasse;
 	}
 	/**
 	 * @return the credit
@@ -231,7 +231,7 @@ public class Utilisateur implements Serializable {
 	public String toString() {
 		return "Utilisateur [noUtilisateur=" + noUtilisateur + ", pseudo=" + pseudo + ", nom=" + nom + ", prenom="
 				+ prenom + ", email=" + email + ", telephone=" + telephone + ", rue=" + rue + ", code_postal="
-				+ code_postal + ", ville=" + ville + ", mot_de_passe=" + mot_de_passe + ", credit=" + credit
+				+ codePostal + ", ville=" + ville + ", mot_de_passe=" + motDePasse + ", credit=" + credit
 				+ ", administrateur=" + administrateur + "]";
 	}	
 }
