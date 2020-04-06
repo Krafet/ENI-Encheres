@@ -1,9 +1,13 @@
 package fr.eni.encheres.bo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Utilisateur implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	private int noUtilisateur;
 	private String pseudo;
 	private String nom;
@@ -16,13 +20,44 @@ public class Utilisateur implements Serializable {
 	private String motDePasse;
 	private int credit;
 	private boolean administrateur;
-	
+	private List<ArticleVendu> vente = new ArrayList<ArticleVendu>();
 	
 	/**
 	 * 
 	 */
 	public Utilisateur() {
 		super();
+	}	
+	
+	/**
+	 * @param pseudo
+	 * @param nom
+	 * @param prenom
+	 * @param email
+	 * @param telephone
+	 * @param rue
+	 * @param codePostal
+	 * @param ville
+	 * @param motDePasse
+	 * @param credit
+	 * @param administrateur
+	 * @param vente
+	 */
+	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue,
+			String codePostal, String ville, String motDePasse, int credit, boolean administrateur, List<ArticleVendu> vente) {
+		super();
+		this.pseudo = pseudo;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.email = email;
+		this.telephone = telephone;
+		this.rue = rue;
+		this.codePostal = codePostal;
+		this.ville = ville;
+		this.motDePasse = motDePasse;
+		this.credit = credit;
+		this.administrateur = administrateur;
+		this.vente = vente;
 	}
 	
 	/**
@@ -38,9 +73,11 @@ public class Utilisateur implements Serializable {
 	 * @param motDePasse
 	 * @param credit
 	 * @param administrateur
-	 */	
+	 * @param vente
+	 */
 	public Utilisateur(int noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
-			String rue, String codePostal, String ville, String motDePasse, int credit, boolean administrateur) {
+			String rue, String codePostal, String ville, String motDePasse, int credit, boolean administrateur,
+			List<ArticleVendu> vente) {
 		super();
 		this.noUtilisateur = noUtilisateur;
 		this.pseudo = pseudo;
@@ -54,35 +91,9 @@ public class Utilisateur implements Serializable {
 		this.motDePasse = motDePasse;
 		this.credit = credit;
 		this.administrateur = administrateur;
+		this.vente = vente;
 	}
-	/**
-	 * @param pseudo
-	 * @param nom
-	 * @param prenom
-	 * @param email
-	 * @param telephone
-	 * @param rue
-	 * @param codePostal
-	 * @param ville
-	 * @param motDePasse
-	 * @param credit
-	 * @param administrateur
-	 */
-	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue,
-			String codePostal, String ville, String motDePasse, int credit, boolean administrateur) {
-		super();
-		this.pseudo = pseudo;
-		this.nom = nom;
-		this.prenom = prenom;
-		this.email = email;
-		this.telephone = telephone;
-		this.rue = rue;
-		this.codePostal = codePostal;
-		this.ville = ville;
-		this.motDePasse = motDePasse;
-		this.credit = credit;
-		this.administrateur = administrateur;
-	}
+
 	/**
 	 * @return the noUtilisateur
 	 */
@@ -227,11 +238,28 @@ public class Utilisateur implements Serializable {
 	public void setAdministrateur(boolean administrateur) {
 		this.administrateur = administrateur;
 	}
+
+	/**
+	 * @return the vente
+	 */
+	public List<ArticleVendu> getVente() {
+		return vente;
+	}
+
+	/**
+	 * @param vente the vente to set
+	 */
+	public void setVente(List<ArticleVendu> vente) {
+		this.vente = vente;
+	}
+
 	@Override
 	public String toString() {
 		return "Utilisateur [noUtilisateur=" + noUtilisateur + ", pseudo=" + pseudo + ", nom=" + nom + ", prenom="
-				+ prenom + ", email=" + email + ", telephone=" + telephone + ", rue=" + rue + ", code_postal="
-				+ codePostal + ", ville=" + ville + ", mot_de_passe=" + motDePasse + ", credit=" + credit
-				+ ", administrateur=" + administrateur + "]";
-	}	
+				+ prenom + ", email=" + email + ", telephone=" + telephone + ", rue=" + rue + ", codePostal="
+				+ codePostal + ", ville=" + ville + ", motDePasse=" + motDePasse + ", credit=" + credit
+				+ ", administrateur=" + administrateur + ", vente=" + vente + "]";
+	}
+	
+	
 }
