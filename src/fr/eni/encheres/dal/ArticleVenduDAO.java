@@ -10,8 +10,8 @@ public interface ArticleVenduDAO {
 	ArticleVendu insert(ArticleVendu article) throws BusinessException;
 	boolean delete(int id) throws BusinessException;
 	boolean update(ArticleVendu article) throws BusinessException;
-	List<ArticleVendu> selectAll();
-	ArticleVendu selectById(int id);
+	List<ArticleVendu> selectAll() throws BusinessException;
+	ArticleVendu selectById(int id) throws BusinessException;
 		
 
 }

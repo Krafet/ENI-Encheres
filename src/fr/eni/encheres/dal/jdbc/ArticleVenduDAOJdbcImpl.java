@@ -5,17 +5,23 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Utilisateur;
-import fr.eni.encheres.dal.ArticleVenduDAO;
+import fr.eni.encheres.dal.CategorieDAO;
+import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
+import fr.eni.encheres.dal.DAO;
 import fr.eni.encheres.dal.DAOFactory;
+import fr.eni.encheres.dal.JdbcTools;
+import fr.eni.encheres.dal.UtilisateurDao;
 
-public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
+//public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
+public class ArticleVenduDAOJdbcImpl implements DAO<ArticleVendu> {
 
 	private static final String INSERT = "INSERT INTO ARTICLES_VENDUS (nom_article,description, date_debut_encheres,date_fin_encheres,"
 			+ "prix_initial,prix_vente,no_utilisateur,no_categorie) " + "values (?,?,?,?,?,?,?,?)";
@@ -23,10 +29,19 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 	private static final String UPDATE = "UPDATE ARTICLES_VENDUS SET nom_article=?,description=?, date_debut_encheres=?,date_fin_encheres=?,"
 			+ "prix_initial=?,prix_vente=?,no_utilisateur=?,no_categorie=? WHERE no_article=?)";
 	private static final String SELECT = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?";
-	
+	private static final String SELECT_ALL = "SELECT * FROM ARTICLES_VENDUS";
+
 	@Override
 	public ArticleVendu insert(ArticleVendu article) throws BusinessException {
 
+		
+		if(article==null)
+		{
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_NULL);
+			throw businessException;
+		}
+		
 		// try (Connection cnx = JdbcTools.getConnection()) {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -47,7 +62,7 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 			BusinessException businessException = new BusinessException();
-			// businessException.ajouterErreur(CodesResultatDAL.ERREUR_INSERTION_ARTICLE);
+			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_ECHEC);
 
 			throw businessException;
 
@@ -69,7 +84,7 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 			BusinessException businessException = new BusinessException();
-			// businessException.ajouterErreur(CodesResultatDAL.SUPPRESSION_LISTE_ERREUR);
+			businessException.ajouterErreur(CodesResultatDAL.SUPPRESSION_ARTICLE_ERREUR);
 			throw businessException;
 		}
 		return nbLignesModifiees > 0;
@@ -80,7 +95,7 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 	public boolean update(ArticleVendu article) throws BusinessException {
 		int nbLignesModifiees = 0;
 
-		//try (Connection cnx = JdbcTools.getConnection()) {
+		// try (Connection cnx = JdbcTools.getConnection()) {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(UPDATE);
@@ -98,7 +113,7 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 			BusinessException businessException = new BusinessException();
-			// businessException.ajouterErreur(CodesResultatDAL.MODIFICATION_LISTE_ERREUR);
+			businessException.ajouterErreur(CodesResultatDAL.MODIFICATION_ARTICLE_ERREUR);
 			throw businessException;
 		}
 		return nbLignesModifiees > 0;
@@ -106,27 +121,59 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 	}
 
 	@Override
-	public List<ArticleVendu> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ArticleVendu> selectAll() throws BusinessException {
+		 List<ArticleVendu> listeArticles = new ArrayList<>();
+		 //try (Connection cnx = JdbcTools.getConnection()) {
+		 try (Connection cnx = ConnectionProvider.getConnection()) {
+				PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL);
+				ResultSet rs = pstmt.executeQuery();
+				ArticleVendu article = new ArticleVendu();
+				while (rs.next()) {
+					article = articleBuilder(rs);
+					listeArticles.add(article);
+
+				}
+			} catch (Exception e) {
+				BusinessException businessException = new BusinessException();
+				businessException.ajouterErreur(CodesResultatDAL.ERREUR_RECUPERATION_ARTICLES_VENDUS);
+				throw businessException;
+
+			}
+			return listeArticles;
 	}
 
 	@Override
-	public ArticleVendu selectById(int noArticle) {
-		
-		return null;
+	public ArticleVendu selectById(int noArticle) throws BusinessException {
+
+		ArticleVendu article = null;
+
+        try (Connection cnx = JdbcTools.getConnection()) {
+		//try (Connection cnx = ConnectionProvider.getConnection()) {
+            PreparedStatement requete = cnx.prepareStatement(SELECT);
+            requete.setInt(1, noArticle);
+            ResultSet rs = requete.executeQuery();
+
+            if (rs.next()) {
+            	article = articleBuilder(rs);
+            }
+        } catch (Exception e) {
+        	e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.SELECTION_ARTICLE_ERREUR);
+			throw businessException;
+        }
+        return article;
 	}
-	
+
 	/**
 	 * Création d'un article vendu
+	 * 
 	 * @param rs
 	 * @return ArticleVendu
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	public ArticleVendu articleBuilder(ResultSet rs) throws SQLException {
-		
-		Utilisateur utilisateurArticle = null; //Utiliser la fonction ci-dessous ensuite
-		Categorie categorieArticle = null; //Utiliser la fonction ci-dessous ensuite
+
 		ArticleVendu articleVendu = new ArticleVendu();
 		articleVendu.setNoArticle(rs.getInt("id"));
 		articleVendu.setNomArticle(rs.getString("nom_article"));
@@ -134,29 +181,43 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 		articleVendu.setDateDebutEncheres(rs.getDate("date_debut_encheres"));
 		articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
 		articleVendu.setPrixVente(rs.getInt("prix_vente"));
-		articleVendu.setUtilisateur(utilisateurArticle);
-		articleVendu.setCategorie(categorieArticle);
+		articleVendu.setUtilisateur(this.getUserArticle(rs.getInt("no_utilisateur")));
+		articleVendu.setCategorie(this.getCategoryArticle(rs.getInt("no_categorie")));
 
 		return articleVendu;
-		
+
 	}
-	
-	 /***
-     * Fonction interne pour récupérer l'utilisateur
-     * @param conducteurId Id du conducteur qu'on retrouve en base associée à la voiture
-     * @return Conducteur Données de ce conducteur
-     */
-    private Utilisateur getUserArticle(int userId) {
-    	
-    	return null;
-       /* ConducteurDAO conducteurDAO = DAOFactory.getConducteurDAO();
-        Conducteur conducteurVoiture = null;
-        try {
-            conducteurVoiture = conducteurDAO.selectById(conducteurId);
-        } catch (DALException e) {
-            e.printStackTrace();
-        }
-        return conducteurVoiture;*/
-    }
+
+	/***
+	 * Fonction interne pour récupérer l'utilisateur de l'article
+	 * 
+	 * @param userId Id de l'utilisateur qu'on retrouve en base associée à l'article vendu
+	 * @return Utilisateur
+	 */
+	private Utilisateur getUserArticle(int userId) {
+
+		Utilisateur utilisateurArticle = null;
+		UtilisateurDao utilisateurDao = DAOFactory.getUtilisateurDAO();
+		//On récupère l'utilisateur à partir de son id
+		utilisateurArticle = utilisateurDao.getUtilisateurById(userId);
+
+		return utilisateurArticle;
+	}
+
+	/***
+	 * Fonction interne pour récupérer la catégorie de l'article
+	 * 
+	 * @param categoryId Id de la catégorie qu'on retrouve en base associée à    l'article vendu
+	 * @return Categorie
+	 */
+	private Categorie getCategoryArticle(int categoryId) {
+
+		Categorie categoryArticle = null;
+		CategorieDAO categorieDAO = DAOFactory.getCategorieDAO();
+		//On récupère la catégorie à partir de son id
+		//categoryArticle = categorieDAO.selectById(categoryId);
+
+		return categoryArticle;
+	}
 
 }
