@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class Utils {
 	
-	//Date vient de utuls.date, le format peut se traduire comme : "dd/MM/yyyy"
+	//Date vient de utuls.date, le format peut se traduire comme : dd/MM/yyyy
 	public String getDateFormate(Date date, String format) {
 		Instant dateInstant = date.toInstant();
 		LocalDateTime ldt = dateInstant.atOffset(ZoneOffset.UTC).toLocalDateTime();
