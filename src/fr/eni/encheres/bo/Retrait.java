@@ -1,10 +1,16 @@
 package fr.eni.encheres.bo;
 
-public class Retrait {
+import java.io.Serializable;
+
+public class Retrait  implements Serializable {
 	
 
-
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2837628371168829522L;
+	
+	
 	private String rue;
 	private String code_postal;
 	private String ville;
