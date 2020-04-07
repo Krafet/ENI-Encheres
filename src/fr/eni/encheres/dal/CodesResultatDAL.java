@@ -86,21 +86,21 @@ public class CodesResultatDAL {
 	/**
 	 * Echec lors de la récupération d'un utilisateur 
 	 */
-	public static final int SELECTION_UTILISATEUR_ERREUR=20002;
+	public static final int SELECTION_UTILISATEUR_ERREUR=11002;
 	
 	/**
 	 * Erreur à la récupération des utilisateurs
 	 */
-	public static final int ERREUR_RECUPERATION_UTILISATEURS = 20003;
+	public static final int ERREUR_RECUPERATION_UTILISATEURS = 11003;
 
 	/**
 	 * Erreur à la suppression d'un utilisateur
 	 */
-	public static final int SUPPRESSION_UTILISATEUR = 20005;
+	public static final int SUPPRESSION_UTILISATEUR = 11004;
 	
 	/**
 	 * Erreur à la modification d'un utilisateur
 	 */
-	public static final int MODIFICATION_UTILISATEUR = 20006;
+	public static final int MODIFICATION_UTILISATEUR = 11005;
 
 }

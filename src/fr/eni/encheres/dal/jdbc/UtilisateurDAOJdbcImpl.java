@@ -13,6 +13,12 @@ import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
 import fr.eni.encheres.dal.UtilisateurDAO;
 
+/**
+ * Classe en charge de
+ * @author Oguzhan
+ * @version ENI-Encheres - v1.0
+ * @date 7 avr. 2020
+ */
 public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 
 	private static String RQT_SELECTALL = "SELECT * FROM UTILISATEURS;";
@@ -21,6 +27,10 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 	private static String RQT_INSERT = "INSERT INTO UTILISATEUR VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	private static String RQT_UPDATE = "UPDATE UTILISATEUR SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?, ville = ?, mot_de_passe = ?, credit = ?, administrateur = ? WHERE no_utilisateur = ?;";
 	private static String RQT_DELETE = "DELETE FROM UTILISATEUR WHERE no_utilisateur = ?";
+	/**
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.UtilisateurDAO#getAllUtilisateur()
+	 */
 	@Override
 	public List<Utilisateur> getAllUtilisateur() throws BusinessException {
 		List<Utilisateur> lesUtilisateurs = new ArrayList<Utilisateur>();
@@ -49,6 +59,10 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 		return lesUtilisateurs;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.UtilisateurDAO#getUtilisateurById(int)
+	 */
 	@Override
 	public Utilisateur getUtilisateurById(int id) throws BusinessException
 	{
@@ -78,6 +92,10 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 		
 		return unUtilisateur;
 	}
+	/**
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.UtilisateurDAO#getUtilisateurByPseudoPassword(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public Utilisateur getUtilisateurByPseudoPassword(String pseudo, String motDePasse) throws BusinessException 
 	{
@@ -106,6 +124,10 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 		
 		return unUtilisateur;
 	}
+	/**
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.UtilisateurDAO#insert(fr.eni.encheres.bo.Utilisateur)
+	 */
 	@Override
 	public Utilisateur insert(Utilisateur unUtilisateur) throws BusinessException 
 	{
@@ -152,6 +174,10 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 		return unUtilisateur;
 	
 	}
+	/**
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.UtilisateurDAO#delete(fr.eni.encheres.bo.Utilisateur)
+	 */
 	@Override
 	public boolean delete(Utilisateur unUtilisateur) throws BusinessException
 	{
@@ -176,6 +202,10 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 		return nbLignesModifiees > 0;
 
 	}
+	/**
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.UtilisateurDAO#update(fr.eni.encheres.bo.Utilisateur)
+	 */
 	@Override
 	public boolean update(Utilisateur unUtilisateur) throws BusinessException 
 	{
@@ -211,6 +241,12 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 		return nbLignesModifiees > 0;
 	}
 	
+	/**
+	 * Méthode en charge de
+	 * @param rs
+	 * @return
+	 * @throws SQLException
+	 */
 	public Utilisateur itemBuilder(ResultSet rs) throws SQLException{
 		
 		Utilisateur resultat = new Utilisateur(rs.getInt("id"), rs.getString("pseudo"),

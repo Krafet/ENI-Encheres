@@ -228,8 +228,9 @@ public class ArticleVenduDAOJdbcImpl implements DAO<ArticleVendu> {
 	 * Méthode en charge de récupérer l'objet Utilisateur associé à l'article en question
 	 * @param userId
 	 * @return Utilisateur
+	 * @throws BusinessException 
 	 */
-	private Utilisateur getUserArticle(int userId) {
+	private Utilisateur getUserArticle(int userId) throws BusinessException {
 
 		Utilisateur utilisateurArticle = null;
 		UtilisateurDAO utilisateurDao = DAOFactory.getUtilisateurDAO();
