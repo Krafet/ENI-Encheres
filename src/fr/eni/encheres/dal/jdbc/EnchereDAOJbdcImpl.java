@@ -41,7 +41,7 @@ public class EnchereDAOJbdcImpl implements EnchereDAO {
 			} 
 			catch (Exception e) 
 			{
-				// TODO Auto-generated catch block
+				// TODO Auto-generated catch blocky
 				e.printStackTrace();
 			}
 		
