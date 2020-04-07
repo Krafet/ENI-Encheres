@@ -35,7 +35,7 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 			+ "prix_initial,prix_vente,no_utilisateur,no_categorie) " + "values (?,?,?,?,?,?,?,?)";
 	private static final String DELETE = "DELETE FROM ARTICLES_VENDUS where no_article = ?";
 	private static final String UPDATE = "UPDATE ARTICLES_VENDUS SET nom_article=?,description=?, date_debut_encheres=?,date_fin_encheres=?,"
-			+ "prix_initial=?,prix_vente=?,no_utilisateur=?,no_categorie=? WHERE no_article=?)";
+			+ "prix_initial=?,prix_vente=?,no_utilisateur=?,no_categorie=? WHERE no_article=?";
 	private static final String SELECT = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?";
 	private static final String SELECT_ALL = "SELECT * FROM ARTICLES_VENDUS";
 	
@@ -220,10 +220,10 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 		articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
 		articleVendu.setPrixVente(rs.getInt("prix_vente"));
 		articleVendu.setMiseAPrix(rs.getInt("prix_initial"));
-		articleVendu.setUtilisateur(null);
-		articleVendu.setCategorie(null);
-		//articleVendu.setUtilisateur(this.getUserArticle(rs.getInt("no_utilisateur")));
-		//articleVendu.setCategorie(this.getCategoryArticle(rs.getInt("no_categorie")));
+		//articleVendu.setUtilisateur(null);
+		//articleVendu.setCategorie(null);
+		articleVendu.setUtilisateur(this.getUserArticle(rs.getInt("no_utilisateur")));
+		articleVendu.setCategorie(this.getCategoryArticle(rs.getInt("no_categorie")));
 
 		return articleVendu;
 
