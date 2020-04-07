@@ -12,10 +12,10 @@ import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.dal.ArticleVenduDAO;
 import fr.eni.encheres.dal.CategorieDAO;
 import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
-import fr.eni.encheres.dal.DAO;
 import fr.eni.encheres.dal.DAOFactory;
 import fr.eni.encheres.dal.JdbcTools;
 import fr.eni.encheres.dal.UtilisateurDAO;
@@ -28,8 +28,8 @@ import fr.eni.encheres.dal.UtilisateurDAO;
  * @version ENI-Encheres - v1.0
  * @date 7 avr. 2020
  */
-//public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
-public class ArticleVenduDAOJdbcImpl implements DAO<ArticleVendu> {
+public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
+
 
 	private static final String INSERT = "INSERT INTO ARTICLES_VENDUS (nom_article,description, date_debut_encheres,date_fin_encheres,"
 			+ "prix_initial,prix_vente,no_utilisateur,no_categorie) " + "values (?,?,?,?,?,?,?,?)";
