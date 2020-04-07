@@ -251,7 +251,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 	}
 	
 	/**
-	 * Méthode en charge de
+	 * Méthode en charge de construire un utilisateur
 	 * @param rs
 	 * @return Utilisateur
 	 * @throws SQLException

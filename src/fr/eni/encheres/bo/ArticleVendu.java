@@ -2,6 +2,7 @@ package fr.eni.encheres.bo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * 
@@ -305,7 +306,27 @@ public class ArticleVendu implements Serializable {
 		builder.append("]");
 		return builder.toString();
 	}
-	
-	
 
+	/**
+	 * {@inheritDoc}
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+	    if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ArticleVendu that = (ArticleVendu) o;
+        return noArticle == that.noArticle &&
+        	    Objects.equals(nomArticle, that.nomArticle) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(dateDebutEncheres, that.dateDebutEncheres) &&
+                Objects.equals(dateFinEncheres, that.dateFinEncheres) &&
+                Objects.equals(miseAPrix, that.miseAPrix) &&
+                Objects.equals(prixVente, that.prixVente) &&
+                Objects.equals(etatVente, that.etatVente) &&
+                Objects.equals(utilisateur, that.utilisateur) &&
+                Objects.equals(categorie, that.categorie) &&
+                Objects.equals(retrait, that.retrait);
+	}
+	
 }
