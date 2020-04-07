@@ -38,8 +38,7 @@ public class ArticleVenduDAOJdbcImpl implements DAO<ArticleVendu> {
 			+ "prix_initial=?,prix_vente=?,no_utilisateur=?,no_categorie=? WHERE no_article=?)";
 	private static final String SELECT = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?";
 	private static final String SELECT_ALL = "SELECT * FROM ARTICLES_VENDUS";
-	//private static final String SELECT = "SELECT * FROM ARTICLES_VENDUS A JOIN UTILISATEURS U ON A.no_utilisateur = U.no_utilisateur JOIN CATEGORIES C ON A.no_categorie = C.no_categorie WHERE no_article = ?";
-
+	
 	@Override
 	/**
 	 * 
@@ -206,8 +205,9 @@ public class ArticleVenduDAOJdbcImpl implements DAO<ArticleVendu> {
 	 * @param rs
 	 * @return ArticleVendu
 	 * @throws SQLException
+	 * @throws BusinessException 
 	 */
-	public ArticleVendu articleBuilder(ResultSet rs) throws SQLException {
+	public ArticleVendu articleBuilder(ResultSet rs) throws SQLException, BusinessException {
 
 		ArticleVendu articleVendu = new ArticleVendu();
 		articleVendu.setNoArticle(rs.getInt("id"));
@@ -233,8 +233,7 @@ public class ArticleVenduDAOJdbcImpl implements DAO<ArticleVendu> {
 
 		Utilisateur utilisateurArticle = null;
 		UtilisateurDAO utilisateurDao = DAOFactory.getUtilisateurDAO();
-		//On récupère l'utilisateur à partir de son id
-		utilisateurArticle = utilisateurDao.getUtilisateurById(userId);
+		utilisateurArticle = utilisateurDao.getUtilisateurById(userId); //On récupère l'utilisateur à partir de son id
 
 		return utilisateurArticle;
 	}
@@ -244,13 +243,13 @@ public class ArticleVenduDAOJdbcImpl implements DAO<ArticleVendu> {
 	 * Méthode en charge de récupérer l'ojet Catégorie associé à l'article en question
 	 * @param categoryId
 	 * @return
+	 * @throws BusinessException 
 	 */
-	private Categorie getCategoryArticle(int categoryId) {
+	private Categorie getCategoryArticle(int categoryId) throws BusinessException {
 
 		Categorie categoryArticle = null;
 		CategorieDAO categorieDAO = DAOFactory.getCategorieDAO();
-		//On récupère la catégorie à partir de son id
-		//categoryArticle = categorieDAO.selectById(categoryId);
+		categoryArticle = categorieDAO.selectById(categoryId); 		//On récupère la catégorie à partir de son id
 
 		return categoryArticle;
 	}

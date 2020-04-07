@@ -51,5 +51,5 @@ public interface CategorieDAO {
 	 * @return Categorie
 	 * @throws BusinessException
 	 */
-	Categorie SelectById(int id) throws BusinessException;
+	Categorie selectById(int id) throws BusinessException;
 }

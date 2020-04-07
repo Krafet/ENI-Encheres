@@ -144,4 +144,18 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 		return categorie;		
 	}
 
+
+
+
+
+	/**
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.CategorieDAO#SelectById(int)
+	 */
+	@Override
+	public Categorie selectById(int id) throws BusinessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
