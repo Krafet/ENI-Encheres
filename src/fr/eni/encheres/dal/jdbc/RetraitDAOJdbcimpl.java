@@ -142,7 +142,7 @@ public class RetraitDAOJdbcimpl implements RetraitDAO {
 		
 		Retrait retrait = new Retrait();
 		retrait.setRue(rs.getString(1));
-		retrait.setCode_postal(rs.getString(2));
+		retrait.setCodePostal(rs.getString(2));
 		retrait.setVille(rs.getString(3));
 		
 		return retrait;
