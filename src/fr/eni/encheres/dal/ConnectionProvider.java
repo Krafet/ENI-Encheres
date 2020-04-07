@@ -8,12 +8,17 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+/**
+ * 
+ * Classe en charge de gérer la connexion à la base de données
+ * @author Camille
+ * @version ENI-Encheres - v1.0
+ * @date 7 avr. 2020
+ */
 public abstract class ConnectionProvider {
+	
 	private static DataSource dataSource;
 	
-	/**
-	 * Au chargement de la classe, la DataSource est recherche dans l'arbre JNDI
-	 */
 	static
 	{
 		Context context;
@@ -27,9 +32,9 @@ public abstract class ConnectionProvider {
 	}
 	
 	/**
-	 * Cette méthode retourne une connection op�rationnelle issue du pool de connexion
-	 * vers la base de données. 
-	 * @return
+	 * 
+	 * Méthode en charge de retourner une connection opérationnelle issue du pool de connexion
+	 * @return Connection
 	 * @throws SQLException
 	 */
 	public static Connection getConnection() throws SQLException
