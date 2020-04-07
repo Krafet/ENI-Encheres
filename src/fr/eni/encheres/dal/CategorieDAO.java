@@ -7,7 +7,7 @@ import fr.eni.encheres.bo.Categorie;
 public interface CategorieDAO {
 
 	Categorie insert(Categorie categorie);
-	boolean update();
+	boolean update(Categorie categorie);
 	boolean delete(Categorie categorie);
 	List<Categorie> selectAll();
 	

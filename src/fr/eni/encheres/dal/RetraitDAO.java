@@ -2,13 +2,14 @@ package fr.eni.encheres.dal;
 
 import java.util.List;
 
+import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Retrait;
 
 public interface RetraitDAO {
 	
-	Retrait insert(Retrait categorie);
-	boolean update();
-	boolean delete(Retrait categorie);
+	Retrait insert(ArticleVendu retrait);
+	boolean update(ArticleVendu retrait);
+	boolean delete(ArticleVendu retrait);
 	List<Retrait> selectAll();
 	
 }
