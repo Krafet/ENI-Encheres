@@ -1,11 +1,19 @@
 package fr.eni.encheres.dal.jdbc;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.Utilisateur;
-import fr.eni.encheres.dal.UtilisateurDao;
+import fr.eni.encheres.dal.CodesResultatDAL;
+import fr.eni.encheres.dal.ConnectionProvider;
+import fr.eni.encheres.dal.UtilisateurDAO;
 
-public class UtilisateurDAOJdbcImpl implements UtilisateurDao{
+public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 
 	private static String RQT_SELECTALL = "SELECT * FROM UTILISATEURS;";
 	private static String RQT_SELECTBYID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?;";
@@ -14,35 +22,203 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDao{
 	private static String RQT_UPDATE = "UPDATE UTILISATEUR SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?, ville = ?, mot_de_passe = ?, credit = ?, administrateur = ? WHERE no_utilisateur = ?;";
 	private static String RQT_DELETE = "DELETE FROM UTILISATEUR WHERE no_utilisateur = ?";
 	@Override
-	public List<Utilisateur> getAllUtilisateur() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public Utilisateur getUtilisateurById(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public Utilisateur getUtilisateurByPseudoPassword(String pseudo, String MotDePasse) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public Utilisateur insert(Utilisateur unUtilisateur) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public boolean delete(Utilisateur unUtilisateur) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
-	public boolean update(Utilisateur unUtilisateur) {
-		// TODO Auto-generated method stub
-		return false;
+	public List<Utilisateur> getAllUtilisateur() throws BusinessException {
+		List<Utilisateur> lesUtilisateurs = new ArrayList<Utilisateur>();
+		try(Connection cnx = ConnectionProvider.getConnection()) {
+			
+			PreparedStatement stm = cnx.prepareStatement(RQT_SELECTALL);
+            ResultSet rs = stm.executeQuery();
+
+            while(rs.next())
+            {
+                Utilisateur item = itemBuilder(rs);
+
+                lesUtilisateurs.add(item);
+            }
+		}
+		catch(Exception e){
+			
+			e.printStackTrace();
+			
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.ERREUR_RECUPERATION_UTILISATEURS);
+
+			throw businessException;
+		}
+		
+		return lesUtilisateurs;
 	}
 	
+	@Override
+	public Utilisateur getUtilisateurById(int id) throws BusinessException
+	{
+		Utilisateur unUtilisateur = new Utilisateur();
+		
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement stm = cnx.prepareStatement(RQT_SELECTBYID);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            
+            while(rs.next())
+            {
+            	unUtilisateur = itemBuilder(rs);
+            }
+		}
+		catch(Exception e) 
+		{
+			e.printStackTrace();
+			
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.SELECTION_UTILISATEUR_ERREUR);
+
+			throw businessException;
+						
+		}
+		
+		return unUtilisateur;
+	}
+	@Override
+	public Utilisateur getUtilisateurByPseudoPassword(String pseudo, String motDePasse) throws BusinessException 
+	{
+		Utilisateur unUtilisateur = new Utilisateur();
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement stm = cnx.prepareStatement(RQT_SELECTBYPSEUDOPASSWORD);
+            stm.setString(1, pseudo);
+            stm.setString(2, motDePasse);
+            ResultSet rs = stm.executeQuery();
+
+            while(rs.next())
+            {
+            	unUtilisateur = getUtilisateurById(rs.getInt("id"));
+            }
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.SELECTION_UTILISATEUR_ERREUR);
+
+			throw businessException;
+		}
+		
+		return unUtilisateur;
+	}
+	@Override
+	public Utilisateur insert(Utilisateur unUtilisateur) throws BusinessException 
+	{
+		if(unUtilisateur==null)
+		{
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_NULL);
+			throw businessException;
+		}
+		
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement stm = cnx.prepareStatement(RQT_INSERT);
+			stm.setString(1, unUtilisateur.getPseudo());
+			stm.setString(2, unUtilisateur.getNom());
+			stm.setString(3, unUtilisateur.getPrenom());
+			stm.setString(4, unUtilisateur.getEmail());
+			stm.setString(5, unUtilisateur.getTelephone());
+			stm.setString(6, unUtilisateur.getRue());
+			stm.setString(7, unUtilisateur.getCode_postal());
+			stm.setString(8, unUtilisateur.getVille());
+			stm.setString(9, unUtilisateur.getMot_de_passe());
+			stm.setInt(10, unUtilisateur.getCredit());
+			stm.setBoolean(11, unUtilisateur.isAdministrateur());
+			
+			stm.executeUpdate();
+			
+			ResultSet rs = stm.getGeneratedKeys();
+			
+			if (rs.next()) {
+				unUtilisateur.setNoUtilisateur(rs.getInt(1));
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_ECHEC);
+
+			throw businessException;
+		}
+		
+		return unUtilisateur;
 	
+	}
+	@Override
+	public boolean delete(Utilisateur unUtilisateur) throws BusinessException
+	{
+		int nbLignesModifiees = 0;
+		
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement stm = cnx.prepareStatement(RQT_DELETE);
+            stm.setInt(1, unUtilisateur.getNoUtilisateur());
+
+            stm.executeUpdate();
+            
+            nbLignesModifiees = stm.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.SUPPRESSION_UTILISATEUR);
+			throw businessException;
+		}
+		return nbLignesModifiees > 0;
+
+	}
+	@Override
+	public boolean update(Utilisateur unUtilisateur) throws BusinessException 
+	{
+		int nbLignesModifiees = 0;
+		
+		try(Connection cnx = ConnectionProvider.getConnection())
+		{
+			PreparedStatement stm = cnx.prepareStatement(RQT_UPDATE);
+			stm.setString(1, unUtilisateur.getPseudo());
+			stm.setString(2, unUtilisateur.getNom());
+			stm.setString(3, unUtilisateur.getPrenom());
+			stm.setString(4, unUtilisateur.getEmail());
+			stm.setString(5, unUtilisateur.getTelephone());
+			stm.setString(6, unUtilisateur.getRue());
+			stm.setString(7, unUtilisateur.getCode_postal());
+			stm.setString(8, unUtilisateur.getVille());
+			stm.setString(9, unUtilisateur.getMot_de_passe());
+			stm.setInt(10, unUtilisateur.getCredit());
+			stm.setBoolean(11, unUtilisateur.isAdministrateur());
+			stm.setInt(12, unUtilisateur.getNoUtilisateur());
+			
+			stm.executeUpdate();
+			
+			nbLignesModifiees = stm.executeUpdate();
+		}
+		catch(Exception e) 
+		{
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.MODIFICATION_UTILISATEUR);
+			throw businessException;
+		}
+		return nbLignesModifiees > 0;
+	}
+	
+	public Utilisateur itemBuilder(ResultSet rs) throws SQLException{
+		
+		Utilisateur resultat = new Utilisateur(rs.getInt("id"), rs.getString("pseudo"),
+				rs.getString("nom"), rs.getString("prenom"), rs.getString("email"), 
+				rs.getString("telephone"), rs.getString("rue"), rs.getString("code_postal"),
+				rs.getString("ville"), rs.getString("mot_de_passe"), rs.getInt("credit"), 
+				rs.getBoolean("administrateur"));
+		
+		return resultat;
+	}
 }

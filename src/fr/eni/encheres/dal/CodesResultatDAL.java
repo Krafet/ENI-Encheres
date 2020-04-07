@@ -38,5 +38,24 @@ public class CodesResultatDAL {
 	public static final int MODIFICATION_ARTICLE_ERREUR = 10006;
 	
 	
+	/**
+	 * Echec lors de la récupération d'un utilisateur 
+	 */
+	public static final int SELECTION_UTILISATEUR_ERREUR=20002;
+	
+	/**
+	 * Erreur à la récupération des utilisateurs
+	 */
+	public static final int ERREUR_RECUPERATION_UTILISATEURS = 20003;
+
+	/**
+	 * Erreur à la suppression d'un utilisateur
+	 */
+	public static final int SUPPRESSION_UTILISATEUR = 20005;
+	
+	/**
+	 * Erreur à la modification d'un utilisateur
+	 */
+	public static final int MODIFICATION_UTILISATEUR = 20006;
 
 }
