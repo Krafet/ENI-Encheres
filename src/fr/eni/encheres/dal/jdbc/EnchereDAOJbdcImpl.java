@@ -3,9 +3,9 @@ package fr.eni.encheres.dal.jdbc;
 import java.util.ArrayList;
 
 import fr.eni.encheres.bo.Enchere;
-import fr.eni.encheres.dal.EnchereDao;
+import fr.eni.encheres.dal.EnchereDAO;
 
-public class EnchereDaoJbdcImpl implements EnchereDao {
+public class EnchereDAOJbdcImpl implements EnchereDAO {
 
 	@Override
 	public Enchere insert(Enchere uneEnchere) {

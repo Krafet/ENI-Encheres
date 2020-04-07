@@ -15,7 +15,7 @@ import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
 import fr.eni.encheres.dal.RetraitDAO;
 
-public class RetraitDAOJdbcimpl implements RetraitDAO {
+public class RetraitDAOJdbcImpl implements RetraitDAO {
 
 	
 
@@ -25,7 +25,7 @@ public class RetraitDAOJdbcimpl implements RetraitDAO {
 	private static final String DELETE = "DELETE from Retraits WHERE no_article=?";
 	
 	// Constructor
-	public RetraitDAOJdbcimpl() {
+	public RetraitDAOJdbcImpl() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -142,7 +142,7 @@ public class RetraitDAOJdbcimpl implements RetraitDAO {
 		
 		Retrait retrait = new Retrait();
 		retrait.setRue(rs.getString(1));
-		retrait.setCode_postal(rs.getString(2));
+		retrait.setCodePostal(rs.getString(2));
 		retrait.setVille(rs.getString(3));
 		
 		return retrait;

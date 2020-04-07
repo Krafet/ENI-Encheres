@@ -4,6 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * Classe en charge de définir les caractéristiques de l'objet Utilisateur (attributs et méthodes)
+ * @author Camille
+ * @version ENI-Encheres - v1.0
+ * @date 7 avr. 2020
+ */
 public class Utilisateur implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -254,6 +261,11 @@ public class Utilisateur implements Serializable {
 	}
 
 	@Override
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		return "Utilisateur [noUtilisateur=" + noUtilisateur + ", pseudo=" + pseudo + ", nom=" + nom + ", prenom="
 				+ prenom + ", email=" + email + ", telephone=" + telephone + ", rue=" + rue + ", codePostal="
