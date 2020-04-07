@@ -11,6 +11,7 @@ import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
+import fr.eni.encheres.dal.JdbcTools;
 import fr.eni.encheres.dal.UtilisateurDAO;
 
 /**
@@ -34,7 +35,9 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 	@Override
 	public List<Utilisateur> getAllUtilisateur() throws BusinessException {
 		List<Utilisateur> lesUtilisateurs = new ArrayList<Utilisateur>();
-		try(Connection cnx = ConnectionProvider.getConnection()) {
+		
+		try (Connection cnx = JdbcTools.getConnection()) {
+		//try(Connection cnx = ConnectionProvider.getConnection()) {
 			
 			PreparedStatement stm = cnx.prepareStatement(RQT_SELECTALL);
             ResultSet rs = stm.executeQuery();
@@ -68,7 +71,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 	{
 		Utilisateur unUtilisateur = new Utilisateur();
 		
-		try(Connection cnx = ConnectionProvider.getConnection())
+		try (Connection cnx = JdbcTools.getConnection()) 
+		//try(Connection cnx = ConnectionProvider.getConnection())
 		{
 			PreparedStatement stm = cnx.prepareStatement(RQT_SELECTBYID);
             stm.setInt(1, id);
@@ -100,7 +104,9 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 	public Utilisateur getUtilisateurByPseudoPassword(String pseudo, String motDePasse) throws BusinessException 
 	{
 		Utilisateur unUtilisateur = new Utilisateur();
-		try(Connection cnx = ConnectionProvider.getConnection())
+		
+		try (Connection cnx = JdbcTools.getConnection()) 
+		//try(Connection cnx = ConnectionProvider.getConnection())
 		{
 			PreparedStatement stm = cnx.prepareStatement(RQT_SELECTBYPSEUDOPASSWORD);
             stm.setString(1, pseudo);
@@ -138,7 +144,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 			throw businessException;
 		}
 		
-		try(Connection cnx = ConnectionProvider.getConnection())
+		try (Connection cnx = JdbcTools.getConnection()) 
+		//try(Connection cnx = ConnectionProvider.getConnection())
 		{
 			PreparedStatement stm = cnx.prepareStatement(RQT_INSERT);
 			stm.setString(1, unUtilisateur.getPseudo());
@@ -183,7 +190,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 	{
 		int nbLignesModifiees = 0;
 		
-		try(Connection cnx = ConnectionProvider.getConnection())
+		try (Connection cnx = JdbcTools.getConnection()) 
+		//try(Connection cnx = ConnectionProvider.getConnection())
 		{
 			PreparedStatement stm = cnx.prepareStatement(RQT_DELETE);
             stm.setInt(1, unUtilisateur.getNoUtilisateur());
@@ -211,7 +219,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 	{
 		int nbLignesModifiees = 0;
 		
-		try(Connection cnx = ConnectionProvider.getConnection())
+		try (Connection cnx = JdbcTools.getConnection()) 
+		//try(Connection cnx = ConnectionProvider.getConnection())
 		{
 			PreparedStatement stm = cnx.prepareStatement(RQT_UPDATE);
 			stm.setString(1, unUtilisateur.getPseudo());
@@ -244,7 +253,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 	/**
 	 * Méthode en charge de
 	 * @param rs
-	 * @return
+	 * @return Utilisateur
 	 * @throws SQLException
 	 */
 	public Utilisateur itemBuilder(ResultSet rs) throws SQLException{
