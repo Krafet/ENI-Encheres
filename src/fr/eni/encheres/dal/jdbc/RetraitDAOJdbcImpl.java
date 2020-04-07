@@ -33,6 +33,10 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 	
 	
 	
+	/**
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.RetraitDAO#insert(fr.eni.encheres.bo.ArticleVendu)
+	 */
 	@Override
 	public Retrait insert(ArticleVendu articleVendu) throws BusinessException {
 
@@ -65,6 +69,10 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 		
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.RetraitDAO#update(fr.eni.encheres.bo.ArticleVendu)
+	 */
 	@Override
 	public boolean update(ArticleVendu articleVendu) throws BusinessException {
 			
@@ -76,23 +84,25 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 			pstmt.setString(1, articleVendu.getRetrait().getRue());
 			pstmt.setString(2, articleVendu.getRetrait().getCodePostal());
 			pstmt.setString(3, articleVendu.getRetrait().getVille());
-			
-			
+						
 			pstmt.setInt(4, articleVendu.getNoArticle());
-
 			
 			i = pstmt.executeUpdate();
 
 			
 		} catch (Exception e) {
 			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatDAL.MODIFICATION_ARTICLE_ERREUR);
+			businessException.ajouterErreur(CodesResultatDAL.MODIFICATION_RETRAIT_ERREUR);
 			throw businessException;
 		}
 		
 		return i > 0;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.RetraitDAO#delete(fr.eni.encheres.bo.ArticleVendu)
+	 */
 	@Override
 	public boolean delete(ArticleVendu retrait) throws BusinessException {
 			int i = 0;
@@ -107,13 +117,17 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 		catch(Exception e)
 		{
 			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatDAL.SUPPRESSION_ARTICLE_ERREUR);
+			businessException.ajouterErreur(CodesResultatDAL.SUPPRESSION_RETRAIT_ERREUR);
 			throw businessException;
 		}
 				
 			return i > 0;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.RetraitDAO#selectAll()
+	 */
 	@Override
 	public List<Retrait> selectAll() throws BusinessException {
 		
@@ -130,10 +144,9 @@ public class RetraitDAOJdbcImpl implements RetraitDAO {
 		catch (Exception e)
 		{
 			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatDAL.SELECTION_ARTICLE_ERREUR);
+			businessException.ajouterErreur(CodesResultatDAL.SELECTION_RETRAIT_ERREUR);
 			throw businessException;		
 		}
-
 		return listeRetrait;
 	}
 	
