@@ -18,8 +18,16 @@ import fr.eni.encheres.dal.ConnectionProvider;
 import fr.eni.encheres.dal.DAO;
 import fr.eni.encheres.dal.DAOFactory;
 import fr.eni.encheres.dal.JdbcTools;
-import fr.eni.encheres.dal.UtilisateurDao;
+import fr.eni.encheres.dal.UtilisateurDAO;
 
+
+/**
+ * 
+ * Classe en charge d'effectuer les requêtes vers la table ARTICLES_VENDUS
+ * @author Camille
+ * @version ENI-Encheres - v1.0
+ * @date 7 avr. 2020
+ */
 //public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 public class ArticleVenduDAOJdbcImpl implements DAO<ArticleVendu> {
 
@@ -30,8 +38,13 @@ public class ArticleVenduDAOJdbcImpl implements DAO<ArticleVendu> {
 			+ "prix_initial=?,prix_vente=?,no_utilisateur=?,no_categorie=? WHERE no_article=?)";
 	private static final String SELECT = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?";
 	private static final String SELECT_ALL = "SELECT * FROM ARTICLES_VENDUS";
-
+	
 	@Override
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.DAO#insert(java.lang.Object)
+	 */
 	public ArticleVendu insert(ArticleVendu article) throws BusinessException {
 
 		
@@ -71,10 +84,16 @@ public class ArticleVenduDAOJdbcImpl implements DAO<ArticleVendu> {
 	}
 
 	@Override
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.DAO#delete(int)
+	 */
 	public boolean delete(int id) throws BusinessException {
 
 		int nbLignesModifiees = 0;
 
+		// try (Connection cnx = JdbcTools.getConnection()) {
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(DELETE);
@@ -92,6 +111,11 @@ public class ArticleVenduDAOJdbcImpl implements DAO<ArticleVendu> {
 	}
 
 	@Override
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.DAO#update(java.lang.Object)
+	 */
 	public boolean update(ArticleVendu article) throws BusinessException {
 		int nbLignesModifiees = 0;
 
@@ -107,7 +131,7 @@ public class ArticleVenduDAOJdbcImpl implements DAO<ArticleVendu> {
 			pstmt.setInt(6, article.getUtilisateur().getNoUtilisateur());
 			pstmt.setInt(7, article.getCategorie().getNoCategorie());
 			pstmt.setInt(8, article.getNoArticle());
-			pstmt.executeUpdate();
+			pstmt.executeUpdate(); 
 			nbLignesModifiees = pstmt.executeUpdate();
 
 		} catch (Exception e) {
@@ -121,6 +145,11 @@ public class ArticleVenduDAOJdbcImpl implements DAO<ArticleVendu> {
 	}
 
 	@Override
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.DAO#selectAll()
+	 */
 	public List<ArticleVendu> selectAll() throws BusinessException {
 		 List<ArticleVendu> listeArticles = new ArrayList<>();
 		 //try (Connection cnx = JdbcTools.getConnection()) {
@@ -143,12 +172,17 @@ public class ArticleVenduDAOJdbcImpl implements DAO<ArticleVendu> {
 	}
 
 	@Override
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.DAO#selectById(int)
+	 */
 	public ArticleVendu selectById(int noArticle) throws BusinessException {
 
 		ArticleVendu article = null;
 
-        try (Connection cnx = JdbcTools.getConnection()) {
-		//try (Connection cnx = ConnectionProvider.getConnection()) {
+        //try (Connection cnx = JdbcTools.getConnection()) {
+		try (Connection cnx = ConnectionProvider.getConnection()) {
             PreparedStatement requete = cnx.prepareStatement(SELECT);
             requete.setInt(1, noArticle);
             ResultSet rs = requete.executeQuery();
@@ -166,13 +200,14 @@ public class ArticleVenduDAOJdbcImpl implements DAO<ArticleVendu> {
 	}
 
 	/**
-	 * Création d'un article vendu
 	 * 
+	 * Méthode en charge de construire un objet ArticleVendu
 	 * @param rs
 	 * @return ArticleVendu
 	 * @throws SQLException
+	 * @throws BusinessException 
 	 */
-	public ArticleVendu articleBuilder(ResultSet rs) throws SQLException {
+	public ArticleVendu articleBuilder(ResultSet rs) throws SQLException, BusinessException {
 
 		ArticleVendu articleVendu = new ArticleVendu();
 		articleVendu.setNoArticle(rs.getInt("id"));
@@ -187,35 +222,34 @@ public class ArticleVenduDAOJdbcImpl implements DAO<ArticleVendu> {
 		return articleVendu;
 
 	}
-
-	/***
-	 * Fonction interne pour récupérer l'utilisateur de l'article
+	
+	/**
 	 * 
-	 * @param userId Id de l'utilisateur qu'on retrouve en base associée à l'article vendu
+	 * Méthode en charge de récupérer l'objet Utilisateur associé à l'article en question
+	 * @param userId
 	 * @return Utilisateur
 	 */
 	private Utilisateur getUserArticle(int userId) {
 
 		Utilisateur utilisateurArticle = null;
-		UtilisateurDao utilisateurDao = DAOFactory.getUtilisateurDAO();
-		//On récupère l'utilisateur à partir de son id
-		utilisateurArticle = utilisateurDao.getUtilisateurById(userId);
+		UtilisateurDAO utilisateurDao = DAOFactory.getUtilisateurDAO();
+		utilisateurArticle = utilisateurDao.getUtilisateurById(userId); //On récupère l'utilisateur à partir de son id
 
 		return utilisateurArticle;
 	}
 
-	/***
-	 * Fonction interne pour récupérer la catégorie de l'article
+	/**
 	 * 
-	 * @param categoryId Id de la catégorie qu'on retrouve en base associée à    l'article vendu
-	 * @return Categorie
+	 * Méthode en charge de récupérer l'ojet Catégorie associé à l'article en question
+	 * @param categoryId
+	 * @return
+	 * @throws BusinessException 
 	 */
-	private Categorie getCategoryArticle(int categoryId) {
+	private Categorie getCategoryArticle(int categoryId) throws BusinessException {
 
 		Categorie categoryArticle = null;
 		CategorieDAO categorieDAO = DAOFactory.getCategorieDAO();
-		//On récupère la catégorie à partir de son id
-		//categoryArticle = categorieDAO.selectById(categoryId);
+		categoryArticle = categorieDAO.selectById(categoryId); 		//On récupère la catégorie à partir de son id
 
 		return categoryArticle;
 	}

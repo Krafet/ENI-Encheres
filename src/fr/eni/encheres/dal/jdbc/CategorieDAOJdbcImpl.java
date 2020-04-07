@@ -13,8 +13,10 @@ import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.dal.CategorieDAO;
 import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
+import fr.eni.encheres.dal.CodesResultatDAL;
 
-public class CategorieDAOJdbcimpl implements CategorieDAO {
+
+public class CategorieDAOJdbcImpl implements CategorieDAO {
 
 	
 	private static final String SELECT_ALL = "SELECT * FROM Categories";
@@ -25,7 +27,7 @@ public class CategorieDAOJdbcimpl implements CategorieDAO {
 
 	
 	// Constructor
-	public CategorieDAOJdbcimpl() {
+	public CategorieDAOJdbcImpl() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -35,14 +37,20 @@ public class CategorieDAOJdbcimpl implements CategorieDAO {
 	
 
 	@Override
-	public Categorie insert(Categorie categorie) {
+	public Categorie insert(Categorie categorie) throws BusinessException {
+		
+		if(categorie==null)
+		{
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_NULL);
+			throw businessException;
+		}
 		
 		
 		try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			
 			pstmt.setString(1, categorie.getLibelle());
-			
 			pstmt.executeUpdate();
 			
 			ResultSet rs = pstmt.getGeneratedKeys();
@@ -54,15 +62,16 @@ public class CategorieDAOJdbcimpl implements CategorieDAO {
 
 			
 		} catch (Exception e) {
-			e.printStackTrace();
-		
-
+			
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_ECHEC);
+			throw businessException;
 		}
 		return categorie;
 	}
 
 	@Override
-	public boolean update(Categorie categorie) {
+	public boolean update(Categorie categorie) throws BusinessException {
 		int i  = 0;
 		
 		try (Connection cnx = ConnectionProvider.getConnection()) {
@@ -75,16 +84,15 @@ public class CategorieDAOJdbcimpl implements CategorieDAO {
 
 			
 		} catch (Exception e) {
-			e.printStackTrace();
-		
-
-		}
-		
+			 BusinessException businessException = new BusinessException();
+			 businessException.ajouterErreur(CodesResultatDAL.MODIFICATION_ARTICLE_ERREUR); 
+			 throw businessException;
+		}		
 		return i > 0;
 	}
 
 	@Override
-	public boolean delete(Categorie categorie) {
+	public boolean delete(Categorie categorie)  throws BusinessException {
 		
 		int i = 0;
 		
@@ -97,14 +105,15 @@ public class CategorieDAOJdbcimpl implements CategorieDAO {
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
-		}
-				
+			 BusinessException businessException = new BusinessException();
+			 businessException.ajouterErreur(CodesResultatDAL.SUPPRESSION_ARTICLE_ERREUR);			 
+			 throw businessException;
+		}				
 			return i > 0;
 	}
 
 	@Override
-	public List<Categorie> selectAll() {
+	public List<Categorie> selectAll()  throws BusinessException {
 
 		List<Categorie> listeCategorie = new ArrayList<>();
 		try (Connection cnx = ConnectionProvider.getConnection()) {
@@ -118,7 +127,9 @@ public class CategorieDAOJdbcimpl implements CategorieDAO {
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			 BusinessException businessException = new BusinessException();
+			 businessException.ajouterErreur(CodesResultatDAL.SELECTION_ARTICLE_ERREUR);		 
+			 throw businessException;
 		}
 
 		return listeCategorie;
@@ -129,10 +140,22 @@ public class CategorieDAOJdbcimpl implements CategorieDAO {
 		
 		Categorie categorie = new Categorie();
 		categorie.setNoCategorie(rs.getInt(1));
-		categorie.setLibelle(rs.getString(2));
-		
-		return categorie;
-		
+		categorie.setLibelle(rs.getString(2));	
+		return categorie;		
+	}
+
+
+
+
+
+	/**
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.CategorieDAO#SelectById(int)
+	 */
+	@Override
+	public Categorie selectById(int id) throws BusinessException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

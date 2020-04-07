@@ -1,13 +1,15 @@
 package fr.eni.encheres.messages;
 
 import java.util.ResourceBundle;
-
 /**
- * Cette classe permet de lire le contenu du fichier messages_erreur.properties
- * @author Administrator
- *
+ * 
+ * Classe en charge de lire le contenu du fichier messages_erreur.properties
+ * @author Camille
+ * @version ENI-Encheres - v1.0
+ * @date 7 avr. 2020
  */
 public class LecteurMessage {
+	
 	private static ResourceBundle rb;
 	
 	static
@@ -22,11 +24,17 @@ public class LecteurMessage {
 		}
 	}
 	
+	/**
+	 * 
+	 * Constructeur
+	 */
 	private LecteurMessage()
 	{
 		
 	}
 	/**
+	 * 
+	 * Méthode en charge de récupérer le message d'erreur associé au code renseigné en paramètre
 	 * @param code
 	 * @return
 	 */

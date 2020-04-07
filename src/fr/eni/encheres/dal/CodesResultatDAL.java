@@ -1,9 +1,11 @@
 package fr.eni.encheres.dal;
 
 /**
- * Classe gérant les codes d'erreurs sur la couche DAL
+ * 
+ * Classe en charge d'associer les constantes d'erreurs à des codes associés eux-même à des messages d'erreurs de la DAL
  * @author Camille
- *
+ * @version ENI-Encheres - v1.0
+ * @date 7 avr. 2020
  */
 public class CodesResultatDAL {
 	
