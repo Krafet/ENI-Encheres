@@ -36,6 +36,10 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 
 	
 
+	/**
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.CategorieDAO#insert(fr.eni.encheres.bo.Categorie)
+	 */
 	@Override
 	public Categorie insert(Categorie categorie) throws BusinessException {
 		
@@ -70,6 +74,10 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 		return categorie;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.CategorieDAO#update(fr.eni.encheres.bo.Categorie)
+	 */
 	@Override
 	public boolean update(Categorie categorie) throws BusinessException {
 		int i  = 0;
@@ -85,12 +93,16 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 			
 		} catch (Exception e) {
 			 BusinessException businessException = new BusinessException();
-			 businessException.ajouterErreur(CodesResultatDAL.MODIFICATION_ARTICLE_ERREUR); 
+			 businessException.ajouterErreur(CodesResultatDAL.MODIFICATION_CATEGORIE_ERREUR); 
 			 throw businessException;
 		}		
 		return i > 0;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.CategorieDAO#delete(fr.eni.encheres.bo.Categorie)
+	 */
 	@Override
 	public boolean delete(Categorie categorie)  throws BusinessException {
 		
@@ -106,12 +118,16 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 		catch(Exception e)
 		{
 			 BusinessException businessException = new BusinessException();
-			 businessException.ajouterErreur(CodesResultatDAL.SUPPRESSION_ARTICLE_ERREUR);			 
+			 businessException.ajouterErreur(CodesResultatDAL.SUPPRESSION_CATEGORIE_ERREUR);			 
 			 throw businessException;
 		}				
 			return i > 0;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.CategorieDAO#selectAll()
+	 */
 	@Override
 	public List<Categorie> selectAll()  throws BusinessException {
 
@@ -128,7 +144,7 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 		catch (Exception e)
 		{
 			 BusinessException businessException = new BusinessException();
-			 businessException.ajouterErreur(CodesResultatDAL.SELECTION_ARTICLE_ERREUR);		 
+			 businessException.ajouterErreur(CodesResultatDAL.SELECTION_CATEGORIE_ERREUR);		 
 			 throw businessException;
 		}
 
