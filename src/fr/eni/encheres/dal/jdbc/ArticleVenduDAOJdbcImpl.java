@@ -18,7 +18,7 @@ import fr.eni.encheres.dal.ConnectionProvider;
 import fr.eni.encheres.dal.DAO;
 import fr.eni.encheres.dal.DAOFactory;
 import fr.eni.encheres.dal.JdbcTools;
-import fr.eni.encheres.dal.UtilisateurDao;
+import fr.eni.encheres.dal.UtilisateurDAO;
 
 
 /**
@@ -232,7 +232,7 @@ public class ArticleVenduDAOJdbcImpl implements DAO<ArticleVendu> {
 	private Utilisateur getUserArticle(int userId) {
 
 		Utilisateur utilisateurArticle = null;
-		UtilisateurDao utilisateurDao = DAOFactory.getUtilisateurDAO();
+		UtilisateurDAO utilisateurDao = DAOFactory.getUtilisateurDAO();
 		//On récupère l'utilisateur à partir de son id
 		utilisateurArticle = utilisateurDao.getUtilisateurById(userId);
 

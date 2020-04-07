@@ -16,7 +16,7 @@ import fr.eni.encheres.dal.ConnectionProvider;
 import fr.eni.encheres.dal.CodesResultatDAL;
 
 
-public class CategorieDAOJdbcimpl implements CategorieDAO {
+public class CategorieDAOJdbcImpl implements CategorieDAO {
 
 	
 	private static final String SELECT_ALL = "SELECT * FROM Categories";
@@ -27,7 +27,7 @@ public class CategorieDAOJdbcimpl implements CategorieDAO {
 
 	
 	// Constructor
-	public CategorieDAOJdbcimpl() {
+	public CategorieDAOJdbcImpl() {
 		super();
 		// TODO Auto-generated constructor stub
 	}

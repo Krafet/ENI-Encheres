@@ -3,9 +3,9 @@ package fr.eni.encheres.dal.jdbc;
 import java.util.List;
 
 import fr.eni.encheres.bo.Utilisateur;
-import fr.eni.encheres.dal.UtilisateurDao;
+import fr.eni.encheres.dal.UtilisateurDAO;
 
-public class UtilisateurDAOJdbcImpl implements UtilisateurDao{
+public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 
 	private static String RQT_SELECTALL = "SELECT * FROM UTILISATEURS;";
 	private static String RQT_SELECTBYID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?;";
