@@ -9,16 +9,16 @@ public interface CategorieDAO {
 
 	
 	/**
-	 * Méthode en charge de
+	 * Méthode en charge d'insérer en BDD une catégorie
 	 * @author Jeremy Albert
-	 * @param categorie
-	 * @return
+	 * @param Categorie
+	 * @return Categorie avec ID
 	 * @throws BusinessException
 	 */
 	Categorie insert(Categorie categorie) throws BusinessException;
 	
 	/**
-	 * Méthode en charge de
+	 * Méthode en charge de modifier en BDD une catégorie
 	 * @author Jeremy Albert
 	 * @param categorie
 	 * @return
@@ -27,7 +27,7 @@ public interface CategorieDAO {
 	boolean update(Categorie categorie) throws BusinessException;
 	
 	/**
-	 * Méthode en charge de
+	 * Méthode en charge de supprimer en BDD une catégorie
 	 * @author Jeremy Albert
 	 * @param categorie
 	 * @return
@@ -36,7 +36,7 @@ public interface CategorieDAO {
 	boolean delete(Categorie categorie) throws BusinessException;
 	
 	/**
-	 * Méthode en charge de
+	 * Méthode en charge de sélectionner en BDD les catégorie
 	 * @author Jeremy Albert
 	 * @return
 	 * @throws BusinessException
@@ -44,5 +44,12 @@ public interface CategorieDAO {
 	List<Categorie> selectAll() throws BusinessException;
 	
 	
-	
+	/**
+	 * Méthode en charge de selectionner une catégorie par id
+	 * @author Jeremy Albert
+	 * @param id
+	 * @return Categorie
+	 * @throws BusinessException
+	 */
+	Categorie SelectById(int id) throws BusinessException;
 }
