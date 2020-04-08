@@ -1,7 +1,6 @@
 package fr.eni.encheres.dal.jdbc;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,13 +12,14 @@ import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.dal.CategorieDAO;
 import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
-import fr.eni.encheres.dal.CodesResultatDAL;
+import fr.eni.encheres.dal.JdbcTools;
 
 
 public class CategorieDAOJdbcImpl implements CategorieDAO {
 
 	
 	private static final String SELECT_ALL = "SELECT * FROM Categories";
+	private static final String SELECT_BY_ID = "SELECT * FROM Categories WHERE no_categorie=?";
 	private static final String UPDATE = "UPDATE Categories SET libelle=?, WHERE no_categorie=?";
 	private static final String INSERT = "INSERT INTO Categories(libelle) values(?)";
 	private static final String DELETE = "DELETE from Categories WHERE no_categorie=?";
@@ -162,16 +162,34 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 
 
 
-
-
 	/**
 	 * {@inheritDoc}
 	 * @see fr.eni.encheres.dal.CategorieDAO#SelectById(int)
 	 */
 	@Override
 	public Categorie selectById(int id) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Categorie categorie = null;
+		try (Connection cnx = JdbcTools.getConnection()) {
+		//try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement pstmt = cnx.prepareStatement(SELECT_BY_ID);
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next())
+			{
+				categorie = categorieBuilder(rs);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			 BusinessException businessException = new BusinessException();
+			 businessException.ajouterErreur(CodesResultatDAL.SELECTION_CATEGORIE_ERREUR);		 
+			 throw businessException;
+		}
+
+		return categorie;
 	}
 
 }

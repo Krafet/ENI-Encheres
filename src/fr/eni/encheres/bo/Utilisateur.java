@@ -3,6 +3,7 @@ package fr.eni.encheres.bo;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 
@@ -303,6 +304,30 @@ public class Utilisateur implements Serializable {
 				+ codePostal + ", ville=" + ville + ", motDePasse=" + motDePasse + ", credit=" + credit
 				+ ", administrateur=" + administrateur + ", vente=" + vente + "]";
 	}
+
+
 	
-	
+	/**
+	 * {@inheritDoc}
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+	    if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Utilisateur that = (Utilisateur) o;
+        return noUtilisateur == that.noUtilisateur &&
+        	    Objects.equals(pseudo, that.pseudo) &&
+                Objects.equals(nom, that.nom) &&
+                Objects.equals(prenom, that.prenom) &&
+                Objects.equals(email, that.email) &&
+                Objects.equals(telephone, that.telephone) &&
+                Objects.equals(rue, that.rue) &&
+                Objects.equals(codePostal, that.codePostal) &&
+                Objects.equals(ville, that.ville) &&
+                Objects.equals(motDePasse, that.motDePasse) &&
+                Objects.equals(credit, that.credit) &&
+                Objects.equals(administrateur, that.administrateur);
+	}
+		
 }
