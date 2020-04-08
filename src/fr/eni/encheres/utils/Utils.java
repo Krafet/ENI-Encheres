@@ -67,6 +67,12 @@ public class Utils {
 		}
 	}
 	
+	/**
+	 * 
+	 * Méthode en charge de gérer le type de connexion
+	 * @return Connection
+	 * @throws SQLException
+	 */
 	public static Connection getConnection() throws SQLException
 	{
 		 Connection cnx = null;
