@@ -13,6 +13,7 @@ import fr.eni.encheres.dal.DAOFactory;
 import fr.eni.encheres.dal.EnchereDAO;
 import fr.eni.encheres.utils.Utils;
 
+// Commentaire
 public class EnchereDAOTest {
 	
 	EnchereDAO enchereDAO = DAOFactory.getEnchereDAO();
