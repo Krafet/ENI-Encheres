@@ -37,8 +37,16 @@ public class Categorie implements Serializable {
 		this.libelle = libelle;
 	}
 	
-
 	
+	/**
+	 * Constructeur
+	 * @param libelle
+	 */
+	public Categorie(String libelle) {
+		super();
+		this.libelle = libelle;
+	}
+
 	/**
 	 * Getter pour noCategorie.
 	 * @return the noCategorie
