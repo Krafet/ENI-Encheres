@@ -102,5 +102,26 @@ public class CodesResultatDAL {
 	 * Erreur à la modification d'un utilisateur
 	 */
 	public static final int MODIFICATION_UTILISATEUR = 11005;
+	
+	
+	/**
+	 * Echec lors de la recuperation d'une enchere
+	 */
+	public static final int SELECTION_ENCHERE_ERREUR=14002;
+	
+	/**
+	 * Erreur à la recuperation des encheres
+	 */
+	public static final int ERREUR_RECUPERATION_DES_ENCHERES = 14003;
+	
+	/**
+	 * Erreur a�la supression d'une enchere
+	 */
 
+	public static final int SUPPRESSION_ENCHERE_ERREUR = 14004;
+	
+	/**
+	 * Erreur à la modification d'une enchere
+	 */
+	public static final int MODIFICATION_ENCHERE_ERREUR = 14005;
 }

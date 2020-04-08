@@ -10,6 +10,7 @@ import java.util.List;
 
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
@@ -69,27 +70,34 @@ public class EnchereDAOJbdcImpl implements EnchereDAO {
 	}
 
 	@Override
-	public Enchere selectById(int idUtilsateur, int idArticle) {
-		Enchere uneEnchere= null;
+	public Enchere selectById(int idUtilsateur, int idArticle) throws BusinessException {
+		
+		Enchere uneEnchere = null;
+		try (Connection cnx = JdbcTools.getConnection()) {
+		//try (Connection cnx = ConnectionProvider.getConnection()) {
+			PreparedStatement pstmt = cnx.prepareStatement(SELECT_BY_ID);
+			pstmt.setInt(1, idUtilsateur);
+			pstmt.setInt(2, idArticle);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next())
+			{
+				uneEnchere = enchereBuilder(rs);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			 BusinessException businessException = new BusinessException();
+			 businessException.ajouterErreur(CodesResultatDAL.SELECTION_ENCHERE_ERREUR);		 
+			 throw businessException;
+		}
 
-        try (Connection cnx = JdbcTools.getConnection()) {
-            PreparedStatement requete = cnx.prepareStatement(SELECT_BY_ID);
-            requete.setInt(1, idUtilsateur);
-            requete.setInt(2, idArticle);
-            ResultSet rs = requete.executeQuery();
-
-            if (rs.next()) {
-            	uneEnchere = enchereBuilder(rs);
-            }
-        } catch (Exception e) {
-
-
-        }
-        return uneEnchere;
+		return uneEnchere;
 	}
 
 	@Override
-	public ArrayList<Enchere> selectAll() {
+	public ArrayList<Enchere> selectAll()  throws BusinessException {
 		 ArrayList<Enchere> listeEncheres = new ArrayList<>();
 		 try (Connection cnx = JdbcTools.getConnection()) {
 				PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL);
@@ -102,13 +110,16 @@ public class EnchereDAOJbdcImpl implements EnchereDAO {
 				}
 			} 
 		 	catch (Exception e) {
-
+				e.printStackTrace();
+				 BusinessException businessException = new BusinessException();
+				 businessException.ajouterErreur(CodesResultatDAL.ERREUR_RECUPERATION_DES_ENCHERES);		 
+				 throw businessException;
 			}
 			return listeEncheres;
 	}
 
 	@Override
-	public boolean delete(int idUtilisateur, int idArticle) {
+	public boolean delete(int idUtilisateur, int idArticle) throws BusinessException {
 		int nbLignesSuppr = 0;
 
 		try (Connection cnx = JdbcTools.getConnection()) {
@@ -119,13 +130,16 @@ public class EnchereDAOJbdcImpl implements EnchereDAO {
 			nbLignesSuppr = pstmt.executeUpdate();
 
 		} catch (Exception e) {
-
+			e.printStackTrace();
+			 BusinessException businessException = new BusinessException();
+			 businessException.ajouterErreur(CodesResultatDAL.ERREUR_RECUPERATION_DES_ENCHERES);		 
+			 throw businessException;
 		}
 		return nbLignesSuppr > 0;
 	}
 
 	@Override
-	public boolean update(Enchere uneEnchere) {
+	public boolean update(Enchere uneEnchere)  throws BusinessException {
 		int nbLignesSuppr = 0;
 
 		 try (Connection cnx = JdbcTools.getConnection()) 
@@ -140,7 +154,10 @@ public class EnchereDAOJbdcImpl implements EnchereDAO {
 		} 
 		catch (Exception e) 
 		{
-
+			e.printStackTrace();
+			 BusinessException businessException = new BusinessException();
+			 businessException.ajouterErreur(CodesResultatDAL.MODIFICATION_ENCHERE_ERREUR);		 
+			 throw businessException;
 		}
 		return nbLignesSuppr > 0;
 	}
