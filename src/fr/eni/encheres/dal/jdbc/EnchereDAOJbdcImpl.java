@@ -18,6 +18,7 @@ import fr.eni.encheres.dal.JdbcTools;
 
 public class EnchereDAOJbdcImpl implements EnchereDAO {
 	
+	// UN COMMUIT
 	private static final String SELECT_ALL = "SELECT * FROM Encheres";
 	private static final String SELECT_BY_ID = "SELECT * FROM Encheres WHERE no_utilisateur=? AND no_article=?";
 	private static final String UPDATE = "UPDATE Encheres SET date_enchere=?, montant_enchere=? WHERE no_utilisateur=? AND no_article=?";
