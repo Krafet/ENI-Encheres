@@ -43,4 +43,15 @@ public interface RetraitDAO {
 	 */
 	List<Retrait> selectAll() throws BusinessException;
 	
+	
+	
+	/**
+	 * Méthode en charge de 
+	 * @author Jeremy Albert
+	 * @param id
+	 * @return Retrait
+	 * @throws BusinessException
+	 */
+	Retrait selectById(int id) throws BusinessException;
+	
 }

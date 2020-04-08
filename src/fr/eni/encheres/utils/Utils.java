@@ -12,6 +12,7 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+import fr.eni.encheres.dal.ConnectionProvider;
 import fr.eni.encheres.dal.JdbcTools;
 
 /**
@@ -64,6 +65,22 @@ public class Utils {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static Connection getConnection() throws SQLException
+	{
+		 Connection cnx = null;
+			
+		if(DebugUtils.useJdbcTools)
+			{
+				cnx = JdbcTools.getConnection();
+			}
+		else
+			{
+				cnx = ConnectionProvider.getConnection();
+			}
+			
+		return cnx;
 	}
 	
 }
