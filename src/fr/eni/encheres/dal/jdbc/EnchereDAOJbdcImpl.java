@@ -30,8 +30,7 @@ public class EnchereDAOJbdcImpl implements EnchereDAO {
 	public boolean insert(Enchere uneEnchere) throws BusinessException {
 		
 		int nbLignesSuppr = 0;
-		
-
+	
 			try 
 			{
 				if(uneEnchere==null)
