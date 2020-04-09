@@ -24,10 +24,10 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 
 	private static String RQT_SELECTALL = "SELECT * FROM UTILISATEURS;";
 	private static String RQT_SELECTBYID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?;";
-	private static String RQT_SELECTBYPSEUDOPASSWORD = "SELECT * FROM UTILISATEUR WHERE pseudo = ? AND mot_de_passe = ?;";
-	private static String RQT_INSERT = "INSERT INTO UTILISATEUR VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-	private static String RQT_UPDATE = "UPDATE UTILISATEUR SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?, ville = ?, mot_de_passe = ?, credit = ?, administrateur = ? WHERE no_utilisateur = ?;";
-	private static String RQT_DELETE = "DELETE FROM UTILISATEUR WHERE no_utilisateur = ?";
+	private static String RQT_SELECTBYPSEUDOPASSWORD = "SELECT * FROM UTILISATEURS WHERE pseudo = ? AND mot_de_passe = ?;";
+	private static String RQT_INSERT = "INSERT INTO UTILISATEURS VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	private static String RQT_UPDATE = "UPDATE UTILISATEURS SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?, ville = ?, mot_de_passe = ?, credit = ?, administrateur = ? WHERE no_utilisateur = ?;";
+	private static String RQT_DELETE = "DELETE FROM UTILISATEURS WHERE no_utilisateur = ?";
 	/**
 	 * {@inheritDoc}
 	 * @see fr.eni.encheres.dal.UtilisateurDAO#getAllUtilisateur()
@@ -147,7 +147,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 		try (Connection cnx = JdbcTools.getConnection()) 
 		//try(Connection cnx = ConnectionProvider.getConnection())
 		{
-			PreparedStatement stm = cnx.prepareStatement(RQT_INSERT);
+			PreparedStatement stm = cnx.prepareStatement(RQT_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			stm.setString(1, unUtilisateur.getPseudo());
 			stm.setString(2, unUtilisateur.getNom());
 			stm.setString(3, unUtilisateur.getPrenom());

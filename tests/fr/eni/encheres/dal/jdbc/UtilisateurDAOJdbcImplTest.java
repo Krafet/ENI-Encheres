@@ -34,21 +34,23 @@ public class UtilisateurDAOJdbcImplTest {
 	 */
 	@Test
 	public void testGetAllUtilisateur() throws BusinessException {
+		
+		
 		Utilisateur test1 = new Utilisateur("test1", "CANBOLAT", "Oguzhan", "oguzhan.cblt@gmail.com", "0783161111", "8 allée de croatie", "35200","Rennes", "root", 100, false, lesArticlesVendus);
 		Utilisateur test2 = new Utilisateur("test2", "CANBOLAT", "Oguzhan", "oguzhan.cblt@gmail.com", "0783161111", "8 allée de croatie", "35200","Rennes", "root", 100, false, lesArticlesVendus);
 		Utilisateur test3 = new Utilisateur("test3", "CANBOLAT", "Oguzhan", "oguzhan.cblt@gmail.com", "0783161111", "8 allée de croatie", "35200","Rennes", "root", 100, false, lesArticlesVendus);
 		Utilisateur test4 = new Utilisateur("test4", "CANBOLAT", "Oguzhan", "oguzhan.cblt@gmail.com", "0783161111", "8 allée de croatie", "35200","Rennes", "root", 100, false, lesArticlesVendus);
 		
-		utilisateurDAO.insert(test1);
-		utilisateurDAO.insert(test2);
-		utilisateurDAO.insert(test3);
-		utilisateurDAO.insert(test4);
+		Utilisateur utiTest1 = utilisateurDAO.insert(test1);
+		Utilisateur utiTest2 = utilisateurDAO.insert(test2);
+		Utilisateur utiTest3 = utilisateurDAO.insert(test3);
+		Utilisateur utiTest4 = utilisateurDAO.insert(test4);
 		
 		List<Utilisateur> utilisateurssAttendus = new ArrayList<>();
-		utilisateurssAttendus.add(test1);
-		utilisateurssAttendus.add(test2);
-		utilisateurssAttendus.add(test3);
-		utilisateurssAttendus.add(test4);
+		utilisateurssAttendus.add(utiTest1);
+		utilisateurssAttendus.add(utiTest2);
+		utilisateurssAttendus.add(utiTest3);
+		utilisateurssAttendus.add(utiTest4);
         
         assertEquals(utilisateurssAttendus, utilisateurDAO.getAllUtilisateur());
 	}
