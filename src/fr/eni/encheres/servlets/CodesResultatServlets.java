@@ -8,5 +8,10 @@ package fr.eni.encheres.servlets;
  * @date 7 avr. 2020
  */
 public class CodesResultatServlets {
+	
+	/**
+	 * Erreur si saisie de mot de passe non identiques
+	 */
+	public static final int PASSWORD_NON_IDENTIQUES=30000;
 
 }

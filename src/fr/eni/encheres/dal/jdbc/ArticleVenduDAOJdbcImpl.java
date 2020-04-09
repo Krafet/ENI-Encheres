@@ -56,7 +56,6 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 			throw businessException;
 		}
 		
-		//try (Connection cnx = JdbcTools.getConnection()) {
 		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, article.getNomArticle());
@@ -95,7 +94,6 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 
 		int nbLignesModifiees = 0;
 
-		//try (Connection cnx = JdbcTools.getConnection()) {
 		try (Connection cnx = Utils.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(DELETE);
@@ -121,7 +119,6 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 	public boolean update(ArticleVendu article) throws BusinessException {
 		int nbLignesModifiees = 0;
 
-		 //try (Connection cnx = JdbcTools.getConnection()) {
 		try (Connection cnx = Utils.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(UPDATE);
@@ -155,7 +152,7 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 	 */
 	public List<ArticleVendu> selectAll() throws BusinessException {
 		 List<ArticleVendu> listeArticles = new ArrayList<>();
-		 //try (Connection cnx = JdbcTools.getConnection()) {
+
 		 try (Connection cnx = Utils.getConnection()) {
 				PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL);
 				ResultSet rs = pstmt.executeQuery();
@@ -185,7 +182,6 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 
 		ArticleVendu article = null;
 
-        //try (Connection cnx = JdbcTools.getConnection()) {
 		try (Connection cnx = Utils.getConnection()) {
             PreparedStatement requete = cnx.prepareStatement(SELECT);
             requete.setInt(1, noArticle);
