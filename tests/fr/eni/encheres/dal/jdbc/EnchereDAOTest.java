@@ -48,7 +48,7 @@ public class EnchereDAOTest {
 	@Before
 	public void setUp() throws Exception {
 
-		// On reset la base de données avant chaque test
+		// On reset la base de données avant chaque test 
 		try {
 			Utils.executeQuery("db/reset.sql");
 		} catch (IOException e) {
