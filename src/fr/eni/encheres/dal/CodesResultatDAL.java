@@ -39,7 +39,30 @@ public class CodesResultatDAL {
 	 */
 	public static final int MODIFICATION_ARTICLE_ERREUR = 10006;
 	
+	/**
+	 * Echec lors de la récupération d'un utilisateur 
+	 */
+	public static final int SELECTION_UTILISATEUR_ERREUR=10101;
 	
+	/**
+	 * Erreur à la récupération des utilisateurs
+	 */
+	public static final int ERREUR_RECUPERATION_UTILISATEURS = 10102;
+
+	/**
+	 * Erreur à la suppression d'un utilisateur
+	 */
+	public static final int SUPPRESSION_UTILISATEUR = 10103;
+	
+	/**
+	 * Erreur à la modification d'un utilisateur
+	 */
+	public static final int MODIFICATION_UTILISATEUR = 10104;
+	
+	/**
+	 * Erreur quand l'utilisateur est inexistant
+	 */
+	public static final int UTILISATEUR_INEXISTANT = 10105;
 	
 	/**
 	 * Echec lors de la récupération d'une catégorie 
@@ -84,49 +107,23 @@ public class CodesResultatDAL {
 	
 	
 	/**
-	 * Echec lors de la récupération d'un utilisateur 
-	 */
-	public static final int SELECTION_UTILISATEUR_ERREUR=11002;
-	
-	/**
-	 * Erreur à la récupération des utilisateurs
-	 */
-	public static final int ERREUR_RECUPERATION_UTILISATEURS = 11003;
-
-	/**
-	 * Erreur à la suppression d'un utilisateur
-	 */
-	public static final int SUPPRESSION_UTILISATEUR = 11004;
-	
-	/**
-	 * Erreur à la modification d'un utilisateur
-	 */
-	public static final int MODIFICATION_UTILISATEUR = 11005;
-	
-	/**
-	 * Erreur quand l'utilisateur est inexistant
-	 */
-	public static final int UTILISATEUR_INEXISTANT = 11006;
-	
-	
-	/**
 	 * Echec lors de la recuperation d'une enchere
 	 */
-	public static final int SELECTION_ENCHERE_ERREUR=14002;
+	public static final int SELECTION_ENCHERE_ERREUR=10402;
 	
 	/**
 	 * Erreur à la recuperation des encheres
 	 */
-	public static final int ERREUR_RECUPERATION_DES_ENCHERES = 14003;
+	public static final int ERREUR_RECUPERATION_DES_ENCHERES = 10403;
 	
 	/**
 	 * Erreur a�la supression d'une enchere
 	 */
 
-	public static final int SUPPRESSION_ENCHERE_ERREUR = 14004;
+	public static final int SUPPRESSION_ENCHERE_ERREUR = 10404;
 	
 	/**
 	 * Erreur à la modification d'une enchere
 	 */
-	public static final int MODIFICATION_ENCHERE_ERREUR = 14005;
+	public static final int MODIFICATION_ENCHERE_ERREUR = 10405;
 }
