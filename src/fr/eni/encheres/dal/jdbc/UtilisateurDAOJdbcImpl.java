@@ -155,9 +155,9 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 			stm.setString(4, unUtilisateur.getEmail());
 			stm.setString(5, unUtilisateur.getTelephone());
 			stm.setString(6, unUtilisateur.getRue());
-			stm.setString(7, unUtilisateur.getCode_postal());
+			stm.setString(7, unUtilisateur.getCodePostal());
 			stm.setString(8, unUtilisateur.getVille());
-			stm.setString(9, unUtilisateur.getMot_de_passe());
+			stm.setString(9, unUtilisateur.getMotDePasse());
 			stm.setInt(10, unUtilisateur.getCredit());
 			stm.setBoolean(11, unUtilisateur.isAdministrateur());
 			
@@ -230,9 +230,9 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 			stm.setString(4, unUtilisateur.getEmail());
 			stm.setString(5, unUtilisateur.getTelephone());
 			stm.setString(6, unUtilisateur.getRue());
-			stm.setString(7, unUtilisateur.getCode_postal());
+			stm.setString(7, unUtilisateur.getCodePostal());
 			stm.setString(8, unUtilisateur.getVille());
-			stm.setString(9, unUtilisateur.getMot_de_passe());
+			stm.setString(9, unUtilisateur.getMotDePasse());
 			stm.setInt(10, unUtilisateur.getCredit());
 			stm.setBoolean(11, unUtilisateur.isAdministrateur());
 			stm.setInt(12, unUtilisateur.getNoUtilisateur());

@@ -109,9 +109,9 @@ public class UtilisateurManager
 				|| unUtilisateur.getNom().trim().equals("") 
 				|| unUtilisateur.getEmail().trim().equals("") 
 				|| unUtilisateur.getRue().trim().equals("") 
-				|| unUtilisateur.getCode_postal().trim().equals("") 
+				|| unUtilisateur.getCodePostal().trim().equals("") 
 				|| unUtilisateur.getVille().trim().equals("") 
-				|| unUtilisateur.getMot_de_passe().trim().equals(""))
+				|| unUtilisateur.getMotDePasse().trim().equals(""))
 		{
 			//todo
 		}
@@ -159,9 +159,9 @@ public class UtilisateurManager
 				|| unUtilisateur.getNom().trim().equals("") 
 				|| unUtilisateur.getEmail().trim().equals("") 
 				|| unUtilisateur.getRue().trim().equals("") 
-				|| unUtilisateur.getCode_postal().trim().equals("") 
+				|| unUtilisateur.getCodePostal().trim().equals("") 
 				|| unUtilisateur.getVille().trim().equals("") 
-				|| unUtilisateur.getMot_de_passe().trim().equals(""))
+				|| unUtilisateur.getMotDePasse().trim().equals(""))
 		{
 			//todo
 		}

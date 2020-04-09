@@ -134,6 +134,36 @@ public class Utilisateur implements Serializable {
 	}
 
 	/**
+	 * Constructeur
+	 * @param pseudo
+	 * @param nom
+	 * @param prenom
+	 * @param email
+	 * @param telephone
+	 * @param rue
+	 * @param codePostal
+	 * @param ville
+	 * @param motDePasse
+	 * @param credit
+	 * @param administrateur
+	 */
+	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone, String rue,
+			String codePostal, String ville, String motDePasse, int credit, boolean administrateur) {
+		super();
+		this.pseudo = pseudo;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.email = email;
+		this.telephone = telephone;
+		this.rue = rue;
+		this.codePostal = codePostal;
+		this.ville = ville;
+		this.motDePasse = motDePasse;
+		this.credit = credit;
+		this.administrateur = administrateur;
+	}
+
+	/**
 	 * @return the noUtilisateur
 	 */
 	public int getNoUtilisateur() {
@@ -244,13 +274,13 @@ public class Utilisateur implements Serializable {
 	/**
 	 * @return the motDePasse
 	 */
-	public String getMotdepasse() {
+	public String getMotDePasse() {
 		return motDePasse;
 	}
 	/**
 	 * @param mot_de_passe the mot_de_passe to set
 	 */
-	public void setMotdepasse(String motDePasse) {
+	public void setMotDePasse(String motDePasse) {
 		this.motDePasse = motDePasse;
 	}
 	/**
