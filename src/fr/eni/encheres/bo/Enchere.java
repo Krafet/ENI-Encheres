@@ -117,9 +117,8 @@ public class Enchere {
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		Instant dateInstant = dateEnchere.toInstant();
-		LocalDateTime dateEnchereLdt = dateInstant.atOffset(ZoneOffset.UTC).toLocalDateTime();
-		DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		
+		String dateString = fr.eni.encheres.utils.Utils.getDateFormate(dateEnchere, "dd/MM/yyyy");
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append("Enchere  : ");
@@ -127,7 +126,7 @@ public class Enchere {
 		sb.append("montant enchere = ");
 		sb.append(montantEnchere);
 		sb.append("; date enchere = ");
-		sb.append(dateEnchereLdt.format(formatDate));
+		sb.append(dateString);
 		sb.append("; utilisateur = ");
 		sb.append(unUtilisateur.getNom());
 		sb.append(" ");
