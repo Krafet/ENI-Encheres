@@ -17,8 +17,8 @@ import fr.eni.encheres.dal.CategorieDAO;
 import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
 import fr.eni.encheres.dal.DAOFactory;
-import fr.eni.encheres.dal.JdbcTools;
 import fr.eni.encheres.dal.UtilisateurDAO;
+import fr.eni.encheres.utils.Utils;
 
 
 /**
@@ -38,6 +38,7 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 			+ "prix_initial=?,prix_vente=?,no_utilisateur=?,no_categorie=? WHERE no_article=?";
 	private static final String SELECT = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?";
 	private static final String SELECT_ALL = "SELECT * FROM ARTICLES_VENDUS";
+
 	
 	@Override
 	/**
@@ -55,8 +56,8 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 			throw businessException;
 		}
 		
-		try (Connection cnx = JdbcTools.getConnection()) {
-		//try (Connection cnx = ConnectionProvider.getConnection()) {
+		//try (Connection cnx = JdbcTools.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, article.getNomArticle());
 			pstmt.setString(2, article.getDescription());
@@ -94,8 +95,8 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 
 		int nbLignesModifiees = 0;
 
-		try (Connection cnx = JdbcTools.getConnection()) {
-		//try (Connection cnx = ConnectionProvider.getConnection()) {
+		//try (Connection cnx = JdbcTools.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(DELETE);
 			pstmt.setInt(1, id);
@@ -120,8 +121,8 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 	public boolean update(ArticleVendu article) throws BusinessException {
 		int nbLignesModifiees = 0;
 
-		 try (Connection cnx = JdbcTools.getConnection()) {
-		//try (Connection cnx = ConnectionProvider.getConnection()) {
+		 //try (Connection cnx = JdbcTools.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 
 			PreparedStatement pstmt = cnx.prepareStatement(UPDATE);
 			pstmt.setString(1, article.getNomArticle());
@@ -154,8 +155,8 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 	 */
 	public List<ArticleVendu> selectAll() throws BusinessException {
 		 List<ArticleVendu> listeArticles = new ArrayList<>();
-		 try (Connection cnx = JdbcTools.getConnection()) {
-		 //try (Connection cnx = ConnectionProvider.getConnection()) {
+		 //try (Connection cnx = JdbcTools.getConnection()) {
+		 try (Connection cnx = Utils.getConnection()) {
 				PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL);
 				ResultSet rs = pstmt.executeQuery();
 				ArticleVendu article = new ArticleVendu();
@@ -184,8 +185,8 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 
 		ArticleVendu article = null;
 
-        try (Connection cnx = JdbcTools.getConnection()) {
-		//try (Connection cnx = ConnectionProvider.getConnection()) {
+        //try (Connection cnx = JdbcTools.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
             PreparedStatement requete = cnx.prepareStatement(SELECT);
             requete.setInt(1, noArticle);
             ResultSet rs = requete.executeQuery();
@@ -220,8 +221,6 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 		articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
 		articleVendu.setPrixVente(rs.getInt("prix_vente"));
 		articleVendu.setMiseAPrix(rs.getInt("prix_initial"));
-		//articleVendu.setUtilisateur(null);
-		//articleVendu.setCategorie(null);
 		articleVendu.setUtilisateur(this.getUserArticle(rs.getInt("no_utilisateur")));
 		articleVendu.setCategorie(this.getCategoryArticle(rs.getInt("no_categorie")));
 

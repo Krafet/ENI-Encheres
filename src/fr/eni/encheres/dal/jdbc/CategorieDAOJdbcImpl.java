@@ -13,6 +13,8 @@ import fr.eni.encheres.dal.CategorieDAO;
 import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
 import fr.eni.encheres.dal.JdbcTools;
+import fr.eni.encheres.utils.DebugUtils;
+import fr.eni.encheres.utils.Utils;
 
 
 public class CategorieDAOJdbcImpl implements CategorieDAO {
@@ -20,7 +22,7 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 	
 	private static final String SELECT_ALL = "SELECT * FROM Categories";
 	private static final String SELECT_BY_ID = "SELECT * FROM Categories WHERE no_categorie=?";
-	private static final String UPDATE = "UPDATE Categories SET libelle=?, WHERE no_categorie=?";
+	private static final String UPDATE = "UPDATE Categories SET libelle=? WHERE no_categorie=?";
 	private static final String INSERT = "INSERT INTO Categories(libelle) values(?)";
 	private static final String DELETE = "DELETE from Categories WHERE no_categorie=?";
 
@@ -51,7 +53,8 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 		}
 		
 		
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
+		 
 			PreparedStatement pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			
 			pstmt.setString(1, categorie.getLibelle());
@@ -67,6 +70,8 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 			
 		} catch (Exception e) {
 			
+			e.printStackTrace();
+
 			BusinessException businessException = new BusinessException();
 			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_ECHEC);
 			throw businessException;
@@ -82,7 +87,8 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 	public boolean update(Categorie categorie) throws BusinessException {
 		int i  = 0;
 		
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
+		
 			PreparedStatement pstmt = cnx.prepareStatement(UPDATE);
 			pstmt.setString(1, categorie.getLibelle());
 			pstmt.setInt(2, categorie.getNoCategorie());
@@ -92,6 +98,7 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			 BusinessException businessException = new BusinessException();
 			 businessException.ajouterErreur(CodesResultatDAL.MODIFICATION_CATEGORIE_ERREUR); 
 			 throw businessException;
@@ -108,7 +115,7 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 		
 		int i = 0;
 		
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			
 			PreparedStatement pstmt = cnx.prepareStatement(DELETE);
 			pstmt.setInt(1, categorie.getNoCategorie());
@@ -117,6 +124,8 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 		}
 		catch(Exception e)
 		{
+			e.printStackTrace();
+
 			 BusinessException businessException = new BusinessException();
 			 businessException.ajouterErreur(CodesResultatDAL.SUPPRESSION_CATEGORIE_ERREUR);			 
 			 throw businessException;
@@ -132,7 +141,7 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 	public List<Categorie> selectAll()  throws BusinessException {
 
 		List<Categorie> listeCategorie = new ArrayList<>();
-		try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(SELECT_ALL);
 
 			ResultSet rs = pstmt.executeQuery();
@@ -143,6 +152,8 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 		}
 		catch (Exception e)
 		{
+			e.printStackTrace();
+
 			 BusinessException businessException = new BusinessException();
 			 businessException.ajouterErreur(CodesResultatDAL.SELECTION_CATEGORIE_ERREUR);		 
 			 throw businessException;
@@ -170,8 +181,7 @@ public class CategorieDAOJdbcImpl implements CategorieDAO {
 	public Categorie selectById(int id) throws BusinessException {
 		
 		Categorie categorie = null;
-		try (Connection cnx = JdbcTools.getConnection()) {
-		//try (Connection cnx = ConnectionProvider.getConnection()) {
+		try (Connection cnx = Utils.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(SELECT_BY_ID);
 			pstmt.setInt(1, id);
 			ResultSet rs = pstmt.executeQuery();
