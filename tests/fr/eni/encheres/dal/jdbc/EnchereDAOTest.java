@@ -46,14 +46,15 @@ public class EnchereDAOTest {
 		utilisateur = new Utilsateur();
 		utilisateur.setNoUtilisateur(1);
 		
-		enchereTest = new Enchere(10, date, utilisateur, article);
-		Enchere enchereInsert = enchereDAO.insert(enchereTest);		
-		Enchere enchereRecuperer = enchereDAO.selectById(1, 1);
+
 	}
 	
 	@Test
 	public void insertTest() throws BusinessException{
-
+		
+		enchereTest = new Enchere(10, date, utilisateur, article);
+		Enchere enchereInsert = enchereDAO.insert(enchereTest);		
+		Enchere enchereRecuperer = enchereDAO.selectById(1, 1);
 
 	}
 	
