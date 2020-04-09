@@ -220,13 +220,13 @@ public class Utilisateur implements Serializable {
 	/**
 	 * @return the codePostal
 	 */
-	public String getCode_postal() {
+	public String getCodePostal() {
 		return codePostal;
 	}
 	/**
 	 * @param code_postal the code_postal to set
 	 */
-	public void setCode_postal(String codePostal) {
+	public void setCodePostal(String codePostal) {
 		this.codePostal = codePostal;
 	}
 	/**
@@ -244,13 +244,13 @@ public class Utilisateur implements Serializable {
 	/**
 	 * @return the motDePasse
 	 */
-	public String getMot_de_passe() {
+	public String getMotdepasse() {
 		return motDePasse;
 	}
 	/**
 	 * @param mot_de_passe the mot_de_passe to set
 	 */
-	public void setMot_de_passe(String motDePasse) {
+	public void setMotdepasse(String motDePasse) {
 		this.motDePasse = motDePasse;
 	}
 	/**
