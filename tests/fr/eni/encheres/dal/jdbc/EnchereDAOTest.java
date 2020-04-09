@@ -2,6 +2,7 @@ package fr.eni.encheres.dal.jdbc;
 
 import static org.junit.Assert.assertEquals;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -32,12 +33,9 @@ import fr.eni.encheres.utils.Utils;
  */
 public class EnchereDAOTest {
 	
-	EnchereDAO enchereDAO = DAOFactory.getEnchereDAO();
+	EnchereDAO enchereDAO;
 	
-	UtilisateurDAO utilsateurDAO = DAOFactory.getUtilisateurDAO();
 	ArticleVenduDAO articleDAO = DAOFactory.getArticleVenduDAO();
-	
-	Enchere enchereTest;
 	Utilisateur utilisateur;
 	ArticleVendu article;
 	
@@ -50,25 +48,14 @@ public class EnchereDAOTest {
 	@Before
 	public void setUp() throws Exception {
 
-		
 		// On reset la base de données avant chaque test
 		try {
 			Utils.executeQuery("db/reset.sql");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		Date date = new Date("1995-10-10");
 		
-		Categorie uneCat = new Categorie("CategorieTEST");	
-		
-		ArticleVendu article = new ArticleVendu(1, "nomArticle", "description", date,
-				date, 5, 10, true, null,
-				uneCat, null);
-		
-		utilisateur = new Utilisateur();
-		utilisateur.setNoUtilisateur(1);
-		
+		enchereDAO = DAOFactory.getEnchereDAO();
 	}
 	
 	/**
@@ -105,7 +92,16 @@ public class EnchereDAOTest {
 	
 	@Test
 	public void insertTest() throws BusinessException{
+		int avantInsertion = enchereDAO.selectAll().size();
+
+		Enchere uneEnchere = creationEnchere();
+		
+		enchereDAO.delete(uneEnchere.getUnUtilisateur().getNoUtilisateur(), uneEnchere.getUnArticleVendu().getNoArticle());
 		enchereDAO.insert(uneEnchere);
+		
+		int apresInsertion = enchereDAO.selectAll().size();
+
+		assertEquals(apresInsertion, avantInsertion + 1);
 	}
 	
 	
@@ -114,6 +110,7 @@ public class EnchereDAOTest {
 
 	public void updateTest() throws BusinessException{
 		
+		Enchere enchereTest = creationEnchere();
 		boolean result = enchereDAO.update(enchereTest);
 		assertEquals(result, true);
 	}
@@ -123,13 +120,45 @@ public class EnchereDAOTest {
 		
 		List<Enchere> listeEnchere = enchereDAO.selectAll();
 		
-		assertEquals(1, listeEnchere.size()==1);
+		assertEquals(3, listeEnchere.size());
 	}
 	
 	@Test
 	public void deleteTest() throws BusinessException{
 		
-		boolean result = enchereDAO.delete(article.getNoArticle(), utilisateur.getNoUtilisateur());
+		Enchere enchereTest = creationEnchere();
+		enchereDAO.insert(enchereTest);
+		boolean result = enchereDAO.delete(enchereTest.getUnUtilisateur().getNoUtilisateur(), enchereTest.getUnArticleVendu().getNoArticle());
 		assertEquals(result, true);
+	}
+	
+	@Test
+	public void selectByIdTest() throws BusinessException{
+		
+		Enchere enchereAttendu = creationEnchere();
+		Enchere enchereInsertion = enchereDAO.insert(enchereAttendu);
+
+		Enchere enchereRecupere = articleVenduDAO.selectById(enchereInsertion.getUnUtilisateur().getNoUtilisateur(), enchereInsertion.getUnArticleVendu().getNoArticle());
+
+		assertEquals(enchereAttendu, enchereRecupere); 
+	}
+	
+	private Enchere creationEnchere()
+	{
+		ArticleVenduDAO articleDAO = DAOFactory.getArticleVenduDAO();
+		UtilisateurDAO utilisateurDAO = DAOFactory.getUtilisateurDAO();
+		
+		//INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES(1, 2, '2020-04-12', 500);
+		Enchere uneEnchere = new Enchere();
+		
+		uneEnchere.setUnUtilisateur(utilisateurDAO.getUtilisateurById(1));
+		uneEnchere.setUnArticleVendu(articleDAO.selectById(2));
+		uneEnchere.setMontantEnchere(500);
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		String dateInString = "12/04/2020";
+		Date date = sdf.parse(dateInString);
+		
+		uneEnchere.setDateEnchere(date);
 	}
 }
