@@ -115,7 +115,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 
             while(rs.next())
             {
-            	unUtilisateur = getUtilisateurById(rs.getInt("id"));
+            	unUtilisateur = getUtilisateurById(rs.getInt("no_utilisateur"));
             }
 		}
 		catch(Exception e)

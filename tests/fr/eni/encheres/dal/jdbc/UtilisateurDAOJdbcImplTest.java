@@ -74,10 +74,20 @@ public class UtilisateurDAOJdbcImplTest {
 
 	/**
 	 * Test method for {@link fr.eni.encheres.dal.jdbc.UtilisateurDAOJdbcImpl#getUtilisateurByPseudoPassword(java.lang.String, java.lang.String)}.
+	 * @throws BusinessException 
 	 */
 	@Test
-	public void testGetUtilisateurByPseudoPassword() {
-		fail("Not yet implemented");
+	public void testGetUtilisateurByPseudoPassword() throws BusinessException {
+
+		//Conducteur qu'on veut pouvoir récupérer grâce à cette méthode
+		Utilisateur unUtilisateurAttendu = new Utilisateur("Ogu", "CANBOLAT", "Oguzhan", "oguzhan.cblt@gmail.com", "0783161111", "8 allée de croatie", "35200","Rennes", "root", 100, false, lesArticlesVendus);
+		//On l'insère
+		Utilisateur recuperationInsertion = utilisateurDAO.insert(unUtilisateurAttendu);
+		//On le récupère
+		Utilisateur unUtilisateurRecupere = utilisateurDAO.getUtilisateurByPseudoPassword("Ogu", "root");
+
+		assertEquals(unUtilisateurAttendu, unUtilisateurRecupere);
+		
 	}
 
 	/**
