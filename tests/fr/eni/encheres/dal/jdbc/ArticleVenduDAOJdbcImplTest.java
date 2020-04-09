@@ -10,6 +10,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +35,7 @@ import fr.eni.encheres.utils.Utils;
  */
 public class ArticleVenduDAOJdbcImplTest {
 
+	
 	// On instancie les DAO
 	ArticleVenduDAO articleVenduDAO = DAOFactory.getArticleVenduDAO();
 	CategorieDAO categorieDAO = DAOFactory.getCategorieDAO();
@@ -47,6 +49,7 @@ public class ArticleVenduDAOJdbcImplTest {
 	@Before
 	public void setUp() throws Exception {
 
+		
 		// On reset la base de données avant chaque test
 		try {
 			Utils.executeQuery("db/reset.sql");
@@ -63,9 +66,10 @@ public class ArticleVenduDAOJdbcImplTest {
 	@After
 	public void tearDown() throws Exception {
 
-		// On reset la base de données avant chaque test
+		// On reset pour obtenir de nouveau le jeu d'essai de base de notre application
 		try {
-			Utils.executeQuery("db/reset.sql");
+			Utils.executeQuery("db/jeu_essai.sql");
+			//Utils.executeQuery("db/reset.sql");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -182,7 +186,7 @@ public class ArticleVenduDAOJdbcImplTest {
 
 		//Création d'une liste d'articles
 		List<ArticleVendu> articles = listeArticlesBuider();
-		List<ArticleVendu> test = articleVenduDAO.selectAll();
+
 		assertEquals(articles, articleVenduDAO.selectAll());
 
 	}
