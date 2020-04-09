@@ -103,6 +103,11 @@ public class CodesResultatDAL {
 	 */
 	public static final int MODIFICATION_UTILISATEUR = 11005;
 	
+	/**
+	 * Erreur quand l'utilisateur est inexistant
+	 */
+	public static final int UTILISATEUR_INEXISTANT = 11006;
+	
 	
 	/**
 	 * Echec lors de la recuperation d'une enchere
@@ -115,7 +120,7 @@ public class CodesResultatDAL {
 	public static final int ERREUR_RECUPERATION_DES_ENCHERES = 14003;
 	
 	/**
-	 * Erreur a la supression d'une enchere
+	 * Erreur aï¿½la supression d'une enchere
 	 */
 
 	public static final int SUPPRESSION_ENCHERE_ERREUR = 14004;
