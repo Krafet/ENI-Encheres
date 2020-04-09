@@ -13,6 +13,7 @@ import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
 import fr.eni.encheres.dal.JdbcTools;
 import fr.eni.encheres.dal.UtilisateurDAO;
+import fr.eni.encheres.utils.Utils;
 
 /**
  * Classe en charge de
@@ -105,7 +106,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 	{
 		Utilisateur unUtilisateur = new Utilisateur();
 		
-		try (Connection cnx = JdbcTools.getConnection()) 
+		try (Connection cnx = Utils.getConnection()) 
 		//try(Connection cnx = ConnectionProvider.getConnection())
 		{
 			PreparedStatement stm = cnx.prepareStatement(RQT_SELECTBYPSEUDOPASSWORD);
@@ -144,7 +145,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 			throw businessException;
 		}
 		
-		try (Connection cnx = JdbcTools.getConnection()) 
+		try (Connection cnx = Utils.getConnection()) 
 		//try(Connection cnx = ConnectionProvider.getConnection())
 		{
 			PreparedStatement stm = cnx.prepareStatement(RQT_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -190,7 +191,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 	{
 		int nbLignesModifiees = 0;
 		
-		try (Connection cnx = JdbcTools.getConnection()) 
+		try (Connection cnx = Utils.getConnection()) 
 		//try(Connection cnx = ConnectionProvider.getConnection())
 		{
 			PreparedStatement stm = cnx.prepareStatement(RQT_DELETE);
@@ -219,7 +220,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 	{
 		int nbLignesModifiees = 0;
 		
-		try (Connection cnx = JdbcTools.getConnection()) 
+		try (Connection cnx = Utils.getConnection()) 
 		//try(Connection cnx = ConnectionProvider.getConnection())
 		{
 			PreparedStatement stm = cnx.prepareStatement(RQT_UPDATE);
