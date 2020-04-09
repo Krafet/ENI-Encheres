@@ -12,10 +12,13 @@ import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Enchere;
+import fr.eni.encheres.dal.ArticleVenduDAO;
 import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
+import fr.eni.encheres.dal.DAOFactory;
 import fr.eni.encheres.dal.EnchereDAO;
 import fr.eni.encheres.dal.JdbcTools;
+import fr.eni.encheres.dal.UtilisateurDAO;
 
 /**
  * 
@@ -57,7 +60,11 @@ public class EnchereDAOJbdcImpl implements EnchereDAO {
 		//try (Connection cnx = ConnectionProvider.getConnection()) {
 			PreparedStatement stm = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			stm.setInt(1, uneEnchere.getMontantEnchere());
-			stm.setDate(2, (java.sql.Date) uneEnchere.getDateEnchere());
+			
+			java.util.Date date_util =  uneEnchere.getDateEnchere();
+			java.sql.Date date_sql = new java.sql.Date(date_util.getTime());
+			stm.setDate(2, date_sql);
+			
 			stm.setInt(3, uneEnchere.getUnUtilisateur().getNoUtilisateur());
 			stm.setInt(4, uneEnchere.getUnArticleVendu().getNoArticle());
 
@@ -208,8 +215,11 @@ public class EnchereDAOJbdcImpl implements EnchereDAO {
 
 		try (Connection cnx = JdbcTools.getConnection()) {
 			PreparedStatement pstmt = cnx.prepareStatement(UPDATE);
-			pstmt.setInt(1, uneEnchere.getMontantEnchere());
-			pstmt.setDate(2, (java.sql.Date) uneEnchere.getDateEnchere());
+			
+			pstmt.setInt(2, uneEnchere.getMontantEnchere());
+			pstmt.setDate(1, (java.sql.Date) uneEnchere.getDateEnchere());
+			pstmt.setInt(3, uneEnchere.getUnUtilisateur().getNoUtilisateur());
+			pstmt.setInt(4, uneEnchere.getUnArticleVendu().getNoArticle());
 
 			pstmt.executeUpdate();
 
@@ -233,10 +243,14 @@ public class EnchereDAOJbdcImpl implements EnchereDAO {
 	 */
 	public Enchere enchereBuilder(ResultSet rs) throws SQLException, BusinessException {
 
+		ArticleVenduDAO articleDAO = DAOFactory.getArticleVenduDAO();
+		UtilisateurDAO utilisateurDAO = DAOFactory.getUtilisateurDAO();
 		Enchere uneEnchere = new Enchere();
 
 		uneEnchere.setMontantEnchere(rs.getInt("montant_enchere"));
 		uneEnchere.setDateEnchere(rs.getDate("date_enchere"));
+		uneEnchere.setUnArticleVendu(articleDAO.selectById(rs.getInt("no_article")));
+		uneEnchere.setUnUtilisateur(utilisateurDAO.getUtilisateurById(rs.getInt("no_utilisateur")));
 
 		return uneEnchere;
 
