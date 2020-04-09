@@ -63,17 +63,12 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 		return lesUtilisateurs;
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 * @see fr.eni.encheres.dal.UtilisateurDAO#getUtilisateurById(int)
-	 */
 	@Override
 	public Utilisateur getUtilisateurById(int id) throws BusinessException
 	{
 		Utilisateur unUtilisateur = new Utilisateur();
 		
-		try (Connection cnx = JdbcTools.getConnection()) 
-		//try(Connection cnx = ConnectionProvider.getConnection())
+		try (Connection cnx = Utils.getConnection()) 
 		{
 			PreparedStatement stm = cnx.prepareStatement(RQT_SELECTBYID);
             stm.setInt(1, id);
@@ -93,6 +88,13 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 
 			throw businessException;
 						
+		}
+		
+		if(unUtilisateur.getNoUtilisateur()==0)
+		{
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.UTILISATEUR_INEXISTANT);
+			throw businessException;
 		}
 		
 		return unUtilisateur;

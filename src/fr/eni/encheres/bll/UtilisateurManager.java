@@ -66,7 +66,9 @@ public class UtilisateurManager
 	
 	public Utilisateur getUtilisateurById(int id) throws BusinessException
 	{
-		Utilisateur unUtilisateur = new Utilisateur();
+		Utilisateur unUtilisateur =  utilisateurDAO.getUtilisateurById(id);
+		
+		/*Utilisateur unUtilisateur = new Utilisateur();
 		try
 		{
 			unUtilisateur = utilisateurDAO.getUtilisateurById(id);
@@ -76,11 +78,11 @@ public class UtilisateurManager
 			e.printStackTrace();
 			
 			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatDAL.ERREUR_RECUPERATION_UTILISATEURS);
+			businessException.ajouterErreur(CodesResultatDAL.UTILISATEUR_INEXISTANT);
 
 			throw businessException;	
-		}
-		return unUtilisateur;		
+		}*/	
+		return unUtilisateur;	
 	}
 	
 	public Utilisateur getUtilisateurByPseudoPassword(String pseudo, String MotDePasse) throws BusinessException
