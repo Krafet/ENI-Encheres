@@ -69,9 +69,13 @@ public class EnchereDAOTest {
 		utilisateur = new Utilisateur();
 		utilisateur.setNoUtilisateur(1);
 		
+<<<<<<< HEAD
+
+=======
 		enchereTest = new Enchere(10, date, utilisateur, article);
 		//Enchere enchereInsert = enchereDAO.insert(enchereTest);		
 		Enchere enchereRecuperer = enchereDAO.selectById(1, 1);
+>>>>>>> branch 'master' of https://github.com/Krafet/ENI-Encheres.git
 	}
 	
 	/**
@@ -108,8 +112,16 @@ public class EnchereDAOTest {
 	
 	@Test
 	public void insertTest() throws BusinessException{
+<<<<<<< HEAD
+		
+		enchereTest = new Enchere(10, date, utilisateur, article);
+		Enchere enchereInsert = enchereDAO.insert(enchereTest);		
+		Enchere enchereRecuperer = enchereDAO.selectById(1, 1);
+
+=======
 
 		//TODO***
+>>>>>>> branch 'master' of https://github.com/Krafet/ENI-Encheres.git
 	}
 	
 	
