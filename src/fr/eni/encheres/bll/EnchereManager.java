@@ -4,6 +4,7 @@
 package fr.eni.encheres.bll;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import fr.eni.encheres.BusinessException;
@@ -25,11 +26,13 @@ public class EnchereManager {
 	
 	private EnchereDAO enchereDAO;
 
-	public List<Enchere> listeEncheres = new ArrayList<>();
+	private List<Enchere> listeEncheres = new ArrayList<>();
 	
 	private EnchereManager() throws BusinessException {
+		
+		
 		this.enchereDAO=DAOFactory.getEnchereDAO();
-		//bindDatas();
+		bindDatas();
 	}
 	
 	/**
@@ -38,15 +41,29 @@ public class EnchereManager {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public static EnchereManager getCategorieManager() throws BusinessException
+	public static EnchereManager getEnchereManager()
 	{
 		if(instance == null)
 		{
-			instance = new EnchereManager();
+			try {
+				instance = new EnchereManager();				
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 
 		return instance;
 	}
+	
+	
+	public List<Enchere> getEncheres()
+	{
+		  return Collections.unmodifiableList(listeEncheres);
+	}
+	
+	
 	
 	/**
 	 * Récupère tous les enchères existants en base
@@ -104,4 +121,12 @@ public class EnchereManager {
 	{
 		return enchereDAO.selectById(uneEnchere.getUnUtilisateur().getNoUtilisateur(), uneEnchere.getUnArticleVendu().getNoArticle());
 	}
+	
+	
+	private void bindDatas() throws BusinessException
+	{
+		listeEncheres.clear();
+		listeEncheres.addAll(enchereDAO.selectAll());
+	}
+
 }

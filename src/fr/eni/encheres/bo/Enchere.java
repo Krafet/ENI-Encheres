@@ -128,9 +128,9 @@ public class Enchere {
 		sb.append("; date enchere = ");
 		sb.append(dateString);
 		sb.append("; utilisateur = ");
-		sb.append(unUtilisateur.getNom());
+//		sb.append(unUtilisateur.getNom());
 		sb.append(" ");
-		sb.append(unUtilisateur.getPrenom());
+	//	sb.append(unUtilisateur.getPrenom());
 		sb.append("; article vendu = N�");
 		sb.append(unArticleVendu.getNoArticle());
 		sb.append(unArticleVendu.getNomArticle());
