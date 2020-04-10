@@ -95,7 +95,7 @@ public class EnchereManager {
 	}
 	
 	/**
-	 * Méthode récupérant une enchère spécifiquement par les deux id
+	 * Méthode récupérant une enchère spécifiquement par les deux id 
 	 * @author José Luis FERREIRA DA SILVA
 	 * @param uneEnchere
 	 * @throws BusinessException
