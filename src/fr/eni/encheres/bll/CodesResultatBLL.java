@@ -7,6 +7,20 @@ package fr.eni.encheres.bll;
  * @version ENI-Encheres - v1.0
  * @date 7 avr. 2020
  */
-public class CodesResultatBLL {
+public class CodesResultatBLL {	
 
+	/**
+	 * Le pseudo n'est pas en alphanumériques.
+	 */
+	public static final int PSEUDO_NON_ALPHANUMERIQUES=20000;
+	
+	/**
+	 * Le format de l'email est incorrecte. 
+	 */
+	public static final int EMAIL_FORMAT_INCORRECTE=20001;
+	
+	/**
+	 * Echec lors de la récupération d'un article 
+	 */
+	public static final int UN_CHAMP_NON_SAISIE=20002;
 }

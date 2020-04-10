@@ -29,6 +29,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 	private static String RQT_INSERT = "INSERT INTO UTILISATEURS VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	private static String RQT_UPDATE = "UPDATE UTILISATEURS SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?, ville = ?, mot_de_passe = ?, credit = ?, administrateur = ? WHERE no_utilisateur = ?;";
 	private static String RQT_DELETE = "DELETE FROM UTILISATEURS WHERE no_utilisateur = ?";
+	private static String RQT_PSEUDOEXISTANT = "SELECT * FROM UTILISATEURS WHERE pseudo = ?";
+	private static String RQT_EMAILEXISTANT = "SELECT * FROM UTILISATEURS WHERE email = ?";
 	/**
 	 * {@inheritDoc}
 	 * @see fr.eni.encheres.dal.UtilisateurDAO#getAllUtilisateur()
@@ -37,9 +39,8 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 	public List<Utilisateur> getAllUtilisateur() throws BusinessException {
 		List<Utilisateur> lesUtilisateurs = new ArrayList<Utilisateur>();
 		
-		try (Connection cnx = JdbcTools.getConnection()) {
-		//try(Connection cnx = ConnectionProvider.getConnection()) {
-			
+		try (Connection cnx = Utils.getConnection()) 
+		{			
 			PreparedStatement stm = cnx.prepareStatement(RQT_SELECTALL);
             ResultSet rs = stm.executeQuery();
 
@@ -109,7 +110,6 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 		Utilisateur unUtilisateur = new Utilisateur();
 		
 		try (Connection cnx = Utils.getConnection()) 
-		//try(Connection cnx = ConnectionProvider.getConnection())
 		{
 			PreparedStatement stm = cnx.prepareStatement(RQT_SELECTBYPSEUDOPASSWORD);
             stm.setString(1, pseudo);
@@ -148,7 +148,6 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 		}
 		
 		try (Connection cnx = Utils.getConnection()) 
-		//try(Connection cnx = ConnectionProvider.getConnection())
 		{
 			PreparedStatement stm = cnx.prepareStatement(RQT_INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			stm.setString(1, unUtilisateur.getPseudo());
@@ -254,6 +253,87 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 	}
 	
 	/**
+	 * {@inheritDoc}
+	 * @throws BusinessException 
+	 * @see fr.eni.encheres.dal.UtilisateurDAO#pseudoExistant(java.lang.String)
+	 */
+	@Override
+	public void pseudoExistant(String pseudo) throws BusinessException 
+	{
+		Utilisateur unUtilisateur = null;
+		
+		try (Connection cnx = Utils.getConnection()) 
+		{
+			PreparedStatement stm = cnx.prepareStatement(RQT_PSEUDOEXISTANT);
+            stm.setString(1, pseudo);
+            ResultSet rs = stm.executeQuery();
+            
+            while(rs.next())
+            {
+            	unUtilisateur = itemBuilder(rs);
+            }
+            
+            if(unUtilisateur != null)
+    		{
+    			BusinessException businessException = new BusinessException();
+    			businessException.ajouterErreur(CodesResultatDAL.PSEUDO_EXISTANT);
+
+    			throw businessException;
+    		}
+		}
+		catch(Exception e) 
+		{
+			e.printStackTrace();
+			
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.UTILISATEUR_INEXISTANT);
+
+			throw businessException;						
+		}		
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @throws BusinessException 
+	 * @see fr.eni.encheres.dal.UtilisateurDAO#emailExistant(java.lang.String)
+	 */
+	@Override
+	public void emailExistant(String email) throws BusinessException 
+	{
+		Utilisateur unUtilisateur = null;
+		
+		try (Connection cnx = Utils.getConnection()) 
+		{
+			PreparedStatement stm = cnx.prepareStatement(RQT_EMAILEXISTANT);
+            stm.setString(1, email);
+            ResultSet rs = stm.executeQuery();
+            
+            while(rs.next())
+            {
+            	unUtilisateur = itemBuilder(rs);
+            }
+            
+            if(unUtilisateur != null)
+    		{
+    			BusinessException businessException = new BusinessException();
+    			businessException.ajouterErreur(CodesResultatDAL.EMAIL_EXISTANT);
+
+    			throw businessException;
+    		}
+		}
+		catch(Exception e) 
+		{
+			e.printStackTrace();
+			
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.UTILISATEUR_INEXISTANT);
+
+			throw businessException;						
+		}	
+		
+	}
+	
+	/**
 	 * Méthode en charge de construire un utilisateur
 	 * @param rs
 	 * @return Utilisateur
@@ -269,4 +349,6 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 		
 		return resultat;
 	}
+
+	
 }

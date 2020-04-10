@@ -5,6 +5,8 @@ package fr.eni.encheres.bll;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.Utilisateur;
@@ -105,7 +107,7 @@ public class UtilisateurManager
 	}
 	
 	public Utilisateur addUtilisateur(Utilisateur unUtilisateur) throws BusinessException
-	{
+	{		
 		if(unUtilisateur.getPseudo().trim().equals("") 
 				|| unUtilisateur.getPrenom().trim().equals("") 
 				|| unUtilisateur.getNom().trim().equals("") 
@@ -115,24 +117,36 @@ public class UtilisateurManager
 				|| unUtilisateur.getVille().trim().equals("") 
 				|| unUtilisateur.getMotDePasse().trim().equals(""))
 		{
-			//todo
-		}
-		
-		//check si l'utilisateur existe todo
-		
-		try
-		{
-			utilisateurDAO.insert(unUtilisateur);
-		}
-		catch(Exception e) 
-		{
-			e.printStackTrace();
-			
 			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatDAL.ERREUR_RECUPERATION_UTILISATEURS);
+			businessException.ajouterErreur(CodesResultatBLL.UN_CHAMP_NON_SAISIE);
+
+			throw businessException;
+		}
+		
+		Pattern patternPseudo = Pattern.compile("^[A-Za-z0-9]+$");
+		Matcher matcherPseudo = patternPseudo.matcher(unUtilisateur.getPseudo());
+		boolean resultatPseudo = matcherPseudo.matches();
+		if(!resultatPseudo)
+		{
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatBLL.PSEUDO_NON_ALPHANUMERIQUES);
 
 			throw businessException;	
 		}
+		
+		Pattern patternEmail = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
+		Matcher matcherEmail = patternEmail.matcher(unUtilisateur.getPseudo());
+		boolean resultatEmail = matcherEmail.matches();
+		if(!resultatEmail)
+		{
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatBLL.EMAIL_FORMAT_INCORRECTE);
+
+			throw businessException;	
+		}
+		
+		utilisateurDAO.insert(unUtilisateur);		
+		
 		return unUtilisateur;
 	}
 	

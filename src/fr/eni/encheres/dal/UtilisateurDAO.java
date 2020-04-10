@@ -49,4 +49,8 @@ public interface UtilisateurDAO {
 	 * @throws BusinessException
 	 */
 	boolean update(Utilisateur unUtilisateur) throws BusinessException;
+	
+	void pseudoExistant(String pseudo) throws BusinessException;
+	
+	void emailExistant(String email) throws BusinessException;
 }

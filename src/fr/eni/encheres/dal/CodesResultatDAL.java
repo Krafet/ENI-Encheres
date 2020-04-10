@@ -65,6 +65,16 @@ public class CodesResultatDAL {
 	public static final int UTILISATEUR_INEXISTANT = 10105;
 	
 	/**
+	 * Le pseudo est déjà existant
+	 */
+	public static final int PSEUDO_EXISTANT=10106;
+	
+	/**
+	 * L'email est déjà existant
+	 */
+	public static final int EMAIL_EXISTANT=10107;
+	
+	/**
 	 * Echec lors de la récupération d'une catégorie 
 	 */
 	public static final int SELECTION_CATEGORIE_ERREUR=10201;
