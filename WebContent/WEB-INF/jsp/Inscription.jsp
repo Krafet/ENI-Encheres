@@ -10,7 +10,7 @@
 <h1>ENI-Enchères</h1>
 <h1>Mon profil</h1>
 
-<form method="post" action="/ENI-Encheres/InscriptionServlet">
+<form method="post" action="/ENI-Encheres/ServletInscription">
 
 <label for="nombre">Pseudo : </label>
 	<input type="text" id="pseudo" name="pseudo" required/><br><br>
