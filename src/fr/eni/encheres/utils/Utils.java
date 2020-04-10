@@ -3,6 +3,8 @@ package fr.eni.encheres.utils;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -87,6 +89,24 @@ public class Utils {
 			}
 			
 		return cnx;
+	}
+	
+	public static String toMD5(String motDePasse)
+	{
+		try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(motDePasse.getBytes());
+            byte[] bytes = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < bytes.length; i++) {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            motDePasse = sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+		
+		return motDePasse;
 	}
 	
 }
