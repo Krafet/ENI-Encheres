@@ -38,22 +38,22 @@
 	margin: 0 auto;
 }
 
-.divBtn{
-
-}
-
-.divBtn button, .divBtn a, .divBtn form{
+.divBtn button, .divBtn a, .divBtn form {
 	margin: 2% auto;
-	width:30%;
+	width: 30%;
 	text-decoration: none;
-	color:black;
-	
+	color: black;
 }
 
-.divBtn .btn:hover, .divBtn a:hover{
-	color:white;
+.divBtn .btn:hover, .divBtn a:hover {
+	color: white;
 }
 
-.card{
+.card {
 	background-color: #fbfbff;
+}
+
+.ulErrors {
+	list-style-type: none;
+	padding-left: 0;
 }

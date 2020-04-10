@@ -17,8 +17,8 @@
 		<c:choose>
 			<c:when test="${!empty listeCodesErreur}">
 				<div class="alert alert-danger" role="alert">
-					<strong>Erreur!</strong>
-					<ul>
+				<strong>Erreur!</strong>
+					<ul class="ulErrors">
 						<c:forEach var="code" items="${listeCodesErreur}">
 							<li>${LecteurMessage.getMessageErreur(code)}</li>
 						</c:forEach>
@@ -81,6 +81,12 @@
 										<label>Ville :</label>
 									</div>
 									<div class="col-sm-6 col-md-8 col-lg-6">${user.ville}</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-6 col-md-4 col-lg-4 labelProfil">
+										<label>Crédit :</label>
+									</div>
+									<div class="col-sm-6 col-md-8 col-lg-6">${user.credit}</div>
 								</div>
 								<div class="row profileButtons">
 									<c:if test="${isCurrentUser}">

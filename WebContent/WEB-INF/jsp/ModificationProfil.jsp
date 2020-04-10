@@ -15,11 +15,11 @@
 		<c:if test="${!empty listeCodesErreur}">
 			<div class="alert alert-danger" role="alert">
 				<strong>Erreur!</strong>
-				<ul>
-					<c:forEach var="code" items="${listeCodesErreur}">
-						<li>${LecteurMessage.getMessageErreur(code)}</li>
-					</c:forEach>
-				</ul>
+					<ul class="ulErrors">
+						<c:forEach var="code" items="${listeCodesErreur}">
+							<li>${LecteurMessage.getMessageErreur(code)}</li>
+						</c:forEach>
+					</ul>
 			</div>
 		</c:if>
 
@@ -28,54 +28,48 @@
 				<h4 class="text-center">Mon profil</h4>
 				<div class="card modifProfil">
 					<article class="card-body">
-						<form
-							action="${pageContext.request.contextPath}/ServletModificationProfil"
-							method="post">
+					
+						<form action="${pageContext.request.contextPath}/ServletModificationProfil" method="post">
+							
 							<div class="form-row">
 								<div class="col form-group">
 									<label>Pseudo </label> <input type="text" class="form-control"
-										placeholder="" name="pseudo" value="${user.pseudo}"
-										minlength="2" maxlength="30">
+										placeholder="" name="pseudo" value="${user.pseudo}"  maxlength="30"/>
 								</div>
-								<!-- form-group end.// -->
 								<div class="col form-group">
 									<label>Nom</label> <input type="text" class="form-control"
-										placeholder=" " name="nom" value="${user.nom}"
-										pattern="[^0-9]{3,30}">
+										placeholder="" name="nom" value="${user.nom}">
 								</div>
-								<!-- form-group end.// -->
 							</div>
-							<!-- form-row end.// -->
+
 							<div class="form-row">
 								<div class="col form-group">
 									<label>Prenom </label> <input type="text" class="form-control"
 										placeholder="" name="prenom" value="${user.prenom}"
 										pattern="[^0-9]{3,30}">
 								</div>
-								<!-- form-group end.// -->
 								<div class="col form-group">
 									<label>Email</label> <input type="email" class="form-control"
 										placeholder="" name="email" required value="${user.email}"
-										maxlength="50">
+										maxlength="50" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
 								</div>
-								<!-- form-group end.// -->
 							</div>
-							<!-- form-row end.// -->
+							
+				
 							<div class="form-row">
 								<div class="col form-group">
 									<label>Téléphone </label> <input type="text"
 										class="form-control" placeholder="" name="tel"
 										value="${user.telephone}"
 										pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}">
-								</div>
-								<!-- form-group end.// -->
+								</div>					
 								<div class="col form-group">
 									<label>Rue</label> <input type="text" class="form-control"
 										placeholder=" " name="rue" value="${user.rue}" maxlength="50">
 								</div>
-								<!-- form-group end.// -->
+						
 							</div>
-							<!-- form-row end.// -->
+					
 
 							<div class="form-row">
 								<div class="col form-group">
@@ -83,15 +77,11 @@
 										class="form-control" placeholder="" name="codePostal"
 										value="${user.codePostal}" max="99999" pattern="[0-9]{5}">
 								</div>
-								<!-- form-group end.// -->
 								<div class="col form-group">
 									<label>Ville</label> <input type="text" class="form-control"
 										placeholder="" name="ville" value="${user.ville}">
-
 								</div>
-								<!-- form-group end.// -->
 							</div>
-							<!-- form-row end.// -->
 
 							<div class="form-row">
 								<div class="col form-group">
@@ -101,7 +91,7 @@
 								</div>
 
 							</div>
-							<!-- form-row end.// -->
+
 							<div class="form-row">
 								<div class="col form-group">
 									<label>Nouveau mot de passe</label> <input class="form-control"
@@ -111,44 +101,15 @@
 									<label>Confirmation</label> <input class="form-control"
 										type="password" name="confirm_pass" maxlength="30" value="">
 								</div>
+								<input type="hidden" name="credit" value="${user.credit}" />
 							</div>
 				</div>
-				<!-- <div class="row divBtn">
-					<button type="submit"
-						class="btn btn-sm btn-outline-secondary " value="valider"
-						name="choix">Enregistrer les modifications</button>
-						
-						
-					</form>
-					<form
-						action="${pageContext.request.contextPath}/ServletSuppressionCompte"
-						method="post">
-						<input type="submit"
-							class="btn btn-sm btn-outline-secondary "
-							value="Supprimer mon compte" />
-					</form>
-					</article>
-
-						<a
-							href="${pageContext.request.contextPath}/ServletAffichageProfil"><button
-								class="btn btn-sm btn-outline-secondary "
-								value="retour" name="choix">Retour</button> </a>
-					
-				</div> -->
-				
 				
 				<div class="row divBtn">
-					<button type="submit"
-						class="btn  btn-outline-secondary" value="valider"
-						name="choix">Enregistrer les modifications</button>
-							<button 
-						class="btn btn-outline-secondary " 
-						name="choix"><a href="${pageContext.request.contextPath}/ServletSuppressionCompte">Supprimer mon compte</a></button>
-							<button 
-						class="btn  btn-outline-secondary" 
-						name="choix"><a href="${pageContext.request.contextPath}/ServletAffichageProfil">Retour</a></button>
-
-								
+					<button type="submit" class="btn btn-sm btn-outline-secondary" value="valider">Enregistrer les modifications</button>
+					<button class="btn btn-sm btn-outline-secondary"><a href="${pageContext.request.contextPath}/ServletSuppressionCompte">Supprimer mon compte</a></button>
+					<button class="btn btn-sm btn-outline-secondary" name="choix"><a href="${pageContext.request.contextPath}/ServletAffichageProfil">Retour</a></button>
+		
 					</form>
 				</div>
 				

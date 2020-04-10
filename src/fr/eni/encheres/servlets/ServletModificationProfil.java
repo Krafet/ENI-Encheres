@@ -1,6 +1,9 @@
 package fr.eni.encheres.servlets;
 
 import java.io.IOException;
+import java.net.HttpRetryException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.utils.Utils;
 
 /**
  * Servlet implementation class ServletModificationProfil
@@ -38,28 +42,14 @@ public class ServletModificationProfil extends HttpServlet {
 			throws ServletException, IOException {
 
 		// Initialisation des erreurs
+		
 		List<Integer> listeCodesErreur = new ArrayList<>();
 		if (listeCodesErreur.size() > 0) {
 			request.setAttribute("listeCodesErreur", listeCodesErreur);
 		}
-
-		UtilisateurManager userManager = UtilisateurManager.getInstance();
-
-		// Récupération infos utilisateur courant
-		HttpSession session = request.getSession(); // Récupération de la session
-		session.setAttribute("id", 2); // JUSTE POUR TEST A ENLEVER
-
-		Utilisateur user = null;
-		int id = (int) session.getAttribute("id");
-
-		try {
-			user = userManager.getUtilisateurById(id);
-
-		} catch (BusinessException e) {
-			request.setAttribute("listeCodesErreur", e.getListeCodesErreur());
-			e.printStackTrace();
-		}
-
+	
+		Utilisateur user = this.getUser(request);
+	
 		request.setAttribute("user", user);
 
 		// Redirection vers le formulaire de modif
@@ -81,7 +71,9 @@ public class ServletModificationProfil extends HttpServlet {
 		}
 
 		
-		// Récupération des infos du formulaire
+		/*******************************
+		 * RECUP INFOS FORM + CONTROLES
+		 ********************************/
 		String pseudo = request.getParameter("pseudo");
 		String nom = request.getParameter("nom");
 		String prenom = request.getParameter("prenom");
@@ -93,25 +85,32 @@ public class ServletModificationProfil extends HttpServlet {
 		String motDePasse = request.getParameter("actual_pass");
 		String newMotDePasse = request.getParameter("new_pass");
 		String confirmation = request.getParameter("confirm_pass");
-
-	
-		//TODO*** GESTION DU MOT DE PASSE CRYPTE
-		// Si pas de changement de mot de passe
+		int credit = Integer.parseInt(request.getParameter("credit"));
+		
+		// Si changement de mot de passe
 		if (!newMotDePasse.equals("") && !confirmation.equals("")) {
 			
 			// Si les mots de passe sont identiques
-			if (newMotDePasse.equals(confirmation)) {
-				motDePasse = newMotDePasse;
-
+			if (newMotDePasse.equals(confirmation)) {	
+				motDePasse = Utils.toMD5(newMotDePasse);
 			}else {
-				//TODO** ajouter erreur pour l'afficher
-				//listeCodesErreur.add(CodesResultatServlets.PASSWORD_NON_IDENTIQUES);
-	
-				//this.getServletContext().getRequestDispatcher("/ServletModificationProfil").forward(request, response); // Redirection vers le formulaire
+			
+				listeCodesErreur.add(CodesResultatServlets.PASSWORD_NON_IDENTIQUES);			
 			}
 		}
 
-		// TODO*** Les contrôles (format..)
+		/*
+		 * TODO : diverses vérifications => A DEPLACER DANS LE UTILISATEUR MANAGER
+		 * 	- Que le pseudo et l'email n'existe pas déjà
+		 * 	- Pseudo sous forme alphanumériqu
+		 * 	- Tous les champs remplis
+		 * 	- Format email, téléphone, code postal avec Regex
+		 * 
+		 */
+		
+		/******************************
+		 * ACTION DE MODIFICATION
+		 ***************************/
 		
 		Utilisateur newInfosUser = new Utilisateur();
 		
@@ -124,15 +123,14 @@ public class ServletModificationProfil extends HttpServlet {
 		newInfosUser.setCodePostal(codePostal);
 		newInfosUser.setVille(ville);
 		newInfosUser.setMotDePasse(motDePasse);
+		newInfosUser.setCredit(credit);
 	
 		
 		//Update utilisateur
 		UtilisateurManager userManager = UtilisateurManager.getInstance();
 		
-		HttpSession session = request.getSession(); //Récupération de la session
-		session.setAttribute( "id", 2 ); // JUSTE POUR TEST A ENLEVER
-		int id = (int) session.getAttribute("id");
-		newInfosUser.setNoUtilisateur(id);
+		Utilisateur userBeforeUpdate = this.getUser(request);
+		newInfosUser.setNoUtilisateur(userBeforeUpdate.getNoUtilisateur());
 		
 		try {
 			userManager.updateUtilisateur(newInfosUser);
@@ -140,8 +138,46 @@ public class ServletModificationProfil extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		// Redirection vers le profil utilisateur
-		this.getServletContext().getRequestDispatcher("/ServletAffichageProfil").forward(request, response);
+
+		//Si les mots de passe ne sont pas identiques on redirige sur la même page avec le message d'erreur
+		if(listeCodesErreur.contains(CodesResultatServlets.PASSWORD_NON_IDENTIQUES)) {
+			
+			request.setAttribute("listeCodesErreur",listeCodesErreur);	
+			request.setAttribute("user", userBeforeUpdate);
+			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/ModificationProfil.jsp").forward(request, response); // Redirection vers le formulaire		
+		
+			//Sinon on redirige vers le profil avec les modifs effectuées
+		}else{
+			this.getServletContext().getRequestDispatcher("/ServletAffichageProfil").forward(request, response);
+		}
+	}
+	
+	/**
+	 * 
+	 * Méthode en charge de récupérer l'utilisateur courant (TODO*** DEPLACER DANS UTILS ?)
+	 * @param request
+	 * @return Utilisateur
+	 */
+	private Utilisateur getUser(HttpServletRequest request) {
+		
+		HttpSession session = request.getSession(); // Récupération de la session
+		UtilisateurManager userManager = UtilisateurManager.getInstance();
+
+		session.setAttribute("id", 2); // JUSTE POUR TEST A ENLEVER (ensuite on aura le bon dans la session donc juste avec getAttribute
+
+		Utilisateur user = null;
+		int id = (int) session.getAttribute("id");
+
+		try {
+			user = userManager.getUtilisateurById(id);
+
+		} catch (BusinessException e) {
+			request.setAttribute("listeCodesErreur", e.getListeCodesErreur());
+			e.printStackTrace();
+		}
+		
+		return user;
+		
 	}
 
 }
