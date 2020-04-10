@@ -105,7 +105,7 @@ public class ArticlesManager {
 
 	/**
 	 * 
-	 * Méthode en charge de supprimer un article via son id
+	 * Méthode en charge de récupérer tous les articles
 	 * 
 	 * @param id
 	 * @return boolean
