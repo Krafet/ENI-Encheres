@@ -38,7 +38,7 @@
 									<div class="col-sm-6 col-md-4 col-lg-4 labelProfil">
 										<label>Pseudo :</label>
 									</div>
-									<div class="col-sm-6 col-md-8 col-lg-6">${user.pseudo}</div>
+									<div class="col-sm-6 col-md-8 col-lg-6">${sessionScope.user.pseudo}</div>
 								</div>
 								<div class="row">
 									<div class="col-sm-6 col-md-4 col-lg-4 labelProfil">

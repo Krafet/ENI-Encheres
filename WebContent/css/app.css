@@ -57,3 +57,16 @@
 	list-style-type: none;
 	padding-left: 0;
 }
+
+.cardConnect {
+	margin-top: 9%;
+}
+
+.divButtonsConnection, .btnCreateAccount {
+	margin-top: 6%;
+	font-size: 13px;
+}
+
+.passForgot{
+	color:grey;
+}
