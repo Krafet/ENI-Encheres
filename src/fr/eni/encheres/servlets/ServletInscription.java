@@ -67,8 +67,8 @@ public class ServletInscription extends HttpServlet {
 			if(validationMotsDePasse(mdp, mdpConfirmation) == false)
 			{
 				listeCodesErreur.add(CodesResultatServlets.PASSWORD_NON_IDENTIQUES);
-				
-				this.getServletContext().getRequestDispatcher("/ServletInscription").forward(request, response); // Redirection vers le formulaire
+				request.setAttribute("listeCodesErreur", listeCodesErreur);
+				this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Inscription.jsp").forward(request, response); // Redirection vers le formulaire
 			}
 			
 			mdp = Utils.toMD5(mdp);

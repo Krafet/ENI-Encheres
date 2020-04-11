@@ -27,21 +27,14 @@ import junit.framework.Assert;
  * @version ENI-Encheres - v1.0
  * @date 7 avr. 2020
  */
-public class CategorieDAOTest {
-
-	
-	
-	
-	
+public class CategorieDAOJdbcImplTest {
 	
 	CategorieDAO categorieDAO = DAOFactory.getCategorieDAO();
-	
 	int id;
 	
 	
 	/**
-	 * Méthode en charge de réinitialiser la base avant le lancement des tests
-	 * 
+	 * Méthode en charge de réinitialiser la base avant le lancement des tests	 *
 	 * @throws java.lang.Exception
 	 */
 	@BeforeEach
@@ -49,7 +42,7 @@ public class CategorieDAOTest {
 
 		// On reset la base de données avant chaque test
 		try {
-			Utils.executeQuery("db/reset_categorie.sql");
+			Utils.executeQuery("db/reset.sql");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -65,7 +58,7 @@ public class CategorieDAOTest {
 
 		// On reset la base de données avant chaque test
 		try {
-			Utils.executeQuery("db/reset_categorie.sql");
+			Utils.executeQuery("db/jeu_essai_application.sql");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

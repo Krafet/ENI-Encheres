@@ -42,7 +42,7 @@ public class CodesResultatDAL {
 	/**
 	 * Echec lors de la récupération d'un utilisateur 
 	 */
-	public static final int SELECTION_UTILISATEUR_ERREUR=10101;
+	public static final int ERREUR_RECUPERATION_UTILISATEUR=10101;
 	
 	/**
 	 * Erreur à la récupération des utilisateurs
@@ -73,6 +73,11 @@ public class CodesResultatDAL {
 	 * L'email est déjà existant
 	 */
 	public static final int EMAIL_EXISTANT=10107;
+	
+	/**
+	 * L'email est déjà existant
+	 */
+	public static final int ERREUR_IDENTIFIANTS=10108;
 	
 	/**
 	 * Echec lors de la récupération d'une catégorie 

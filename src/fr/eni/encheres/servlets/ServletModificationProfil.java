@@ -41,16 +41,11 @@ public class ServletModificationProfil extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// Initialisation des erreurs
-		
+		// Initialisation des erreurs	
 		List<Integer> listeCodesErreur = new ArrayList<>();
 		if (listeCodesErreur.size() > 0) {
 			request.setAttribute("listeCodesErreur", listeCodesErreur);
 		}
-	
-		Utilisateur user = this.getUser(request);
-	
-		request.setAttribute("user", user);
 
 		// Redirection vers le formulaire de modif
 		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/ModificationProfil.jsp").forward(request, response);
@@ -99,14 +94,6 @@ public class ServletModificationProfil extends HttpServlet {
 			}
 		}
 
-		/*
-		 * TODO : diverses vérifications => A DEPLACER DANS LE UTILISATEUR MANAGER
-		 * 	- Que le pseudo et l'email n'existe pas déjà
-		 * 	- Pseudo sous forme alphanumériqu
-		 * 	- Tous les champs remplis
-		 * 	- Format email, téléphone, code postal avec Regex
-		 * 
-		 */
 		
 		/******************************
 		 * ACTION DE MODIFICATION
@@ -129,8 +116,8 @@ public class ServletModificationProfil extends HttpServlet {
 		//Update utilisateur
 		UtilisateurManager userManager = UtilisateurManager.getInstance();
 		
-		Utilisateur userBeforeUpdate = this.getUser(request);
-		newInfosUser.setNoUtilisateur(userBeforeUpdate.getNoUtilisateur());
+		Utilisateur currentUser = (Utilisateur) request.getSession().getAttribute("user");
+		newInfosUser.setNoUtilisateur(currentUser.getNoUtilisateur());
 		
 		try {
 			userManager.updateUtilisateur(newInfosUser);
@@ -143,41 +130,14 @@ public class ServletModificationProfil extends HttpServlet {
 		if(listeCodesErreur.contains(CodesResultatServlets.PASSWORD_NON_IDENTIQUES)) {
 			
 			request.setAttribute("listeCodesErreur",listeCodesErreur);	
-			request.setAttribute("user", userBeforeUpdate);
+			request.setAttribute("user", currentUser);
 			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/ModificationProfil.jsp").forward(request, response); // Redirection vers le formulaire		
 		
 			//Sinon on redirige vers le profil avec les modifs effectuées
 		}else{
+			request.getSession().setAttribute("user", newInfosUser); //On met à jour la session
 			this.getServletContext().getRequestDispatcher("/ServletAffichageProfil").forward(request, response);
 		}
-	}
-	
-	/**
-	 * 
-	 * Méthode en charge de récupérer l'utilisateur courant (TODO*** DEPLACER DANS UTILS ?)
-	 * @param request
-	 * @return Utilisateur
-	 */
-	private Utilisateur getUser(HttpServletRequest request) {
-		
-		HttpSession session = request.getSession(); // Récupération de la session
-		UtilisateurManager userManager = UtilisateurManager.getInstance();
-
-		session.setAttribute("id", 2); // JUSTE POUR TEST A ENLEVER (ensuite on aura le bon dans la session donc juste avec getAttribute
-
-		Utilisateur user = null;
-		int id = (int) session.getAttribute("id");
-
-		try {
-			user = userManager.getUtilisateurById(id);
-
-		} catch (BusinessException e) {
-			request.setAttribute("listeCodesErreur", e.getListeCodesErreur());
-			e.printStackTrace();
-		}
-		
-		return user;
-		
 	}
 
 }

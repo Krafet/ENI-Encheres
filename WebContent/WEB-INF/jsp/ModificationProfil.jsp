@@ -34,23 +34,22 @@
 							<div class="form-row">
 								<div class="col form-group">
 									<label>Pseudo </label> <input type="text" class="form-control"
-										placeholder="" name="pseudo" value="${user.pseudo}"  maxlength="30"/>
+										placeholder="" name="pseudo" value="${sessionScope.user.pseudo}"  maxlength="30"/>
 								</div>
 								<div class="col form-group">
 									<label>Nom</label> <input type="text" class="form-control"
-										placeholder="" name="nom" value="${user.nom}">
+										placeholder="" name="nom" value="${sessionScope.user.nom}">
 								</div>
 							</div>
 
 							<div class="form-row">
 								<div class="col form-group">
 									<label>Prenom </label> <input type="text" class="form-control"
-										placeholder="" name="prenom" value="${user.prenom}"
-										pattern="[^0-9]{3,30}">
+										placeholder="" name="prenom" value="${sessionScope.user.prenom}">
 								</div>
 								<div class="col form-group">
 									<label>Email</label> <input type="email" class="form-control"
-										placeholder="" name="email" required value="${user.email}"
+										placeholder="" name="email" required value="${sessionScope.user.email}"
 										maxlength="50" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
 								</div>
 							</div>
@@ -60,12 +59,12 @@
 								<div class="col form-group">
 									<label>Téléphone </label> <input type="text"
 										class="form-control" placeholder="" name="tel"
-										value="${user.telephone}"
+										value="${sessionScope.user.telephone}"
 										pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}">
 								</div>					
 								<div class="col form-group">
 									<label>Rue</label> <input type="text" class="form-control"
-										placeholder=" " name="rue" value="${user.rue}" maxlength="50">
+										placeholder=" " name="rue" value="${sessionScope.user.rue}" maxlength="50">
 								</div>
 						
 							</div>
@@ -79,7 +78,7 @@
 								</div>
 								<div class="col form-group">
 									<label>Ville</label> <input type="text" class="form-control"
-										placeholder="" name="ville" value="${user.ville}">
+										placeholder="" name="ville" value="${sessionScope.user.ville}">
 								</div>
 							</div>
 
@@ -87,7 +86,7 @@
 								<div class="col form-group">
 									<label>Mot de passe actuel</label> <input class="form-control"
 										type="password" name="actual_pass" maxlength="30"
-										value="${user.motDePasse}">
+										value="${sessionScope.user.motDePasse}">
 								</div>
 
 							</div>

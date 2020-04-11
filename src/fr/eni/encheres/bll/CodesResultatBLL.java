@@ -12,15 +12,15 @@ public class CodesResultatBLL {
 	/**
 	 * Le pseudo n'est pas en alphanumériques.
 	 */
-	public static final int PSEUDO_NON_ALPHANUMERIQUES=20000;
+	public static final int PSEUDO_NON_ALPHANUMERIQUE=20000;
 	
 	/**
 	 * Le format de l'email est incorrecte. 
 	 */
-	public static final int EMAIL_FORMAT_INCORRECTE=20001;
+	public static final int EMAIL_FORMAT_INCORRECT=20001;
 	
 	/**
 	 * Echec lors de la récupération d'un article 
 	 */
-	public static final int UN_CHAMP_NON_SAISIE=20002;
+	public static final int UN_CHAMP_NON_SAISI=20002;
 }

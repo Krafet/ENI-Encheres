@@ -1,11 +1,7 @@
 package fr.eni.encheres.bo;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.Locale;
+import java.util.Objects;
 
 /**
  * 
@@ -18,7 +14,7 @@ public class Enchere {
 	private int montantEnchere;
 	private Date dateEnchere;
 	private Utilisateur unUtilisateur;
-	private ArticleVendu unArticleVendu; // commentaire pour modifier la class 4 fois
+	private ArticleVendu unArticleVendu; 
 	
 	/**
 	 * 
@@ -110,34 +106,42 @@ public class Enchere {
 		this.unArticleVendu = unArticleVendu;
 	}
 
-	@Override
+	
+
 	/**
-	 * 
 	 * {@inheritDoc}
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
-		
-		String dateString = fr.eni.encheres.utils.Utils.getDateFormate(dateEnchere, "dd/MM/yyyy");
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append("Enchere  : ");
-		sb.append("\n");
-		sb.append("montant enchere = ");
-		sb.append(montantEnchere);
-		sb.append("; date enchere = ");
-		sb.append(dateString);
-		sb.append("; utilisateur = ");
-//		sb.append(unUtilisateur.getNom());
-		sb.append(" ");
-	//	sb.append(unUtilisateur.getPrenom());
-		sb.append("; article vendu = N�");
-		sb.append(unArticleVendu.getNoArticle());
-		sb.append(unArticleVendu.getNomArticle());
-		
-		return sb.toString();
+		StringBuilder builder = new StringBuilder();
+		builder.append("Enchere [montantEnchere=");
+		builder.append(montantEnchere);
+		builder.append(", dateEnchere=");
+		builder.append(dateEnchere);
+		builder.append(", unUtilisateur=");
+		builder.append(unUtilisateur);
+		builder.append(", unArticleVendu=");
+		builder.append(unArticleVendu);
+		builder.append("]");
+		return builder.toString();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+		  if (this == o) return true;
+	        if (o == null || getClass() != o.getClass()) return false;
+	        Enchere that = (Enchere) o;
+	        return montantEnchere == that.montantEnchere &&
+	        	    Objects.equals(dateEnchere, that.dateEnchere) &&
+	                Objects.equals(unUtilisateur.getNoUtilisateur(), that.unUtilisateur.getNoUtilisateur()) &&
+	                Objects.equals(unArticleVendu, that.unArticleVendu);
+	}
+	
 	
 	
 }

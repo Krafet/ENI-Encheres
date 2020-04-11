@@ -8,8 +8,8 @@ DBCC CHECKIDENT (ARTICLES_VENDUS, RESEED, 0);
 DBCC CHECKIDENT (CATEGORIES, RESEED, 0);
 DBCC CHECKIDENT (UTILISATEURS, RESEED, 0);
 
-INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) VALUES('Utilisateur1', 'DUPONT', 'Jean','j.dupont@gmail.com', '0612547890', '1 rue test', '35000', 'Rennes', '63a9f0ea7bb98050', '500', 1 );
-INSERT INTO UTILISATEURS  (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) VALUES('Utilisateur2', 'DUPAUL', 'Michel','m.dupaul@gmail.com', '0682544790', '2 rue test', '35000', 'Rennes', '63a9f0ea7bb98050', '400', 0 );
+INSERT INTO UTILISATEURS (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) VALUES('Utilisateur1', 'DUPONT', 'Jean','j.dupont@gmail.com', '0612547890', '1 rue test', '35000', 'Rennes', '63a9f0ea7bb98050796b649e85481845', '500', 1 );
+INSERT INTO UTILISATEURS  (pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur) VALUES('Utilisateur2', 'DUPAUL', 'Michel','m.dupaul@gmail.com', '0682544790', '2 rue test', '35000', 'Rennes', '63a9f0ea7bb98050796b649e85481845', '400', 0 );
 
 INSERT INTO CATEGORIES (libelle) VALUES('Informatique');
 INSERT INTO CATEGORIES (libelle) VALUES('Média');

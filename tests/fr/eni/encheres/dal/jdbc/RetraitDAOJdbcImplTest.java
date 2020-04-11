@@ -28,12 +28,12 @@ import fr.eni.encheres.dal.UtilisateurDAO;
 import fr.eni.encheres.utils.Utils;
 
 /**
- * Classe en charge de
+ * Classe en charge de tester la dal touchant au retrait
  * @author Jeremy Albert
  * @version ENI-Encheres - v1.0
  * @date 7 avr. 2020
  */
-class RetraitDAOTest {
+class RetraitDAOJdbcImplTest {
 	
 	ArticleVenduDAO articleVenduDAO = DAOFactory.getArticleVenduDAO();
 	CategorieDAO categorieDAO = DAOFactory.getCategorieDAO();
@@ -54,6 +54,7 @@ class RetraitDAOTest {
 		// On reset la base de données avant chaque test
 		try {
 			Utils.executeQuery("db/reset.sql");
+			Utils.executeQuery("db/jeu_essai_test_categories.sql");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -69,7 +70,7 @@ class RetraitDAOTest {
 
 		// On reset la base de données avant chaque test
 		try {
-			Utils.executeQuery("db/reset.sql");
+			Utils.executeQuery("db/jeu_essai_application.sql");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -185,6 +186,12 @@ class RetraitDAOTest {
 	}
 	
 	
+	/**
+	 * 
+	 * Méthode en charge de construire un retrait pour nos tests
+	 * @return Retrait
+	 * @throws BusinessException
+	 */
 	public Retrait retraitBuilder() throws BusinessException
 	{
 		Retrait retrait = new Retrait();		

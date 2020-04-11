@@ -25,7 +25,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 
 	private static String RQT_SELECTALL = "SELECT * FROM UTILISATEURS;";
 	private static String RQT_SELECTBYID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?;";
-	private static String RQT_SELECTBYPSEUDOPASSWORD = "SELECT * FROM UTILISATEURS WHERE pseudo = ? AND mot_de_passe = ?;";
+	private static String RQT_SELECTBYLOGINPASSWORD = "SELECT * FROM UTILISATEURS WHERE (pseudo = ? OR email=?) AND mot_de_passe = ?;";
 	private static String RQT_INSERT = "INSERT INTO UTILISATEURS VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	private static String RQT_UPDATE = "UPDATE UTILISATEURS SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?, ville = ?, mot_de_passe = ?, credit = ?, administrateur = ? WHERE no_utilisateur = ?;";
 	private static String RQT_DELETE = "DELETE FROM UTILISATEURS WHERE no_utilisateur = ?";
@@ -85,7 +85,7 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 			e.printStackTrace();
 			
 			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatDAL.SELECTION_UTILISATEUR_ERREUR);
+			businessException.ajouterErreur(CodesResultatDAL.ERREUR_RECUPERATION_UTILISATEUR);
 
 			throw businessException;
 						
@@ -105,15 +105,16 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 	 * @see fr.eni.encheres.dal.UtilisateurDAO#getUtilisateurByPseudoPassword(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public Utilisateur getUtilisateurByPseudoPassword(String pseudo, String motDePasse) throws BusinessException 
+	public Utilisateur getUtilisateurByLoginPassword(String login, String motDePasse) throws BusinessException 
 	{
 		Utilisateur unUtilisateur = new Utilisateur();
 		
 		try (Connection cnx = Utils.getConnection()) 
 		{
-			PreparedStatement stm = cnx.prepareStatement(RQT_SELECTBYPSEUDOPASSWORD);
-            stm.setString(1, pseudo);
-            stm.setString(2, motDePasse);
+			PreparedStatement stm = cnx.prepareStatement(RQT_SELECTBYLOGINPASSWORD);
+            stm.setString(1, login);
+            stm.setString(2, login);
+            stm.setString(3, motDePasse);
             ResultSet rs = stm.executeQuery();
 
             while(rs.next())
@@ -126,10 +127,19 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 			e.printStackTrace();
 			
 			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatDAL.SELECTION_UTILISATEUR_ERREUR);
+			businessException.ajouterErreur(CodesResultatDAL.ERREUR_RECUPERATION_UTILISATEUR);
 
 			throw businessException;
 		}
+		
+		//Si aucun utilisateur n'a été trouvé
+		if(unUtilisateur.getNoUtilisateur()==0)
+		{
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.ERREUR_IDENTIFIANTS);
+			throw businessException;
+		}
+		
 		
 		return unUtilisateur;
 	}

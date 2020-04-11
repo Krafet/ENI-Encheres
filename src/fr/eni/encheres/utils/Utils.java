@@ -91,6 +91,12 @@ public class Utils {
 		return cnx;
 	}
 	
+	/**
+	 * 
+	 * Méthode en charge de crypter le mot de passe
+	 * @param motDePasse
+	 * @return String
+	 */
 	public static String toMD5(String motDePasse)
 	{
 		try {

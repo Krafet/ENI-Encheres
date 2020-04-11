@@ -9,13 +9,9 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterAll;
-
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
@@ -43,21 +39,20 @@ public class ArticleVenduDAOJdbcImplTest {
 
 	/**
 	 * Méthode en charge de réinitialiser la base avant le lancement des tests
-	 * 
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
 
-		
-		// On reset la base de données avant chaque test
+		//Script qui réinitialise base et insère un jeu de test
 		try {
 			Utils.executeQuery("db/reset.sql");
+			Utils.executeQuery("db/jeu_essai_test_categories.sql");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 
 	 * Méthode en charge de réinitialiser la base après le lancement de tous les tests de la classe
@@ -68,23 +63,7 @@ public class ArticleVenduDAOJdbcImplTest {
 
 		// On reset pour obtenir de nouveau le jeu d'essai de base de notre application
 		try {
-			Utils.executeQuery("db/jeu_essai.sql");
-			//Utils.executeQuery("db/reset.sql");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Méthode en charge de réinitialiser la base de données après chaque test
-	 * 
-	 * @throws java.lang.Exception
-	 */
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
-		// On reset la base de données avant chaque test
-		try {
-			Utils.executeQuery("db/reset.sql");
+			Utils.executeQuery("db/jeu_essai_application.sql");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

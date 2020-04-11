@@ -26,7 +26,7 @@ public interface UtilisateurDAO {
 	 * @return Utilisateur
 	 * @throws BusinessException
 	 */
-	Utilisateur getUtilisateurByPseudoPassword(String pseudo, String MotDePasse) throws BusinessException;
+	Utilisateur getUtilisateurByLoginPassword(String login, String MotDePasse) throws BusinessException;
 
 	/**
 	 * Méthode en charge d'insérer un utilisateur en base

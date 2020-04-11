@@ -49,40 +49,24 @@ public class ServletAffichageProfil extends HttpServlet {
 
 		
 		UtilisateurManager userManager = UtilisateurManager.getInstance(); 
-		
-		int id = 0;
-		Utilisateur user = null;
+
 		boolean isCurrentUser = true; //Permet de savoir si on affiche le bouton de modification ou pas
 
-		//Si pas de paramètre dans l'url on récupère l'utilisateur courant grâce à la session
-		if(request.getParameter("profil") == null) {
+		//Si paramètre dans l'url on affiche l'utilisateur avec l'id correspondant
+		if(request.getParameter("profil") != null) {
 			
-				HttpSession session = request.getSession(); //Récupération de la session
-			
-				//OPTION 1 : on récupère tout depuis la session (mais si pas array associatif demande de tout mettre en attribut un par un
-				//Ex : request.setAttribute("nom", session.getAttribute("nom"));
-			
-				//OPTION 2 : je récupère juste l'id et vais chercher l'user en base
-			
-				session.setAttribute( "id", 2 ); // JUSTE POUR TEST A ENLEVER
-				id = (int) session.getAttribute("id");
-			
-				
-			//Sinon on récupère le profil de l'utilisateur indiqué en paramètre	
-		}else {		
-			id = Integer.parseInt((request.getParameter("profil"))); //Récupération de l'id de l'utilisateur	
+			int id = Integer.parseInt((request.getParameter("profil"))); //Récupération de l'id de l'utilisateur	
 			isCurrentUser = false;
+			
+			try {	
+				Utilisateur user =  userManager.getUtilisateurById(id); //Récupération des infos utilisateurs
+				request.setAttribute("otherUser", user);
+			} catch (BusinessException e) {
+				request.setAttribute("listeCodesErreur",e.getListeCodesErreur());
+				e.printStackTrace();
+			}
+			
 		}
-		
-		try {	
-			user =  userManager.getUtilisateurById(id); //Récupération des infos utilisateurs
-		} catch (BusinessException e) {
-			request.setAttribute("listeCodesErreur",e.getListeCodesErreur());
-			e.printStackTrace();
-		}
-		
-		//On passe l'user en param
-		request.setAttribute("user", user);
 		request.setAttribute("isCurrentUser",isCurrentUser);
 		
 		//Redirection vers la page de profil

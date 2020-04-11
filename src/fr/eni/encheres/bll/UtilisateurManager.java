@@ -15,7 +15,7 @@ import fr.eni.encheres.dal.DAOFactory;
 import fr.eni.encheres.dal.UtilisateurDAO;
 
 /**
- * Classe en charge de
+ * BLL UtilisateurManager
  * @author Oguzhan
  * @version ENI-Encheres - v1.0
  * @date 9 avr. 2020
@@ -46,6 +46,12 @@ public class UtilisateurManager
 		return instance;
 	}
 	
+	/**
+	 * 
+	 * Méthode en charge de récupérer tous les utilisateurs
+	 * @return List<Utilisateur>
+	 * @throws BusinessException
+	 */
 	public List<Utilisateur> getAllUtilisateurs() throws BusinessException
 	{
 		List<Utilisateur> lesUtilisateurs = new ArrayList<Utilisateur>();
@@ -66,6 +72,13 @@ public class UtilisateurManager
 		return lesUtilisateurs;		
 	}
 	
+	/**
+	 * 
+	 * Méthode en charge de récupérer un utilisateur via son id
+	 * @param id
+	 * @return Utilisateur
+	 * @throws BusinessException
+	 */
 	public Utilisateur getUtilisateurById(int id) throws BusinessException
 	{
 		Utilisateur unUtilisateur =  utilisateurDAO.getUtilisateurById(id);
@@ -87,25 +100,26 @@ public class UtilisateurManager
 		return unUtilisateur;	
 	}
 	
-	public Utilisateur getUtilisateurByPseudoPassword(String pseudo, String MotDePasse) throws BusinessException
+	/**
+	 * 
+	 * Méthode en charge de récupérer un utilisateur via un login (pseudo/email) et mdp
+	 * @param login
+	 * @param MotDePasse
+	 * @return Utilisateur
+	 * @throws BusinessException
+	 */
+	public Utilisateur getUtilisateurByPseudoPassword(String login, String MotDePasse) throws BusinessException
 	{
-		Utilisateur unUtilisateur = new Utilisateur();
-		try
-		{
-			unUtilisateur = utilisateurDAO.getUtilisateurByPseudoPassword(pseudo, MotDePasse);
-		}
-		catch(Exception e) 
-		{
-			e.printStackTrace();
-			
-			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatDAL.ERREUR_RECUPERATION_UTILISATEURS);
-
-			throw businessException;	
-		}
-		return unUtilisateur;
+		return utilisateurDAO.getUtilisateurByLoginPassword(login, MotDePasse);
 	}
 	
+	/**
+	 * 
+	 * Méthode en charge d'ajouter un utilisateur
+	 * @param unUtilisateur
+	 * @return Utilisateur
+	 * @throws BusinessException
+	 */
 	public Utilisateur addUtilisateur(Utilisateur unUtilisateur) throws BusinessException
 	{		
 		if(unUtilisateur.getPseudo().trim().equals("") 
@@ -118,7 +132,7 @@ public class UtilisateurManager
 				|| unUtilisateur.getMotDePasse().trim().equals(""))
 		{
 			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatBLL.UN_CHAMP_NON_SAISIE);
+			businessException.ajouterErreur(CodesResultatBLL.UN_CHAMP_NON_SAISI);
 
 			throw businessException;
 		}
@@ -129,7 +143,7 @@ public class UtilisateurManager
 		if(!resultatPseudo)
 		{
 			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatBLL.PSEUDO_NON_ALPHANUMERIQUES);
+			businessException.ajouterErreur(CodesResultatBLL.PSEUDO_NON_ALPHANUMERIQUE);
 
 			throw businessException;	
 		}
@@ -140,7 +154,7 @@ public class UtilisateurManager
 		if(!resultatEmail)
 		{
 			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatBLL.EMAIL_FORMAT_INCORRECTE);
+			businessException.ajouterErreur(CodesResultatBLL.EMAIL_FORMAT_INCORRECT);
 
 			throw businessException;	
 		}
@@ -150,6 +164,13 @@ public class UtilisateurManager
 		return unUtilisateur;
 	}
 	
+	/**
+	 * 
+	 * Méthode en charge de supprimer un utilisateur
+	 * @param unUtilisateur
+	 * @return boolean
+	 * @throws BusinessException
+	 */
 	public boolean deleteUtilisateur(Utilisateur unUtilisateur) throws BusinessException
 	{
 		try
@@ -168,6 +189,13 @@ public class UtilisateurManager
 		}
 	}
 	
+	/**
+	 * 
+	 * Méthode en charge de modifier un utilisateur
+	 * @param unUtilisateur
+	 * @return boolean
+	 * @throws BusinessException
+	 */
 	public boolean updateUtilisateur(Utilisateur unUtilisateur) throws BusinessException
 	{
 		if(unUtilisateur.getPseudo().trim().equals("") 

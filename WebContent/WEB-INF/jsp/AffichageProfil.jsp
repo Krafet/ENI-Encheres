@@ -38,55 +38,55 @@
 									<div class="col-sm-6 col-md-4 col-lg-4 labelProfil">
 										<label>Pseudo :</label>
 									</div>
-									<div class="col-sm-6 col-md-8 col-lg-6">${sessionScope.user.pseudo}</div>
+									<div class="col-sm-6 col-md-8 col-lg-6">${isCurrentUser ? sessionScope.user.pseudo : otherUser.pseudo}</div>
 								</div>
 								<div class="row">
 									<div class="col-sm-6 col-md-4 col-lg-4 labelProfil">
 										<label>Nom :</label>
 									</div>
-									<div class="col-sm-6 col-md-8 col-lg-6">${user.nom}</div>
+									<div class="col-sm-6 col-md-8 col-lg-6">${isCurrentUser ? sessionScope.user.nom : otherUser.nom}</div>
 								</div>
 								<div class="row">
 									<div class="col-sm-6 col-md-4 col-lg-4 labelProfil">
 										<label>Prénom :</label>
 									</div>
-									<div class="col-sm-6 col-md-8 col-lg-6">${user.prenom}</div>
+									<div class="col-sm-6 col-md-8 col-lg-6">${isCurrentUser ? sessionScope.user.prenom : otherUser.prenom}</div>
 								</div>
 								<div class="row">
 									<div class="col-sm-6 col-md-4 col-lg-4 labelProfil">
 										<label>Email :</label>
 									</div>
-									<div class="col-sm-6 col-md-8 col-lg-6">${user.email}</div>
+									<div class="col-sm-6 col-md-8 col-lg-6">${isCurrentUser ? sessionScope.user.email : otherUser.email}</div>
 								</div>
 								<div class="row">
 									<div class="col-sm-6 col-md-4 col-lg-4 labelProfil">
 										<label>Téléphone :</label>
 									</div>
-									<div class="col-sm-6 col-md-8 col-lg-6">${user.telephone}</div>
+									<div class="col-sm-6 col-md-8 col-lg-6">${isCurrentUser ? sessionScope.user.telephone : otherUser.telephone}</div>
 								</div>
 								<div class="row">
 									<div class="col-sm-6 col-md-4 col-lg-4 labelProfil">
 										<label>Rue :</label>
 									</div>
-									<div class="col-sm-6 col-md-8 col-lg-6">${user.rue}</div>
+									<div class="col-sm-6 col-md-8 col-lg-6">${isCurrentUser ? sessionScope.user.rue : otherUser.rue}</div>
 								</div>
 								<div class="row">
 									<div class="col-sm-6 col-md-4 col-lg-4 labelProfil">
 										<label>Code Postal :</label>
 									</div>
-									<div class="col-sm-6 col-md-8 col-lg-6">${user.codePostal}</div>
+									<div class="col-sm-6 col-md-8 col-lg-6">${isCurrentUser ? sessionScope.user.codePostal : otherUser.codePostal}</div>
 								</div>
 								<div class="row">
 									<div class="col-sm-6 col-md-4 col-lg-4 labelProfil">
 										<label>Ville :</label>
 									</div>
-									<div class="col-sm-6 col-md-8 col-lg-6">${user.ville}</div>
+									<div class="col-sm-6 col-md-8 col-lg-6">${isCurrentUser ? sessionScope.user.ville : otherUser.ville}</div>
 								</div>
 								<div class="row">
 									<div class="col-sm-6 col-md-4 col-lg-4 labelProfil">
 										<label>Crédit :</label>
 									</div>
-									<div class="col-sm-6 col-md-8 col-lg-6">${user.credit}</div>
+									<div class="col-sm-6 col-md-8 col-lg-6">${isCurrentUser ? sessionScope.user.credit : otherUser.credit}</div>
 								</div>
 								<div class="row profileButtons">
 									<c:if test="${isCurrentUser}">
@@ -100,9 +100,8 @@
 										<div class="col-sm-2 col-md-2 col-lg-2"></div>
 									</c:if>
 									<div class="col-sm-6 col-md-6 col-lg-4">
-										<a class="btn btn-lg"
-											href="${pageContext.request.contextPath}/ServletAccueil"><button
-												type="button" class="btn btn-outline-secondary">Retour</button></a>
+										 <!-- TODO**** A CHANGER POUR DIRIGER VERS L'ACCUEIL --><a class="btn btn-lg"
+											href="${pageContext.request.contextPath}/ServletConnexion"><button type="button" class="btn btn-outline-secondary">Retour</button></a>
 									</div>
 								</div>
 							</div>

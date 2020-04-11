@@ -5,9 +5,12 @@ package fr.eni.encheres.dal.jdbc;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import fr.eni.encheres.BusinessException;
@@ -15,9 +18,10 @@ import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.DAOFactory;
 import fr.eni.encheres.dal.UtilisateurDAO;
+import fr.eni.encheres.utils.Utils;
 
 /**
- * Classe en charge de
+ * Classe en charge de tester les méthodes de la dal concernant les utilisateurs
  * @author Oguzhan
  * @version ENI-Encheres - v1.0
  * @date 7 avr. 2020
@@ -28,6 +32,37 @@ public class UtilisateurDAOJdbcImplTest {
 	
 	List<ArticleVendu> lesArticlesVendus = null;
 	
+	
+	/**
+	 * Méthode en charge de réinitialiser la base avant le lancement des tests
+	 * @throws java.lang.Exception
+	 */
+	@Before
+	public void setUp() throws Exception {
+
+		//Script qui réinitialise base et insère un jeu de test
+		try {
+			Utils.executeQuery("db/reset.sql");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 
+	 * Méthode en charge de réinitialiser la base après le lancement de tous les tests de la classe
+	 * @throws Exception
+	 */
+	@After
+	public void tearDown() throws Exception {
+
+		// On reset pour obtenir de nouveau le jeu d'essai de base de notre application
+		try {
+			Utils.executeQuery("db/jeu_essai_application.sql");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * Test method for {@link fr.eni.encheres.dal.jdbc.UtilisateurDAOJdbcImpl#getAllUtilisateur()}.
 	 * @throws BusinessException 
@@ -84,7 +119,7 @@ public class UtilisateurDAOJdbcImplTest {
 		//On l'insère
 		Utilisateur recuperationInsertion = utilisateurDAO.insert(unUtilisateurAttendu);
 		//On le récupère
-		Utilisateur unUtilisateurRecupere = utilisateurDAO.getUtilisateurByPseudoPassword("Ogu", "root");
+		Utilisateur unUtilisateurRecupere = utilisateurDAO.getUtilisateurByLoginPassword("Ogu", "root");
 
 		assertEquals(unUtilisateurAttendu, unUtilisateurRecupere);
 		
