@@ -102,6 +102,19 @@ public class ArticlesManager {
 
 		return this.articleVenduDAO.delete(id);
 	}
+	
+	/**
+	 * 
+	 * Méthode en charge de supprimer un article via son id
+	 * 
+	 * @param id
+	 * @return boolean
+	 * @throws BusinessException
+	 */
+	public boolean removeArticleByUser(int userId) throws BusinessException {
+
+		return this.articleVenduDAO.deleteByUser(userId);
+	}
 
 	/**
 	 * 

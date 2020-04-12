@@ -42,12 +42,7 @@ public class ServletAffichageProfil extends HttpServlet {
 		
 		//Initialisation des erreurs
 		List<Integer> listeCodesErreur=new ArrayList<>();
-		if(listeCodesErreur.size()>0)
-		{
-			request.setAttribute("listeCodesErreur",listeCodesErreur);
-		}
 
-		
 		UtilisateurManager userManager = UtilisateurManager.getInstance(); 
 
 		boolean isCurrentUser = true; //Permet de savoir si on affiche le bouton de modification ou pas

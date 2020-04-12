@@ -34,6 +34,7 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 	private static final String INSERT = "INSERT INTO ARTICLES_VENDUS (nom_article,description, date_debut_encheres,date_fin_encheres,"
 			+ "prix_initial,prix_vente,no_utilisateur,no_categorie) " + "values (?,?,?,?,?,?,?,?)";
 	private static final String DELETE = "DELETE FROM ARTICLES_VENDUS where no_article = ?";
+	private static final String DELETE_BY_USER = "DELETE FROM ARTICLES_VENDUS where no_utilisateur = ?";
 	private static final String UPDATE = "UPDATE ARTICLES_VENDUS SET nom_article=?,description=?, date_debut_encheres=?,date_fin_encheres=?,"
 			+ "prix_initial=?,prix_vente=?,no_utilisateur=?,no_categorie=? WHERE no_article=?";
 	private static final String SELECT = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?";
@@ -98,6 +99,31 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 
 			PreparedStatement pstmt = cnx.prepareStatement(DELETE);
 			pstmt.setInt(1, id);
+			nbLignesModifiees = pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.SUPPRESSION_ARTICLE_ERREUR);
+			throw businessException;
+		}
+		return nbLignesModifiees > 0;
+
+	}
+	@Override
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.DAO#delete(int)
+	 */
+	public boolean deleteByUser(int userId) throws BusinessException {
+
+		int nbLignesModifiees = 0;
+
+		try (Connection cnx = Utils.getConnection()) {
+
+			PreparedStatement pstmt = cnx.prepareStatement(DELETE_BY_USER);
+			pstmt.setInt(1, userId);
 			nbLignesModifiees = pstmt.executeUpdate();
 
 		} catch (Exception e) {

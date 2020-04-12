@@ -33,7 +33,7 @@ public class Utils {
 	 * @param format
 	 * @return
 	 */
-	//Date vient de utuls.date, le format peut se traduire comme : dd/MM/yyyy
+	//Date vient de utils.date, le format peut se traduire comme : dd/MM/yyyy
 	public static String getDateFormate(Date date, String format) {
 		SimpleDateFormat formatter = new SimpleDateFormat(format);  
 	    String strDate = formatter.format(date); 

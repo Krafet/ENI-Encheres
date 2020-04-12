@@ -10,8 +10,12 @@ import java.util.regex.Pattern;
 
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.dal.ArticleVenduDAO;
+import fr.eni.encheres.dal.CategorieDAO;
 import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.DAOFactory;
+import fr.eni.encheres.dal.EnchereDAO;
+import fr.eni.encheres.dal.RetraitDAO;
 import fr.eni.encheres.dal.UtilisateurDAO;
 
 /**
@@ -24,6 +28,10 @@ public class UtilisateurManager
 {
 	private static UtilisateurManager instance;
 	private UtilisateurDAO utilisateurDAO;
+	private RetraitDAO retraitDAO;
+	private EnchereDAO enchereDAO;
+	private CategorieDAO categorieDAO;
+	private ArticleVenduDAO articleDAO;
 	
 	/**
 	 * Constructeur
@@ -31,6 +39,11 @@ public class UtilisateurManager
 	private UtilisateurManager()
 	{
 		utilisateurDAO = DAOFactory.getUtilisateurDAO();
+		enchereDAO = DAOFactory.getEnchereDAO();
+		categorieDAO = DAOFactory.getCategorieDAO();
+		retraitDAO = DAOFactory.getRetraitDAO();
+		articleDAO = DAOFactory.getArticleVenduDAO();
+		
 	}
 	
 	/**
@@ -120,7 +133,7 @@ public class UtilisateurManager
 	 * @return Utilisateur
 	 * @throws BusinessException
 	 */
-	public Utilisateur addUtilisateur(Utilisateur unUtilisateur) throws BusinessException
+	/*public Utilisateur addUtilisateur(Utilisateur unUtilisateur) throws BusinessException
 	{		
 		if(unUtilisateur.getPseudo().trim().equals("") 
 				|| unUtilisateur.getPrenom().trim().equals("") 
@@ -162,6 +175,21 @@ public class UtilisateurManager
 		utilisateurDAO.insert(unUtilisateur);		
 		
 		return unUtilisateur;
+	}*/
+	
+	/**
+	 * 
+	 * Méthode en charge d'ajouter un utilisateur
+	 * @param unUtilisateur
+	 * @return Utilisateur
+	 * @throws BusinessException
+	 */
+	public Utilisateur addUtilisateur(Utilisateur unUtilisateur) throws BusinessException
+	{		
+		//On contrôle les données du formulaire puis on tente la modification
+		this.checkUserFormInfos(unUtilisateur, new BusinessException());
+		return utilisateurDAO.insert(unUtilisateur);	
+
 	}
 	
 	/**
@@ -173,7 +201,28 @@ public class UtilisateurManager
 	 */
 	public boolean deleteUtilisateur(Utilisateur unUtilisateur) throws BusinessException
 	{
-		try
+		
+		//TODO***  Besoin de supprimer toutes les tables liées avant + mettre alerte de confirmation pour prévenir l'utilisateur
+		/*
+		 * DELETE ENCHERES;
+			DELETE RETRAITS;
+			DELETE ARTICLES_VENDUS;
+			DELETE CATEGORIES;
+			DELETE UTILISATEURS;
+		 */
+
+		//Suppression des objets liés à l'utilisateur
+		 enchereDAO.deleteByUser(unUtilisateur.getNoUtilisateur());
+		 articleDAO.deleteByUser(unUtilisateur.getNoUtilisateur());
+		 
+		 //TODO*** Suppression articles faire foonction suppresion tous articles par user
+		 //TODO*** Suppression retrait faire foonction suppresion tous retraits par user
+		 
+		
+		
+		//Suppression de l'utilisateur
+		return utilisateurDAO.delete(unUtilisateur);
+		/*try
 		{
 			utilisateurDAO.delete(unUtilisateur);
 			return true;
@@ -186,7 +235,7 @@ public class UtilisateurManager
 			businessException.ajouterErreur(CodesResultatDAL.ERREUR_RECUPERATION_UTILISATEURS);
 
 			throw businessException;			
-		}
+		}*/
 	}
 	
 	/**
@@ -196,7 +245,7 @@ public class UtilisateurManager
 	 * @return boolean
 	 * @throws BusinessException
 	 */
-	public boolean updateUtilisateur(Utilisateur unUtilisateur) throws BusinessException
+	/*public boolean updateUtilisateur(Utilisateur unUtilisateur) throws BusinessException
 	{
 		if(unUtilisateur.getPseudo().trim().equals("") 
 				|| unUtilisateur.getPrenom().trim().equals("") 
@@ -224,5 +273,83 @@ public class UtilisateurManager
 
 			throw businessException;			
 		}
+	}*/
+	
+	/**
+	 * 
+	 * Méthode en charge de modifier un utilisateur
+	 * @param unUtilisateur
+	 * @return boolean
+	 * @throws BusinessException
+	 */
+	public boolean updateUtilisateur(Utilisateur unUtilisateur) throws BusinessException
+	{
+
+		//On contrôle les données du formulaire puis on tente la modification
+		this.checkUserFormInfos(unUtilisateur, new BusinessException());
+		return utilisateurDAO.update(unUtilisateur);	
+	}
+	
+	/**
+	 * 
+	 * Méthode en charge de contrôler toutes les données du formulaire utilisateur (inscription et modification)
+	 * @param unUtilisateur
+	 * @param businessException
+	 * @throws BusinessException
+	 */
+	private void checkUserFormInfos(Utilisateur unUtilisateur, BusinessException businessException) throws BusinessException {
+		
+		//On vérifie que tous les champs sont remplis
+		if(unUtilisateur.getPseudo().trim().equals("") 
+				|| unUtilisateur.getPrenom().trim().equals("") 
+				|| unUtilisateur.getNom().trim().equals("") 
+				|| unUtilisateur.getEmail().trim().equals("") 
+				|| unUtilisateur.getRue().trim().equals("") 
+				|| unUtilisateur.getCodePostal().trim().equals("") 
+				|| unUtilisateur.getVille().trim().equals("") 
+				|| unUtilisateur.getMotDePasse().trim().equals(""))
+		{
+			businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatBLL.UN_CHAMP_NON_SAISI);
+
+			throw businessException;
+		}
+		
+		//On contrôle les formats des champs
+		Pattern patternPseudo = Pattern.compile("^[A-Za-z0-9]+$");
+		Matcher matcherPseudo = patternPseudo.matcher(unUtilisateur.getPseudo());
+		boolean resultatPseudo = matcherPseudo.matches();
+		if(!resultatPseudo)
+		{
+			businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatBLL.PSEUDO_NON_ALPHANUMERIQUE);
+
+			throw businessException;	
+		}
+		
+		Pattern patternEmail = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
+		Matcher matcherEmail = patternEmail.matcher(unUtilisateur.getEmail());
+		boolean resultatEmail = matcherEmail.matches();
+		if(!resultatEmail)
+		{
+			businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatBLL.EMAIL_FORMAT_INCORRECT);
+
+			throw businessException;	
+		}
+		
+		//On vérifie que le pseudo et l'email ne sont pas déjà pris
+		if(utilisateurDAO.emailExistant(unUtilisateur.getEmail(), unUtilisateur.getNoUtilisateur())) {
+			businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatBLL.EMAIL_EXISTANT);
+			throw businessException;
+		}
+		if(utilisateurDAO.pseudoExistant(unUtilisateur.getPseudo(),unUtilisateur.getNoUtilisateur())) {
+			businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatBLL.PSEUDO_EXISTANT);
+			throw businessException;
+		}
+		
+		
 	}
 }

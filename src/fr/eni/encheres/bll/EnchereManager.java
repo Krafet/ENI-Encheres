@@ -100,6 +100,17 @@ public class EnchereManager {
 	}
 	
 	/**
+	 * Méthode en charge de supprimer toutes les enchères liées à un utilisateur
+	 * @author Camille
+	 * @param uneEnchere
+	 * @throws BusinessException
+	 */
+	public boolean deleteById(Enchere uneEnchere) throws BusinessException
+	{
+		return enchereDAO.deleteByUser(uneEnchere.getUnUtilisateur().getNoUtilisateur());
+	}
+	
+	/**
 	 * Mets à jour une enchère
 	 * @author José Luis FERREIRA DA SILVA
 	 * @param uneEnchere

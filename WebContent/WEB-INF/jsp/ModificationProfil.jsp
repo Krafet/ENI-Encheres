@@ -12,20 +12,19 @@
 
 	<div class="container">
 
-		<c:if test="${!empty listeCodesErreur}">
-			<div class="alert alert-danger" role="alert">
-				<strong>Erreur!</strong>
-					<ul class="ulErrors">
-						<c:forEach var="code" items="${listeCodesErreur}">
-							<li>${LecteurMessage.getMessageErreur(code)}</li>
-						</c:forEach>
-					</ul>
-			</div>
-		</c:if>
-
 		<div class="row justify-content-center">
 			<div class="col-md-9">
 				<h4 class="text-center">Mon profil</h4>
+				<!--  Gestion des erreurs -->
+				<c:if test="${!empty listeCodesErreur}">
+					<div class="alert alert-danger alertModification text-center" role="alert">
+						<ul class="ulErrors">
+							<c:forEach var="code" items="${listeCodesErreur}">
+								<li>${LecteurMessage.getMessageErreur(code)}</li>
+							</c:forEach>
+						</ul>
+					</div>
+				</c:if>
 				<div class="card modifProfil">
 					<article class="card-body">
 					
@@ -84,9 +83,9 @@
 
 							<div class="form-row">
 								<div class="col form-group">
-									<label>Mot de passe actuel</label> <input class="form-control"
-										type="password" name="actual_pass" maxlength="30"
-										value="${sessionScope.user.motDePasse}">
+									<label>Mot de passe actuel</label> <input class="form-control inputActualPass"
+										type="password" name="actual_pass" maxlength="30" placeholder="Laissez-vide pour garder le même"
+										value="">
 								</div>
 
 							</div>

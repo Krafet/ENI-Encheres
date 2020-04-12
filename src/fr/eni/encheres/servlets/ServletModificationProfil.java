@@ -41,7 +41,7 @@ public class ServletModificationProfil extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// Initialisation des erreurs	
+		// Initialisation des erreurs
 		List<Integer> listeCodesErreur = new ArrayList<>();
 		if (listeCodesErreur.size() > 0) {
 			request.setAttribute("listeCodesErreur", listeCodesErreur);
@@ -58,17 +58,14 @@ public class ServletModificationProfil extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-
 		// Initialisation des erreurs
 		List<Integer> listeCodesErreur = new ArrayList<>();
-		if (listeCodesErreur.size() > 0) {
-			request.setAttribute("listeCodesErreur", listeCodesErreur);
-		}
+		boolean errors = false;
 
+		/****************************
+		 * TRAITEMENT DU FORMULAIRE
+		 *****************************/
 		
-		/*******************************
-		 * RECUP INFOS FORM + CONTROLES
-		 ********************************/
 		String pseudo = request.getParameter("pseudo");
 		String nom = request.getParameter("nom");
 		String prenom = request.getParameter("prenom");
@@ -81,26 +78,47 @@ public class ServletModificationProfil extends HttpServlet {
 		String newMotDePasse = request.getParameter("new_pass");
 		String confirmation = request.getParameter("confirm_pass");
 		int credit = Integer.parseInt(request.getParameter("credit"));
-		
-		// Si changement de mot de passe
-		if (!newMotDePasse.equals("") && !confirmation.equals("")) {
-			
-			// Si les mots de passe sont identiques
-			if (newMotDePasse.equals(confirmation)) {	
-				motDePasse = Utils.toMD5(newMotDePasse);
-			}else {
-			
-				listeCodesErreur.add(CodesResultatServlets.PASSWORD_NON_IDENTIQUES);			
+
+		Utilisateur currentUser = (Utilisateur) request.getSession().getAttribute("user");
+		String mdpEnBase = currentUser.getMotDePasse();
+
+		// Si aucun des champs liés au mot de passe ne sont remplis on garde celui en base
+		if (motDePasse.equals("") && newMotDePasse.equals("") && confirmation.equals("")) {
+
+			motDePasse = mdpEnBase;
+			// Sinon on effectue les contrôles pour prendre en compte le nouveau
+		} else {
+
+			// 1.On s'assure que le mot de passe actuel est bien celui en base
+			if (Utils.toMD5(motDePasse).equals(mdpEnBase)) {
+
+				if (!newMotDePasse.equals("") && !confirmation.equals("")) {
+
+					// 2. On regarde si les deux mdp sont identiques
+					if (newMotDePasse.equals(confirmation)) {
+						motDePasse = Utils.toMD5(newMotDePasse);
+					} else {
+						errors = true;
+						listeCodesErreur.add(CodesResultatServlets.PASSWORD_NON_IDENTIQUES);
+					}
+				} else {
+					errors = true;
+					listeCodesErreur.add(CodesResultatServlets.PASSWORDS_MANQUANT);
+				}
+
+			} else {
+				errors = true;
+				listeCodesErreur.add(CodesResultatServlets.PASSWORD_ACTUEL_INCORRECT);
 			}
+
 		}
 
-		
 		/******************************
 		 * ACTION DE MODIFICATION
 		 ***************************/
-		
+
 		Utilisateur newInfosUser = new Utilisateur();
-		
+
 		newInfosUser.setPseudo(pseudo);
 		newInfosUser.setNom(nom);
 		newInfosUser.setPrenom(prenom);
@@ -111,31 +129,28 @@ public class ServletModificationProfil extends HttpServlet {
 		newInfosUser.setVille(ville);
 		newInfosUser.setMotDePasse(motDePasse);
 		newInfosUser.setCredit(credit);
-	
-		
-		//Update utilisateur
+
+		// Update utilisateur
 		UtilisateurManager userManager = UtilisateurManager.getInstance();
-		
-		Utilisateur currentUser = (Utilisateur) request.getSession().getAttribute("user");
 		newInfosUser.setNoUtilisateur(currentUser.getNoUtilisateur());
-		
 		try {
 			userManager.updateUtilisateur(newInfosUser);
 		} catch (BusinessException e) {
-			e.printStackTrace();
+			errors = true;
+			listeCodesErreur.addAll(e.getListeCodesErreur());
 		}
 
+		// Si présence d'erreurs on redirige vers le formulaire en les affichant
+		if (errors) {
 
-		//Si les mots de passe ne sont pas identiques on redirige sur la même page avec le message d'erreur
-		if(listeCodesErreur.contains(CodesResultatServlets.PASSWORD_NON_IDENTIQUES)) {
-			
-			request.setAttribute("listeCodesErreur",listeCodesErreur);	
+			request.setAttribute("listeCodesErreur", listeCodesErreur);
 			request.setAttribute("user", currentUser);
-			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/ModificationProfil.jsp").forward(request, response); // Redirection vers le formulaire		
-		
-			//Sinon on redirige vers le profil avec les modifs effectuées
-		}else{
-			request.getSession().setAttribute("user", newInfosUser); //On met à jour la session
+			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/ModificationProfil.jsp").forward(request, response);
+
+			// Sinon on redirige vers le profil avec les modifs effectuées
+		} else {
+
+			request.getSession().setAttribute("user", newInfosUser); // On met à jour la session
 			this.getServletContext().getRequestDispatcher("/ServletAffichageProfil").forward(request, response);
 		}
 	}

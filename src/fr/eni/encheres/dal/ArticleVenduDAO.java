@@ -50,6 +50,14 @@ public interface ArticleVenduDAO {
 	 * @throws BusinessException
 	 */
 	ArticleVendu selectById(int id) throws BusinessException;
+
+	/**
+	 * Méthode en charge de supprimer tous les articles vendus par un utilisateur
+	 * @param userId
+	 * @return boolean
+	 * @throws BusinessException
+	 */
+	boolean deleteByUser(int userId) throws BusinessException;
 		
 
 }

@@ -50,5 +50,13 @@ public interface EnchereDAO {
 	 * @return
 	 * @throws BusinessException
 	 */
+	
 	ArrayList<Enchere> selectAll() throws BusinessException;
+	/**
+	 * Méthode en charge de supprimer l'ensemble des enchères d'un utilisateur
+	 * @param idUtilisateur
+	 * @return boolean
+	 * @throws BusinessException
+	 */
+	boolean deleteByUser(int idUtilisateur) throws BusinessException;
 }

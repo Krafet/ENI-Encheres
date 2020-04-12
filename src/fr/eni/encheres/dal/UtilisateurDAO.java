@@ -50,7 +50,17 @@ public interface UtilisateurDAO {
 	 */
 	boolean update(Utilisateur unUtilisateur) throws BusinessException;
 	
-	void pseudoExistant(String pseudo) throws BusinessException;
+	//void pseudoExistant(String pseudo) throws BusinessException;
 	
-	void emailExistant(String email) throws BusinessException;
+	//void emailExistant(String email) throws BusinessException;
+	
+	boolean emailExistant(String email, int id) throws BusinessException;
+	/**
+	 * Méthode en charge de
+	 * @param pseudo
+	 * @param id
+	 * @return
+	 * @throws BusinessException
+	 */
+	boolean pseudoExistant(String pseudo, int id) throws BusinessException;
 }

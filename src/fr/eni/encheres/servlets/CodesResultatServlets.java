@@ -13,5 +13,17 @@ public class CodesResultatServlets {
 	 * Erreur si saisie de mot de passe non identiques
 	 */
 	public static final int PASSWORD_NON_IDENTIQUES=30000;
+	
+	/**
+	 * Erreur si le mot de passe actuel saisi n'est pas le bon
+	 */
+	public static final int PASSWORD_ACTUEL_INCORRECT=30001;
+	
+
+	/**
+	 * Si le mdp actuel est bon mais que le nouveau mdp et la confirmation ne sont pas remplis
+	 */
+	public static final int PASSWORDS_MANQUANT=30002;
+	
 
 }

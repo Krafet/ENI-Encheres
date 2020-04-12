@@ -35,36 +35,38 @@ public class ServletSuppressionCompte extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		//Initialisation des erreurs
-		List<Integer> listeCodesErreur=new ArrayList<>();
-		if(listeCodesErreur.size()>0)
-		{
-			request.setAttribute("listeCodesErreur",listeCodesErreur);
-		}
-		
-		UtilisateurManager userManager = UtilisateurManager.getInstance(); 
-		
-		//Récupération infos utilisateur courant
-		HttpSession session = request.getSession(); //Récupération de la session
-		session.setAttribute( "id", 2 ); // JUSTE POUR TEST A ENLEVER
-		
-		Utilisateur user = null;
-		int id = (int) session.getAttribute("id");
-		
-		try {	
-			user =  userManager.getUtilisateurById(id); //Récupération des infos utilisateurs
-			//userManager.deleteUtilisateur(user); //Suppression
-		} catch (BusinessException e) {
-			request.setAttribute("listeCodesErreur",e.getListeCodesErreur());
-			e.printStackTrace();
-		}
-	
+		//TODO*** GESTION SUPPRESSION OBJETS EN LIEN AVEC L'UTILISATEUR QU'ON VEUT SUPPRIMER
 
-		//TODO*** DECONNEXION
+		// Initialisation des erreurs
+		List<Integer> listeCodesErreur = new ArrayList<>();
 		
-		//Redirection vers l'accueil
-		//this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(request, response);
-		response.getWriter().append("TODO** : SUPPRESSION");
+		//Récupération de l'utilisateur courant
+		HttpSession session = request.getSession();
+		Utilisateur currentUser = (Utilisateur) session.getAttribute("user");
+		//Suppression de l'utilisateur
+		UtilisateurManager userManager = UtilisateurManager.getInstance();
+		try {
+			System.out.println(userManager.deleteUtilisateur(currentUser));
+		} catch (BusinessException e) {
+			listeCodesErreur.addAll( e.getListeCodesErreur());
+		}
+		
+		//Déconnexion de l'utilisateur => on détruit la session
+		session.invalidate();
+
+		//Redirection vers le profil si erreur
+		if(listeCodesErreur.size() > 0) {
+			request.setAttribute("listeCodesErreur", listeCodesErreur);
+			request.setAttribute("user", currentUser);
+			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/ModificationProfil.jsp").forward(request, response);
+		
+		//Sinon redirection vers l'accueil
+		}else {
+			//this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(request, response);
+			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Connexion.jsp").forward(request, response); 
+		}
+
+
 	}
 
 	/**
