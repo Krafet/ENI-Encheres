@@ -23,4 +23,14 @@ public class CodesResultatBLL {
 	 * Echec lors de la récupération d'un article 
 	 */
 	public static final int UN_CHAMP_NON_SAISI=20002;
+	
+	/**
+	 * Le pseudo est déjà existant
+	 */
+	public static final int PSEUDO_EXISTANT=20003;
+	
+	/**
+	 * L'email est déjà existant
+	 */
+	public static final int EMAIL_EXISTANT=20004;
 }

@@ -57,25 +57,16 @@ public class CodesResultatDAL {
 	/**
 	 * Erreur à la modification d'un utilisateur
 	 */
-	public static final int MODIFICATION_UTILISATEUR = 10104;
+	public static final int ERREUR_MODIFICATION_UTILISATEUR = 10104;
 	
 	/**
 	 * Erreur quand l'utilisateur est inexistant
 	 */
 	public static final int UTILISATEUR_INEXISTANT = 10105;
 	
-	/**
-	 * Le pseudo est déjà existant
-	 */
-	public static final int PSEUDO_EXISTANT=10106;
 	
 	/**
-	 * L'email est déjà existant
-	 */
-	public static final int EMAIL_EXISTANT=10107;
-	
-	/**
-	 * L'email est déjà existant
+	 * Les identifiants sont incorrects (login / mot de passe)
 	 */
 	public static final int ERREUR_IDENTIFIANTS=10108;
 	
@@ -141,4 +132,10 @@ public class CodesResultatDAL {
 	 * Erreur à la modification d'une enchere
 	 */
 	public static final int MODIFICATION_ENCHERE_ERREUR = 10405;
+	
+	/**
+	 * Erreur à la modification d'une enchere
+	 */
+	public static final int ERREUR_SUPPRESSION_ENCHERES = 10406;
+	
 }

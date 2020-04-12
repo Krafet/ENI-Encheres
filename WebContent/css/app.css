@@ -38,6 +38,10 @@
 	margin: 0 auto;
 }
 
+.divBtn{
+	margin-bottom:10%;
+}
+
 .divBtn button, .divBtn a, .divBtn form {
 	margin: 2% auto;
 	width: 30%;
@@ -78,4 +82,14 @@
 
 .alertConnection{
 	margin : 6% auto;
+}
+
+.alertModification{
+	margin : 3% auto;
+}
+
+.inputActualPass{
+	font-style: italic;
+	font-size:13px !important;
+	color:grey;
 }

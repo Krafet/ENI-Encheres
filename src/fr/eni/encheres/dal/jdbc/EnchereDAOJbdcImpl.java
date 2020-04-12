@@ -31,6 +31,7 @@ public class EnchereDAOJbdcImpl implements EnchereDAO {
 	private static final String UPDATE = "UPDATE Encheres SET date_enchere=?, montant_enchere=? WHERE no_utilisateur=? AND no_article=?";
 	private static final String INSERT = "INSERT INTO Encheres(montant_enchere, date_enchere, no_utilisateur, no_article) VALUES (?, ?, ?, ?)";
 	private static final String DELETE = "DELETE from Encheres WHERE no_utilisateur=? AND no_article=?";
+	private static final String DELETE_BY_USER = "DELETE ENCHERES WHERE no_utilisateur=? ";
 
 
 	@Override
@@ -155,6 +156,31 @@ public class EnchereDAOJbdcImpl implements EnchereDAO {
 		}
 		return nbLignesSuppr > 0;
 	}
+	
+	@Override
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.EnchereDAO#delete(int, int)
+	 */
+	public boolean deleteByUser(int idUtilisateur) throws BusinessException {
+		int nbLignesSuppr = 0;
+
+		try (Connection cnx = Utils.getConnection()) {
+
+			PreparedStatement pstmt = cnx.prepareStatement(DELETE_BY_USER);
+			pstmt.setInt(1, idUtilisateur);
+			nbLignesSuppr = pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.ERREUR_SUPPRESSION_ENCHERES);
+			throw businessException;
+		}
+		return nbLignesSuppr > 0;
+	}
+
 
 	@Override
 	/**
