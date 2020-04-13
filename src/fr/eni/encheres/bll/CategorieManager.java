@@ -126,6 +126,16 @@ public class CategorieManager {
 		
 	}
 	
+	/**
+	 * 
+	 * Méthode en charge de récupérer toutes les catégories
+	 * @return
+	 * @throws BusinessException
+	 */
+	public List<Categorie> getAllCategories() throws BusinessException{
+		return categorieDAO.selectAll();
+	}
+	
 	
 	/**
 	 * Méthode en charge de recuperer une Categorie selon son Libelle

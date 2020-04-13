@@ -12,7 +12,7 @@
 }
 
 .profileButtons .btn {
-	width: 100px;
+	width: 103x;
 }
 
 .modifProfil {
@@ -23,6 +23,16 @@
 .modifProfil input {
 	font-size: 14px;
 }
+
+.cardVente {
+	margin-top: 3%;
+	font-size: 13px;
+}
+
+.cardVente input, .cardVente select, .cardVente textarea{
+	font-size: 13px;
+}
+
 
 .btnRetour {
 	margin: 0 auto 3% auto;
@@ -92,4 +102,32 @@
 	font-style: italic;
 	font-size:13px !important;
 	color:grey;
+}
+
+.newSellTitle{
+	text-align: center;
+	margin-bottom: 6%;
+	margin-top:2%;
+}
+
+.divbtnVente{
+	margin-top:3%;
+	margin-bottom: 10% !important;
+
+}
+
+legend.scheduler-border {
+    width:inherit; /* Or auto */
+    padding:0 10px; /* To give a bit of padding on the left and right */
+    border-bottom:none;
+}
+
+.imgArticle{
+	border:1px solid black;
+	padding: 1%;
+	width:100%;
+}
+
+.formArticle{
+	margin-left:2%;
 }

@@ -152,11 +152,11 @@ public class ArticlesManager {
 		
 		//TODO***
 		/*
-		 * - Voir quels champs sont obligatoires
+		 * - Voir quels champs sont obligatoires (tous sauf )
 		 * - Format de date 
 		 * - Date de fin après date de début
-		 * - Prix positifs
-		 * - Autres ? 
+		 * - Points positifs
+		 * - Que l'article n'existe pas déjà
 		 * 
 		 */
 	}

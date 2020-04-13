@@ -26,8 +26,7 @@
 					</div>
 				</c:if>
 				<div class="card modifProfil">
-					<article class="card-body">
-					
+					<article class="card-body">	
 						<form action="${pageContext.request.contextPath}/ServletModificationProfil" method="post">
 							
 							<div class="form-row">
@@ -105,7 +104,9 @@
 				
 				<div class="row divBtn">
 					<button type="submit" class="btn btn-sm btn-outline-secondary" value="valider">Enregistrer les modifications</button>
-					<button class="btn btn-sm btn-outline-secondary"><a href="${pageContext.request.contextPath}/ServletSuppressionCompte">Supprimer mon compte</a></button>
+					<button class="btn btn-sm btn-outline-secondary"
+					>
+					 <a href="${pageContext.request.contextPath}/ServletSuppressionCompte"  onclick="if (!confirm('Etes-vous sûr(e) de supprimer votre compte ? Cela entrainement la suppression de toutes vos enchères et articles en vente.')) return false;">Supprimer mon compte</a></button>
 					<button class="btn btn-sm btn-outline-secondary" name="choix"><a href="${pageContext.request.contextPath}/ServletAffichageProfil">Retour</a></button>
 		
 					</form>

@@ -36,7 +36,7 @@ public class RetraitManager {
 		bindDatas();
 	}
 	
-	public static RetraitManager getCategorieManager() throws BusinessException
+	public static RetraitManager getInstance() throws BusinessException
 	{
 		if(instance == null)
 		{
