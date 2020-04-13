@@ -107,7 +107,7 @@ public class EnchereManager {
 	 */
 	public boolean deleteById(Enchere uneEnchere) throws BusinessException
 	{
-		return enchereDAO.deleteByUser(uneEnchere.getUnUtilisateur().getNoUtilisateur());
+		return enchereDAO.deleteByUserOrArticle(uneEnchere.getUnUtilisateur().getNoUtilisateur(), uneEnchere.getUnArticleVendu().getNoArticle());
 	}
 	
 	/**

@@ -63,4 +63,11 @@ public interface UtilisateurDAO {
 	 * @throws BusinessException
 	 */
 	boolean pseudoExistant(String pseudo, int id) throws BusinessException;
+	/**
+	 * Méthode en charge de récupérer un utilisateur et l'ensemble de ses articles
+	 * @param id
+	 * @return
+	 * @throws BusinessException
+	 */
+	Utilisateur getUtilisateurByIdWithArticles(int id) throws BusinessException;
 }

@@ -35,23 +35,23 @@ public class ServletSuppressionCompte extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		//TODO*** GESTION SUPPRESSION OBJETS EN LIEN AVEC L'UTILISATEUR QU'ON VEUT SUPPRIMER
-
 		// Initialisation des erreurs
 		List<Integer> listeCodesErreur = new ArrayList<>();
 		
 		//Récupération de l'utilisateur courant
 		HttpSession session = request.getSession();
 		Utilisateur currentUser = (Utilisateur) session.getAttribute("user");
+		
 		//Suppression de l'utilisateur
 		UtilisateurManager userManager = UtilisateurManager.getInstance();
 		try {
-			System.out.println(userManager.deleteUtilisateur(currentUser));
+			userManager.deleteUtilisateur(currentUser);
 		} catch (BusinessException e) {
 			listeCodesErreur.addAll( e.getListeCodesErreur());
 		}
 		
 		//Déconnexion de l'utilisateur => on détruit la session
+		session.removeAttribute("user");
 		session.invalidate();
 
 		//Redirection vers le profil si erreur
@@ -63,7 +63,7 @@ public class ServletSuppressionCompte extends HttpServlet {
 		//Sinon redirection vers l'accueil
 		}else {
 			//this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(request, response);
-			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Connexion.jsp").forward(request, response); 
+			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Connexion.jsp").forward(request, response); //TODO*** Mettre la bonne redirection
 		}
 
 

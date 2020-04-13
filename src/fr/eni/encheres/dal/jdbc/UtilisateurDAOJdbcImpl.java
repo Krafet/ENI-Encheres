@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.eni.encheres.BusinessException;
+import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.CodesResultatDAL;
 import fr.eni.encheres.dal.ConnectionProvider;
@@ -24,13 +25,18 @@ import fr.eni.encheres.utils.Utils;
 public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 
 	private static String RQT_SELECTALL = "SELECT * FROM UTILISATEURS;";
-	private static String RQT_SELECTBYID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?;";
+	private static String RQT_SELECTBYID = "SELECT * FROM UTILISATEURS U WHERE U.no_utilisateur = ?;";
 	private static String RQT_SELECTBYLOGINPASSWORD = "SELECT * FROM UTILISATEURS WHERE (pseudo = ? OR email=?) AND mot_de_passe = ?;";
 	private static String RQT_INSERT = "INSERT INTO UTILISATEURS VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	private static String RQT_UPDATE = "UPDATE UTILISATEURS SET pseudo = ?, nom = ?, prenom = ?, email = ?, telephone = ?, rue = ?, code_postal = ?, ville = ?, mot_de_passe = ?, credit = ?, administrateur = ? WHERE no_utilisateur = ?;";
 	private static String RQT_DELETE = "DELETE FROM UTILISATEURS WHERE no_utilisateur = ?";
 	private static String RQT_PSEUDOEXISTANT = "SELECT * FROM UTILISATEURS WHERE pseudo = ? AND no_utilisateur <> ?";
 	private static String RQT_EMAILEXISTANT = "SELECT * FROM UTILISATEURS WHERE email = ?  AND no_utilisateur <> ?";
+	
+	private static String RQT_SELECTALL_WITH_ARTICLES = "SELECT * FROM UTILISATEURS U JOIN ARTICLES_VENDUS A ON U.no_utilisateur = A.no_utilisateur;";
+	private static String RQT_SELECTBYID_WITH_ARTICLES = "SELECT * FROM UTILISATEURS U JOIN ARTICLES_VENDUS A ON U.no_utilisateur = A.no_utilisateur WHERE A.no_utilisateur = ?;";
+	private static String RQT_SELECTBYLOGINPASSWORD_WITH_ARTICLES = "SELECT * FROM UTILISATEURS U JOIN ARTICLES_VENDUS A ON U.no_utilisateur = A.no_utilisateur  WHERE (pseudo = ? OR email=?) AND mot_de_passe = ?;";
+	
 	/**
 	 * {@inheritDoc}
 	 * @see fr.eni.encheres.dal.UtilisateurDAO#getAllUtilisateur()
@@ -65,6 +71,11 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 	}
 	
 	@Override
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.UtilisateurDAO#getUtilisateurById(int)
+	 */
 	public Utilisateur getUtilisateurById(int id) throws BusinessException
 	{
 		Utilisateur unUtilisateur = new Utilisateur();
@@ -100,6 +111,54 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 		
 		return unUtilisateur;
 	}
+	
+	@Override
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.UtilisateurDAO#getUtilisateurByIdWithArticles(int)
+	 */
+	public Utilisateur getUtilisateurByIdWithArticles(int id) throws BusinessException
+	{
+		Utilisateur unUtilisateur = new Utilisateur();
+		ArticleVendu article = new ArticleVendu();
+		List<ArticleVendu> ventes = new ArrayList<>();
+		
+		try (Connection cnx = Utils.getConnection()) 
+		{
+			PreparedStatement stm = cnx.prepareStatement(RQT_SELECTBYID_WITH_ARTICLES);
+            stm.setInt(1, id);
+            ResultSet rs = stm.executeQuery();
+            
+            while(rs.next())
+            {
+            	unUtilisateur = itemBuilder(rs);
+            	ventes.add(articleBuilder(rs));
+            }
+            unUtilisateur.setVente(ventes);
+		}
+		catch(Exception e) 
+		{
+			e.printStackTrace();
+			
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.ERREUR_RECUPERATION_UTILISATEUR);
+
+			throw businessException;
+						
+		}
+		
+		if(unUtilisateur.getNoUtilisateur()==0)
+		{
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.UTILISATEUR_INEXISTANT);
+			throw businessException;
+		}
+		
+		return unUtilisateur;
+	}
+	
+	
 	/**
 	 * {@inheritDoc}
 	 * @see fr.eni.encheres.dal.UtilisateurDAO#getUtilisateurByPseudoPassword(java.lang.String, java.lang.String)
@@ -432,5 +491,27 @@ public class UtilisateurDAOJdbcImpl implements UtilisateurDAO{
 		return resultat;
 	}
 
+	/**
+	 * 
+	 * Méthode en charge de construire un objet ArticleVendu
+	 * @param rs
+	 * @return ArticleVendu
+	 * @throws SQLException
+	 * @throws BusinessException 
+	 */
+	public ArticleVendu articleBuilder(ResultSet rs) throws SQLException, BusinessException {
+
+		ArticleVendu articleVendu = new ArticleVendu();
+		articleVendu.setNoArticle(rs.getInt("no_article"));
+		articleVendu.setNomArticle(rs.getString("nom_article"));
+		articleVendu.setDescription(rs.getString("description"));
+		articleVendu.setDateDebutEncheres(rs.getDate("date_debut_encheres"));
+		articleVendu.setDateFinEncheres(rs.getDate("date_fin_encheres"));
+		articleVendu.setPrixVente(rs.getInt("prix_vente"));
+		articleVendu.setMiseAPrix(rs.getInt("prix_initial"));
+
+		return articleVendu;
+
+	}
 	
 }

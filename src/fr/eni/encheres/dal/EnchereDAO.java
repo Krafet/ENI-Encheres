@@ -58,5 +58,13 @@ public interface EnchereDAO {
 	 * @return boolean
 	 * @throws BusinessException
 	 */
-	boolean deleteByUser(int idUtilisateur) throws BusinessException;
+	//boolean deleteByUser(int idUtilisateur) throws BusinessException;
+	/**
+	 * Méthode en charge de  supprimer l'ensemble des enchères d'un utilisateur ou d'un article
+	 * @param idUtilisateur
+	 * @param idArticle
+	 * @return
+	 * @throws BusinessException
+	 */
+	boolean deleteByUserOrArticle(int idUtilisateur, int idArticle) throws BusinessException;
 }

@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import fr.eni.encheres.BusinessException;
+import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.ArticleVenduDAO;
 import fr.eni.encheres.dal.CategorieDAO;
@@ -201,41 +202,19 @@ public class UtilisateurManager
 	 */
 	public boolean deleteUtilisateur(Utilisateur unUtilisateur) throws BusinessException
 	{
-		
-		//TODO***  Besoin de supprimer toutes les tables liées avant + mettre alerte de confirmation pour prévenir l'utilisateur
-		/*
-		 * DELETE ENCHERES;
-			DELETE RETRAITS;
-			DELETE ARTICLES_VENDUS;
-			DELETE CATEGORIES;
-			DELETE UTILISATEURS;
-		 */
 
 		//Suppression des objets liés à l'utilisateur
-		 enchereDAO.deleteByUser(unUtilisateur.getNoUtilisateur());
-		 articleDAO.deleteByUser(unUtilisateur.getNoUtilisateur());
-		 
-		 //TODO*** Suppression articles faire foonction suppresion tous articles par user
-		 //TODO*** Suppression retrait faire foonction suppresion tous retraits par user
-		 
-		
-		
+		List<ArticleVendu> articles = utilisateurDAO.getUtilisateurByIdWithArticles(unUtilisateur.getNoUtilisateur()).getVente();
+		for (ArticleVendu articleVendu : articles) {
+			 enchereDAO.deleteByUserOrArticle(unUtilisateur.getNoUtilisateur(), articleVendu.getNoArticle()); 
+			 retraitDAO.delete(articleVendu);
+			 articleDAO.delete(articleVendu.getNoArticle());
+			
+		}
+
 		//Suppression de l'utilisateur
 		return utilisateurDAO.delete(unUtilisateur);
-		/*try
-		{
-			utilisateurDAO.delete(unUtilisateur);
-			return true;
-		}
-		catch(Exception e) 
-		{
-			e.printStackTrace();
-			
-			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatDAL.ERREUR_RECUPERATION_UTILISATEURS);
-
-			throw businessException;			
-		}*/
+	
 	}
 	
 	/**
