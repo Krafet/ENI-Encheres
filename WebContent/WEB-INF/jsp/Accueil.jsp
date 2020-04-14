@@ -41,7 +41,7 @@
 								class="fa fa-search"></i></span>
 						</div>
 						<input type="search" name="Recherche"
-							placeholder="Le nom de l'article contient"
+							placeholder="Le nom de l'article contient" value="${Recherche}"
 							class="form-control border-left-0">
 					</div>
 
@@ -50,12 +50,14 @@
 						<label class="mr-sm-2" for="inlineFormCustomSelect">Catégorie
 							:</label> <select class="custom-select mr-sm-2 col-sm-2"
 							id="inlineFormCustomSelect" name="Categorie">
-							<c:if test="${empty Categorie}">
-								<option>Toutes</option>
-							</c:if>
-							<c:if test="${not empty Categorie}">
-								<option>Toutes</option>
-							</c:if>
+								<c:choose>
+									<c:when test="${Categorie == 'Toutes' }">
+										<option selected>Toutes</option>
+									</c:when>
+									<c:otherwise>
+										<option>Toutes</option>
+									</c:otherwise>
+								</c:choose>
 							<c:forEach items="${Categories}" var="element">
 								<c:choose>
 									<c:when test="${Categorie == element }">
@@ -88,9 +90,10 @@
 						<h5 class="card-title">${element.unArticleVendu.nomArticle}</h5>
 						<p class="card-text">Prix : ${element.montantEnchere }</p>
 						<p class="card-text">Fin de l'enchere ${element.dateEnchere }</p>
-						<a href="${pageContext.request.contextPath}/ServletAffichageProfil?profil=${element.unUtilisateur.noUtilisateur}">
-							<p class="card-text">Vendeur : ${element.unUtilisateur.pseudo }</p></a>
-						<a href="#" class="btn btn-primary">Go</a>
+						<a
+							href="${pageContext.request.contextPath}/ServletAffichageProfil?profil=${element.unUtilisateur.noUtilisateur}">
+							<p class="card-text">Vendeur : ${element.unUtilisateur.pseudo }</p>
+						</a> <a href="#" class="btn btn-primary">Go</a>
 					</div>
 				</div>
 			</c:forEach>
