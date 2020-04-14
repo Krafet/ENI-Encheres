@@ -100,8 +100,8 @@
 										<div class="col-sm-2 col-md-2 col-lg-2"></div>
 									</c:if>
 									<div class="col-sm-6 col-md-6 col-lg-4">
-										 <!-- TODO**** A CHANGER POUR DIRIGER VERS L'ACCUEIL --><a class="btn btn-lg"
-											href="${pageContext.request.contextPath}/ServletConnexion"><button type="button" class="btn btn-outline-secondary">Retour</button></a>
+										 <a class="btn btn-lg"
+											href="${pageContext.request.contextPath}/Index"><button type="button" class="btn btn-outline-secondary">Retour</button></a>
 									</div>
 								</div>
 							</div>
