@@ -77,7 +77,7 @@
 						<div class="form-group row">
 							<label class="col-sm-3 col-md-3 col-lg-3">Fin de l'enchère :</label>
 							<div class="col-sm-6 col-md-9 col-lg-8">
-								<input class="form-control"  type="date" name="finEnchere" onkeydown="return false" id="start" name="trip-start" value="${today}" min="${today}" required>
+								<input class="form-control"  type="date" name="finEnchere" onkeydown="return false" id="start" name="trip-start" value="" min="${today}" required>
 							</div>
 						</div>
 						<fieldset class="border p-2">
@@ -106,7 +106,7 @@
 								<a class="btn btn-lg" ><button type="submit" class="btn btn-secondary">Enregistrer</button></a>
 							</div>
 							<div class="col-sm-4 offset-sm-3">
-								<a class="btn btn-lg" href="${pageContext.request.contextPath}/ServletConnexion"><button type="button" class="btn btn-secondary">Annuler</button></a> <!-- TODO** changer redirection -->
+								<a class="btn btn-lg" href="${pageContext.request.contextPath}/Index"><button type="button" class="btn btn-secondary">Annuler</button></a>
 							</div>
 						</div>
 					</form>

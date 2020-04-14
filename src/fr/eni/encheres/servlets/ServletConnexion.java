@@ -71,7 +71,7 @@ public class ServletConnexion extends HttpServlet {
 			
 		//Sinon on redirige vers l'accueil
 		}else{
-			this.getServletContext().getRequestDispatcher("/ServletAffichageProfil").forward(request, response); //TODO***CHANGER ET RENVOYER VERS ACCUEIL
+			this.getServletContext().getRequestDispatcher("/Index").forward(request, response); //TODO***MODE CONNECTE ?
 		}
 			
 	}

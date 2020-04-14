@@ -28,21 +28,23 @@ import fr.eni.encheres.bo.Utilisateur;
 @WebServlet("/ServletVenteArticles")
 public class ServletVenteArticle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ServletVenteArticle() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//Récupération des catégories pour le select
+	public ServletVenteArticle() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		// Récupération des catégories pour le select
 		CategorieManager categorieManager;
 		try {
 			categorieManager = CategorieManager.getCategorieManager();
@@ -51,26 +53,29 @@ public class ServletVenteArticle extends HttpServlet {
 		} catch (BusinessException e) {
 			e.printStackTrace();
 		}
-		
-		//Récupération date du jour
-	      String today =  new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-	      request.setAttribute("today", today);
-		
+
+		// Récupération date du jour
+		String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+		request.setAttribute("today", today);
+
 		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/VenteArticle.jsp").forward(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		HttpSession session = request.getSession();
 		Utilisateur currentUser = (Utilisateur) session.getAttribute("user");
-		
-		//Récupération des champs du formulaire 
+
+		// Récupération des champs du formulaire
 		String nom = request.getParameter("nomArticle");
 		String description = request.getParameter("description");
-		int categorieId = Integer.parseInt(request.getParameter("categorie")); //TODO*** Rajouter champs en base pour gérer la photo
+		int categorieId = Integer.parseInt(request.getParameter("categorie")); // TODO*** Rajouter champ en base pour
+																				// gérer la photo
 		String photo = request.getParameter("file");
 		int prixInitial = Integer.parseInt(request.getParameter("prix"));
 		String dateDebut = request.getParameter("debutEnchere");
@@ -78,52 +83,50 @@ public class ServletVenteArticle extends HttpServlet {
 		String rue = request.getParameter("rue");
 		String codePostal = request.getParameter("codePostal");
 		String ville = request.getParameter("ville");
-		
-		//Construction de l'article
+
+		// Construction de l'article
 		ArticleVendu article = new ArticleVendu();
 		article.setNomArticle(nom);
 		article.setDescription(description);
 		article.setMiseAPrix(prixInitial);
 		article.setUtilisateur(currentUser);
-		
-		//Gestion des dates
+
+		// Gestion des dates
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 
 			Date dateDebutParsed = formatter.parse(dateDebut);
 			Date dateFinParsed = formatter.parse(dateFin);
-		    java.sql.Date dateDebutSql = new java.sql.Date(dateDebutParsed.getTime());
-		    java.sql.Date dateFinSql = new java.sql.Date(dateFinParsed.getTime());
+			java.sql.Date dateDebutSql = new java.sql.Date(dateDebutParsed.getTime());
+			java.sql.Date dateFinSql = new java.sql.Date(dateFinParsed.getTime());
 			article.setDateDebutEncheres(dateDebutSql);
 			article.setDateFinEncheres(dateFinSql);
-			
+
 		} catch (ParseException e2) {
 			e2.printStackTrace();
 		}
 
-		//On récupère la catégorie de l'article à partir de son id
-			CategorieManager categorieManager = CategorieManager.getCategorieManager();
-			Categorie categorie = categorieManager.getByID(categorieId);		
-			article.setCategorie(categorie);
+		// On récupère la catégorie de l'article à partir de son id
+		CategorieManager categorieManager = CategorieManager.getCategorieManager();
+		Categorie categorie = categorieManager.getByID(categorieId);
+		article.setCategorie(categorie);
 
-
-		//Mise en place du lieu de retrait pour l'article concerné
+		// Mise en place du lieu de retrait pour l'article concerné
 		Retrait retrait = new Retrait();
 		retrait.setRue(rue);
 		retrait.setCodePostal(codePostal);
 		retrait.setVille(ville);
 		article.setRetrait(retrait);
-		
-		//Insertion article
+
+		// Insertion article
 		ArticlesManager articleManager = ArticlesManager.getInstance();
 		try {
 			articleManager.addArticle(article);
 		} catch (BusinessException e1) {
 			e1.printStackTrace();
 		}
-		
 
-		//Insertion retrait si l'insertion de l'article a réussi
+		// Insertion retrait si l'insertion de l'article a réussi
 		RetraitManager retraitManager;
 		try {
 			retraitManager = RetraitManager.getInstance();
@@ -131,10 +134,9 @@ public class ServletVenteArticle extends HttpServlet {
 		} catch (BusinessException e) {
 			e.printStackTrace();
 		}
-	
-		
-		//Redirection
-		//this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/VenteArticle.jsp").forward(request, response); //TODO***Revoir page de redirection
+
+		// Redirection
+		this.getServletContext().getRequestDispatcher("/Index").forward(request, response); //TODO***Revoir page de redirection
 	}
 
 }

@@ -35,6 +35,11 @@ public class CodesResultatDAL {
 	public static final int SUPPRESSION_ARTICLE_ERREUR = 10005;
 	
 	/**
+	 * Erreur à l'insertion d'un article
+	 */
+	public static final int INSERT_ARTICLE_ECHEC = 10004;
+	
+	/**
 	 * Erreur à la modification d'un article
 	 */
 	public static final int MODIFICATION_ARTICLE_ERREUR = 10006;

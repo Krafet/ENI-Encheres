@@ -77,7 +77,7 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatDAL.INSERT_OBJET_ECHEC);
+			businessException.ajouterErreur(CodesResultatDAL.INSERT_ARTICLE_ECHEC);
 
 			throw businessException;
 
