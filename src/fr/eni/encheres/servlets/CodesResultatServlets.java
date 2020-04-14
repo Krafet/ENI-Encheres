@@ -25,5 +25,9 @@ public class CodesResultatServlets {
 	 */
 	public static final int PASSWORDS_MANQUANT=30002;
 	
+	/**
+	 * Si la variable session est null (Utilisateur non connecter à son compte).
+	 */
+	public static final int USER_NON_CONNECTER=30003;
 
 }
