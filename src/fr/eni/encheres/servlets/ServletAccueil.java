@@ -52,13 +52,58 @@ public class ServletAccueil extends HttpServlet {
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/Accueil.jsp");
 		
 		List<Categorie> listCat = categorieManager.getCategories();
-		List<Enchere> listEnchere;
-		listEnchere = enchereManager.getEncheres();
+		List<Enchere> listEnchere = enchereManager.getEncheres();
 		
-		listEnchere.forEach(c -> System.out.println(c.toString()));
+		List<Enchere> processEnchere = new ArrayList<>();
+
+
+		if(categorie != null)
+		{
+			
+			if(categorie.equals("Toutes"))
+			{
+				processEnchere = listEnchere;
+			}
+			else
+			{
+				for(int i = 0; i < listEnchere.size(); i++)
+				{
+					if(listEnchere.get(i).getUnArticleVendu().getCategorie().getLibelle().equals(categorie))
+					{
+						processEnchere.add(listEnchere.get(i));
+					}
+				}
+			}	
+		}
+		else
+		{
+			processEnchere = listEnchere;
+		}
+		
+		
+		
+		if(recherche != null)
+		{
+			listEnchere = processEnchere;
+			processEnchere = new ArrayList<>();
+			for(int i = 0; i < listEnchere.size(); i++)
+			{
+				CharSequence c = recherche.toUpperCase();
+				
+				if(listEnchere.get(i).getUnArticleVendu().getNomArticle().toUpperCase().contains(c))
+				{
+					processEnchere.add(listEnchere.get(i));
+				}
+			}
+		}
+		
+
+		
+		
+		processEnchere.forEach(c -> System.out.println(c.toString()));
 		
 		request.setAttribute("Categories", listCat);
-		request.setAttribute("Encheres", listEnchere);
+		request.setAttribute("Encheres", processEnchere);
 		
 		request.setAttribute("Categorie", categorie);
 		request.setAttribute("Recherche", recherche);
