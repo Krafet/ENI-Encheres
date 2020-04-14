@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.utils.Utils;
@@ -85,12 +86,14 @@ public class ServletInscription extends HttpServlet {
 		try
 		{
 			utilisateurManager.addUtilisateur(unUtilisateur);
-			RequestDispatcher rd = request.getRequestDispatcher("/index.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/Index");
 			rd.forward(request, response);
 		}
-		catch(Exception e)
+		catch(BusinessException e)
 		{
 			e.printStackTrace();
+			request.setAttribute("listeCodesErreur",e.getListeCodesErreur());	
+			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Inscription.jsp").forward(request, response); // Redirection vers le formulaire
 		}
 	}
 	

@@ -4,47 +4,56 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
+
+<jsp:include page="/WEB-INF/includes/head.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/includes/nav.jsp"></jsp:include>
+
 <head>
 <meta charset="UTF-8">
 <title>Inscription</title>
 </head>
+
 <body>
-<h1>ENI-Enchères</h1>
-<h1>Mon profil</h1>
 
+<!--  Gestion des erreurs -->
+	<c:if test="${!empty listeCodesErreur}">
+		<div class="alert alert-danger alertModification text-center" role="alert">
+			<ul class="ulErrors">
+				<c:forEach var="code" items="${listeCodesErreur}">
+					<li>${LecteurMessage.getMessageErreur(code)}</li>
+				</c:forEach>
+			</ul>
+		</div>
+	</c:if>
+
+<div class="form-style-10">
+<h1>S'inscrire maintenant !<span>Inscrivez vous et profitez de toutes les fonctionalités de notre site</span></h1>
 <form method="post" action="${pageContext.request.contextPath}/ServletInscription">
+    <div class="section"><span>1</span>Informations personnelles</div>
+    <div class="inner-wrap">
+        <label>Pseudo <input type="text" id="pseudo" name="pseudo" value="test" required/></label>
+        <label>Nom  <input type="text" id="nom" name="nom" value="test" required/></label>
+        <label>Prénom  <input type="text" id="prenom" name="prenom" value="test" required/></label>
+        <label>Email  <input type="text" id="email" name="email"  value="test@t.com"required/></label>
+        <label>Téléphone  <input type="text" id="telephone" name="telephone" value="06135230788"/></label>
+        <label>Rue  <input type="text" id="rue" name="rue" value="test" required/></label>
+        <label>Code postal  <input type="text" id="codePostal" name="codePostal" value="35000" required/></label>
+        <label>Ville  <input type="text" id="ville" name="ville" value="test" required/></label>
+    </div>
 
-<label for="nombre">Pseudo : </label>
-	<input type="text" id="pseudo" name="pseudo" value="test" required/><br><br>
-	
-<label for="nombre">Nom : </label>
-	<input type="text" id="nom" name="nom" value="test" required/><br><br>
-	
-<label for="nombre">Prénom : </label>
-	<input type="text" id="prenom" name="prenom" value="test" required/><br><br>
-	
-<label for="nombre">Email : </label>
-	<input type="text" id="email" name="email"  value="test@t.com"required/><br><br>
-	
-<label for="nombre">Téléphone : </label>
-	<input type="text" id="telephone" name="telephone" value="06135230788"/><br><br>
-	
-<label for="nombre">Rue : </label>
-	<input type="text" id="rue" name="rue" value="test" required/><br><br>
-
-<label for="nombre">Code postal : </label>
-	<input type="text" id="codePostal" name="codePostal" value="35000" required/><br><br>
-
-<label for="nombre">Ville : </label>
-	<input type="text" id="ville" name="ville" value="test" required/><br><br>
-
-<label for="nombre">Mot de passe : </label>
-	<input type="password" id="mdp" name="mdp" value="test" required/><br><br>
-	
-<label for="nombre">Confirmation : </label>
-	<input type="password" id="mdpConfirmation"value="test"  name="mdpConfirmation" required/><br><br>
-	
-	<input type="submit" value="Valider">
-</form> 
+    <div class="section"><span>3</span>Sécurité</div>
+        <div class="inner-wrap">
+        <label>Mot de passe <input type="password" id="mdp" name="mdp" value="test" required/></label>
+        <label>Confirmation <input type="password" id="mdpConfirmation"value="test"  name="mdpConfirmation" required/></label>
+    </div>
+    <div class="button-section">
+     <input type="submit" Value="Valider"/>
+     <span class="privacy-policy">
+     <input type="checkbox" name="field7">You agree to our Terms and Policy. 
+     </span>
+    </div>
+</form>
+</div>
+<%@ include file="../includes/footer.html"%>
 </body>
 </html>
