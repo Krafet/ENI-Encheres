@@ -18,8 +18,8 @@
 
     <nav class="navbar navbar-expand-sm navbar-light bg-light mb-3">
 	        <div class="container">
-	              <a class="nav-link" href="${pageContext.request.contextPath}/InscriptionServlet">S'inscrire</a>
-	              <a class="nav-link" href="${pageContext.request.contextPath}/InscriptionServlet">Se Connecter</a>
+	              <a class="nav-link" href="${pageContext.request.contextPath}/ServletInscription">S'inscrire</a>
+	              <a class="nav-link" href="${pageContext.request.contextPath}/ServletConnexion">Se Connecter</a>
 	        </div>
 	</nav>
 	
