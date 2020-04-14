@@ -58,6 +58,14 @@ public interface ArticleVenduDAO {
 	 * @throws BusinessException
 	 */
 	boolean deleteByUser(int userId) throws BusinessException;
+
+	/**
+	 * Méthode en charge de contrôler si l'article est bien formé
+	 * @param article
+	 * @param businessException
+	 * @throws BusinessException 
+	 */
+	boolean checkIfArticleAlreadyExists(ArticleVendu articleToAdd) throws BusinessException;
 		
 
 }

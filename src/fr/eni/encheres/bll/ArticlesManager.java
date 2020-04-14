@@ -11,6 +11,7 @@ import fr.eni.encheres.dal.ArticleVenduDAO;
 import fr.eni.encheres.dal.DAOFactory;
 import fr.eni.encheres.dal.EnchereDAO;
 import fr.eni.encheres.dal.RetraitDAO;
+import fr.eni.encheres.utils.Utils;
 
 /**
  * Classe en charge de gérer les fonctionnalités en rapport avec les
@@ -69,13 +70,13 @@ public class ArticlesManager {
 		} else {
 			throw businessException;
 		}
+		;
 		return newArticle;
 	}
 
 	/**
 	 * 
 	 * Méthode en charge de récupérer un article via son id
-	 * 
 	 * @param id
 	 * @return ArticleVendu
 	 * @throws BusinessException
@@ -94,15 +95,16 @@ public class ArticlesManager {
 	 * @throws BusinessException
 	 */
 	public boolean removeArticle(int id) throws BusinessException {
-		
-		/*TODO*** :
-		* En fonction de l'endroit où sera appelé la fonction faire d'abord une suppression des enchères et des retraits associés ici
-		* Sauf si ces traitements sont fait avant d'appeler cette fonction
-		*/
+
+		/*
+		 * TODO*** : En fonction de l'endroit où sera appelé la fonction faire d'abord
+		 * une suppression des enchères et des retraits associés ici Sauf si ces
+		 * traitements sont fait avant d'appeler cette fonction
+		 */
 
 		return this.articleVenduDAO.delete(id);
 	}
-	
+
 	/**
 	 * 
 	 * Méthode en charge de supprimer un article via son id
@@ -132,6 +134,7 @@ public class ArticlesManager {
 	/**
 	 * 
 	 * Méthode en charge de modifier un article
+	 * 
 	 * @param article
 	 * @return boolean
 	 * @throws BusinessException
@@ -141,24 +144,33 @@ public class ArticlesManager {
 		return this.articleVenduDAO.update(article);
 
 	}
-	
-	/**
-	 * 
-	 * Méthode en charge de contrôler si l'article est bien formé
-	 * @param article
-	 * @param businessException
-	 */
-	public void checkArticle(ArticleVendu article, BusinessException businessException) {
-		
-		//TODO***
-		/*
-		 * - Voir quels champs sont obligatoires (tous sauf )
-		 * - Format de date 
-		 * - Date de fin après date de début
-		 * - Points positifs
-		 * - Que l'article n'existe pas déjà
-		 * 
-		 */
+
+	public void checkArticle(ArticleVendu article, BusinessException businessException) throws BusinessException {
+
+		// On vérifie que tous les champs sont remplis
+		if (article.getNomArticle().trim().equals("") || article.getDescription().trim().equals("")
+				|| article.getCategorie() == null || article.getDateDebutEncheres() == null
+				|| article.getDateFinEncheres() == null) {
+
+			businessException.ajouterErreur(CodesResultatBLL.UN_CHAMP_NON_SAISI);
+			throw businessException;
+		}
+		// On vérifie que le nombre de point est positif
+		if (article.getMiseAPrix() < 0) {
+			businessException.ajouterErreur(CodesResultatBLL.NOMBRE_NEGATIF);
+			throw businessException;
+		}
+
+		// TODO*** DATE
+		/*System.out.println(Utils.datesDiff(article.getDateDebutEncheres(),
+				article.getDateFinEncheres()));*/
+
+		if (articleVenduDAO.checkIfArticleAlreadyExists(article)) {
+			businessException.ajouterErreur(CodesResultatBLL.ARTICLE_EXISTANT);
+			throw businessException;
+		}
+
 	}
+
 
 }

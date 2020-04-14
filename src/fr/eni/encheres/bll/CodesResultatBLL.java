@@ -33,4 +33,15 @@ public class CodesResultatBLL {
 	 * L'email est déjà existant
 	 */
 	public static final int EMAIL_EXISTANT=20004;
+	
+	/**
+	 * Si la mise à prix est négative
+	 */
+	public static final int NOMBRE_NEGATIF=20005;
+	
+	/**
+	 * L'article existe déjà en base
+	 */
+	public static final int ARTICLE_EXISTANT=20006;
+		
 }
