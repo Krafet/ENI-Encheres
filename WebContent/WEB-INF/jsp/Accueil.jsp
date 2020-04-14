@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <jsp:include page="/WEB-INF/includes/head.jsp"></jsp:include>
 <jsp:include page="/WEB-INF/includes/nav.jsp"></jsp:include>
+<%@ page import="fr.eni.encheres.messages.LecteurMessage"%>
 <%@ page import="fr.eni.encheres.bo.Categorie"%>
 <%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -13,15 +14,21 @@
 <title>Accueil</title>
 </head>
 <body>
+				<!--  Gestion des erreurs -->
+				<c:if test="${!empty listeCodesErreur}">
+					<div class="alert alert-danger alertConnection text-center" role="alert">
+						<ul class="ulErrors">
+							<c:forEach var="code" items="${listeCodesErreur}">
+								<li>${LecteurMessage.getMessageErreur(code)}</li>
+							</c:forEach>
+						</ul>
+					</div>
+				</c:if>
 
 
 
-    <nav class="navbar navbar-expand-sm navbar-light bg-light mb-3">
-	        <div class="container">
-	              <a class="nav-link" href="${pageContext.request.contextPath}/ServletInscription">S'inscrire</a>
-	              <a class="nav-link" href="${pageContext.request.contextPath}/ServletConnexion">Se Connecter</a>
-	        </div>
-	</nav>
+
+
 	
 	 <h6>Liste des enchères</h6>  
 		Filtres :

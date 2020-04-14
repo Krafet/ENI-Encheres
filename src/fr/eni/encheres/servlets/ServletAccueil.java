@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bll.CategorieManager;
@@ -108,6 +109,13 @@ public class ServletAccueil extends HttpServlet {
 		request.setAttribute("Categorie", categorie);
 		request.setAttribute("Recherche", recherche);
 	
+		
+		HttpSession session = request.getSession();
+		if(session.getAttribute("user") != null)
+		{
+			request.setAttribute("User", session.getAttribute("user"));
+		}
+		
 		
 	
 		
