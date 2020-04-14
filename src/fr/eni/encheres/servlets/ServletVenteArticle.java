@@ -102,13 +102,10 @@ public class ServletVenteArticle extends HttpServlet {
 		}
 
 		//On récupère la catégorie de l'article à partir de son id
-		try {
 			CategorieManager categorieManager = CategorieManager.getCategorieManager();
 			Categorie categorie = categorieManager.getByID(categorieId);		
 			article.setCategorie(categorie);
-		} catch (BusinessException e1) {
-			e1.printStackTrace();
-		}
+
 
 		//Mise en place du lieu de retrait pour l'article concerné
 		Retrait retrait = new Retrait();

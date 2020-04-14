@@ -1,6 +1,7 @@
 package fr.eni.encheres.bll;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import fr.eni.encheres.BusinessException;
@@ -55,18 +56,26 @@ public class CategorieManager {
 	 * @return
 	 * @throws BusinessException
 	 */
-	public static CategorieManager getCategorieManager() throws BusinessException
+	public static CategorieManager getCategorieManager() 
 	{
 		if(instance == null)
 		{
-			instance = new CategorieManager();
+			try {
+				instance = new CategorieManager();
+			} catch (BusinessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		}
 
-		return instance;		
+		return instance;
 	}
 	
-	
+	public List<Categorie> getCategories()
+	{
+		  return Collections.unmodifiableList(listeCategories);
+	}
 	
 	/**
 	 * Méthode en charge d'ajouter une Categorie en BLL/DAO
