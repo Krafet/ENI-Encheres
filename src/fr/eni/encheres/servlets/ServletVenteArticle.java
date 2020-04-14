@@ -21,6 +21,7 @@ import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.utils.Utils;
 
 /**
  * Servlet implementation class ServletVenteArticles
@@ -44,20 +45,7 @@ public class ServletVenteArticle extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// Récupération des catégories pour le select
-		CategorieManager categorieManager;
-		try {
-			categorieManager = CategorieManager.getCategorieManager();
-			List<Categorie> categories = categorieManager.getAllCategories();
-			request.setAttribute("categories", categories);
-		} catch (BusinessException e) {
-			e.printStackTrace();
-		}
-
-		// Récupération date du jour
-		String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-		request.setAttribute("today", today);
-
+		this.getInfosSellForm(request);
 		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/VenteArticle.jsp").forward(request, response);
 	}
 
@@ -68,9 +56,10 @@ public class ServletVenteArticle extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		boolean errors = false;
+
 		HttpSession session = request.getSession();
 		Utilisateur currentUser = (Utilisateur) session.getAttribute("user");
-
 		// Récupération des champs du formulaire
 		String nom = request.getParameter("nomArticle");
 		String description = request.getParameter("description");
@@ -80,10 +69,11 @@ public class ServletVenteArticle extends HttpServlet {
 		int prixInitial = Integer.parseInt(request.getParameter("prix"));
 		String dateDebut = request.getParameter("debutEnchere");
 		String dateFin = request.getParameter("finEnchere");
-		String rue = request.getParameter("rue");
-		String codePostal = request.getParameter("codePostal");
-		String ville = request.getParameter("ville");
 
+		String rue = (!request.getParameter("rue").equals("")) ? request.getParameter("rue") : currentUser.getRue();
+		String codePostal =  (!request.getParameter("codePostal").equals(""))  ? request.getParameter("codePostal") : currentUser.getCodePostal();
+		String ville = (!request.getParameter("ville").equals("")) ? request.getParameter("ville") : currentUser.getVille();
+		
 		// Construction de l'article
 		ArticleVendu article = new ArticleVendu();
 		article.setNomArticle(nom);
@@ -92,11 +82,21 @@ public class ServletVenteArticle extends HttpServlet {
 		article.setUtilisateur(currentUser);
 
 		// Gestion des dates
+		/*
+		 * try { Date debutEnchere =
+		 * Utils.stringVersUtil(request.getParameter("debutEnchere")); Date finEnchere =
+		 * Utils.stringVersUtil(request.getParameter("finEnchere"));
+		 * article.setDateDebutEncheres(debutEnchere);
+		 * article.setDateFinEncheres(finEnchere); } catch (Exception e2) {
+		 * e2.printStackTrace(); }
+		 */
+
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 
 			Date dateDebutParsed = formatter.parse(dateDebut);
 			Date dateFinParsed = formatter.parse(dateFin);
+
 			java.sql.Date dateDebutSql = new java.sql.Date(dateDebutParsed.getTime());
 			java.sql.Date dateFinSql = new java.sql.Date(dateFinParsed.getTime());
 			article.setDateDebutEncheres(dateDebutSql);
@@ -116,27 +116,57 @@ public class ServletVenteArticle extends HttpServlet {
 		retrait.setRue(rue);
 		retrait.setCodePostal(codePostal);
 		retrait.setVille(ville);
-		article.setRetrait(retrait);
 
 		// Insertion article
 		ArticlesManager articleManager = ArticlesManager.getInstance();
+		ArticleVendu articleAjoute = null;
+		
 		try {
-			articleManager.addArticle(article);
+			articleAjoute = articleManager.addArticle(article);
+			 
+			RetraitManager retraitManager = RetraitManager.getInstance();
+			retraitManager.addRetrait(retrait, articleAjoute);
+
 		} catch (BusinessException e1) {
-			e1.printStackTrace();
+			errors = true;
+			request.setAttribute("listeCodesErreur", e1.getListeCodesErreur());
 		}
 
-		// Insertion retrait si l'insertion de l'article a réussi
-		RetraitManager retraitManager;
+		// S'il y a des erreurs on redirige vers le formulaire de login et on affiche le message
+		if (errors) {
+			this.getInfosSellForm(request);
+			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/VenteArticle.jsp").forward(request, response);
+
+			// Sinon on redirige vers l'accueil
+		} else {
+			this.getServletContext().getRequestDispatcher("/Index").forward(request, response); // TODO***MODE CONNECTE
+																								// ?
+		}
+	}
+
+	/**
+	 * 
+	 * Méthode en charge de récupérer les informations pour le formulaire d'ajout
+	 * d'article
+	 * 
+	 * @param request
+	 */
+	private void getInfosSellForm(HttpServletRequest request) {
+
+		// Récupération des catégories pour le select
+		CategorieManager categorieManager;
 		try {
-			retraitManager = RetraitManager.getInstance();
-			retraitManager.addRetrait(retrait, article);
+			categorieManager = CategorieManager.getCategorieManager();
+			List<Categorie> categories = categorieManager.getAllCategories();
+			request.setAttribute("categories", categories);
 		} catch (BusinessException e) {
 			e.printStackTrace();
 		}
 
-		// Redirection
-		this.getServletContext().getRequestDispatcher("/Index").forward(request, response); //TODO***Revoir page de redirection
+		// Récupération date du jour
+		String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+		request.setAttribute("today", today);
+
 	}
 
 }

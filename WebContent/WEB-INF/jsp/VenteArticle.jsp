@@ -85,19 +85,19 @@
 							<div class="form-group row">
 								<label class="col-sm-3">Rue :</label>
 								<div class="col-sm-9 col-md-9 col-lg-9">
-									<input type="text" value="${sessionScope.user.rue}" name="rue" id="rue" class="form-control">
+									<input type="text" value="${sessionScope.user.rue}" name="rue" id="rue" class="form-control" required>
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="col-sm-3">Code postal :</label>
 								<div class="col-sm-9 col-md-9 col-lg-9">
-									<input type="text" value="${sessionScope.user.codePostal}" name="codePostal" id="codePostal" class="form-control">
+									<input type="text" value="${sessionScope.user.codePostal}" name="codePostal" id="codePostal" class="form-control" required >
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="col-sm-3">Ville :</label>
 								<div class="col-sm-9 col-md-9 col-lg-9">
-									<input type="text" value="${sessionScope.user.ville}" name="ville" id="ville" class="form-control">
+									<input type="text" value="${sessionScope.user.ville}" name="ville" id="ville" class="form-control" required>
 								</div>
 							</div>							
 						</fieldset>
