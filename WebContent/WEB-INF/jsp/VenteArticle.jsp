@@ -16,7 +16,7 @@
 			<div class="row">
 				<div class="col-sm-3">
 					<div id="imageVente">
-						<img id="imageArticle"class="imgArticle" id="" src="${pageContext.request.contextPath}/img/close.png" alt="image" />
+						<img id="imageArticle"class="imgArticle" id="" src="${pageContext.request.contextPath}/img/close2.png" alt="image" />
 					</div>
 				</div>
 				<div class="col-sm-12 col-md-12 col-lg-8">
@@ -126,6 +126,7 @@
 		        var reader = new FileReader();		
 		        reader.onload = function (e) {
 		            $('#imageArticle').attr('src', e.target.result);
+		            $('#imageArticle').attr('class', "imgUploaded");
 		        };		        
 		        reader.readAsDataURL(input.files[0]);
 		    }

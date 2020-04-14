@@ -93,7 +93,7 @@
 										<div class="col-sm-6 col-md-6 col-lg-4 labelProfil">
 											<a class="btn btn-lg"
 												href="${pageContext.request.contextPath}/ServletModificationProfil"><button
-													type="button" class="btn btn-outline-secondary">Modifier</button></a>
+													type="button" class="btn btn-outline-secondary btnCustom">Modifier</button></a>
 										</div>
 									</c:if>
 									<c:if test="${!isCurrentUser}">
@@ -101,7 +101,7 @@
 									</c:if>
 									<div class="col-sm-6 col-md-6 col-lg-4">
 										 <a class="btn btn-lg"
-											href="${pageContext.request.contextPath}/Index"><button type="button" class="btn btn-outline-secondary">Retour</button></a>
+											href="${pageContext.request.contextPath}/Index"><button type="button" class="btn btn-outline-secondary btnCustom">Retour</button></a>
 									</div>
 								</div>
 							</div>

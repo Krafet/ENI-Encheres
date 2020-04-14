@@ -15,7 +15,7 @@ public class CodesResultatBLL {
 	public static final int PSEUDO_NON_ALPHANUMERIQUE=20000;
 	
 	/**
-	 * Le format de l'email est incorrecte. 
+	 * Le format de l'email est incorrect. 
 	 */
 	public static final int EMAIL_FORMAT_INCORRECT=20001;
 	
@@ -43,5 +43,20 @@ public class CodesResultatBLL {
 	 * L'article existe déjà en base
 	 */
 	public static final int ARTICLE_EXISTANT=20006;
+	
+	/**
+	 * Le format du téléphone est incorrect
+	 */
+	public static final int TELEPHONE_FORMAT_INCORRECT=20007;
+	
+	/**
+	 * Le format du code postal est incorrect
+	 */
+	public static final int CP_FORMAT_INCORRECT=20008;
+	
+	/**
+	 * La date de fin se situe avant la date du début d l'enchère
+	 */
+	public static final int DATES_INCOHERENTE=20009;
 		
 }

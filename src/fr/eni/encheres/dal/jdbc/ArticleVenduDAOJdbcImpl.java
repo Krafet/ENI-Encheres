@@ -32,16 +32,16 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 
 
 	private static final String INSERT = "INSERT INTO ARTICLES_VENDUS (nom_article,description, date_debut_encheres,date_fin_encheres,"
-			+ "prix_initial,prix_vente,no_utilisateur,no_categorie) " + "values (?,?,?,?,?,?,?,?)";
+			+ "prix_initial,prix_vente,no_utilisateur,no_categorie, picture) " + "values (?,?,?,?,?,?,?,?,?)";
 	private static final String DELETE = "DELETE FROM ARTICLES_VENDUS where no_article = ?";
 	private static final String DELETE_BY_USER = "DELETE FROM ARTICLES_VENDUS where no_utilisateur = ?";
 	private static final String UPDATE = "UPDATE ARTICLES_VENDUS SET nom_article=?,description=?, date_debut_encheres=?,date_fin_encheres=?,"
-			+ "prix_initial=?,prix_vente=?,no_utilisateur=?,no_categorie=? WHERE no_article=?";
+			+ "prix_initial=?,prix_vente=?,no_utilisateur=?,no_categorie=?, picture=? WHERE no_article=?";
 	private static final String SELECT = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?";
 	private static final String SELECT_ALL = "SELECT * FROM ARTICLES_VENDUS";
 	/*private static final String CHECK_IF_ARTICLE_ALREADY_EXISTS = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article=? AND description=? AND date_debut_encheres=? AND date_fin_encheres = ? AND" 
 			 +"prix_initial = ? AND prix_vente = ? AND no_utilisateur = ? AND no_categorie=? "; */
-	private static final String CHECK_IF_ARTICLE_ALREADY_EXISTS = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article=? AND description=? AND prix_initial = ? AND prix_vente = ? AND no_utilisateur = ? AND no_categorie=?"; 
+	private static final String CHECK_IF_ARTICLE_ALREADY_EXISTS = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article=? AND description=? AND prix_initial = ? AND prix_vente = ? AND no_utilisateur = ? AND no_categorie=? AND no_article <> ?"; 
 
 	
 	@Override
@@ -64,14 +64,15 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 			PreparedStatement pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, article.getNomArticle());
 			pstmt.setString(2, article.getDescription());
-			pstmt.setDate(3, (Date) article.getDateDebutEncheres());
-			pstmt.setDate(4, (Date) article.getDateFinEncheres());
-			/*pstmt.setDate(3, Utils.dateUtilVersSQL(article.getDateDebutEncheres()));
-			pstmt.setDate(4, Utils.dateUtilVersSQL(article.getDateFinEncheres()));*/
+			/*pstmt.setDate(3, (Date) article.getDateDebutEncheres());
+			pstmt.setDate(4, (Date) article.getDateFinEncheres());*/
+			pstmt.setDate(3, Utils.dateUtilVersSQL(article.getDateDebutEncheres()));
+			pstmt.setDate(4, Utils.dateUtilVersSQL(article.getDateFinEncheres()));
 			pstmt.setInt(5, article.getMiseAPrix());
 			pstmt.setInt(6, article.getPrixVente());
 			pstmt.setInt(7, article.getUtilisateur().getNoUtilisateur());
 			pstmt.setInt(8, article.getCategorie().getNoCategorie());
+			pstmt.setString(9, article.getPicture());
 			pstmt.executeUpdate();
 
 			ResultSet rs = pstmt.getGeneratedKeys();
@@ -161,7 +162,8 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 			pstmt.setInt(6, article.getPrixVente());
 			pstmt.setInt(7, article.getUtilisateur().getNoUtilisateur());
 			pstmt.setInt(8, article.getCategorie().getNoCategorie());
-			pstmt.setInt(9, article.getNoArticle());
+			pstmt.setString(9, article.getPicture());
+			pstmt.setInt(10, article.getNoArticle());
 			pstmt.executeUpdate(); 
 			nbLignesModifiees = pstmt.executeUpdate();
 
@@ -261,7 +263,9 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 			pstmt.setInt(4, articleToAdd.getPrixVente());
 			pstmt.setInt(5, articleToAdd.getUtilisateur().getNoUtilisateur());
 			pstmt.setInt(6, articleToAdd.getCategorie().getNoCategorie());
-	
+			pstmt.setInt(7, articleToAdd.getNoArticle());
+
+
             ResultSet rs = pstmt.executeQuery();
             
             while(rs.next())
@@ -305,6 +309,7 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 		articleVendu.setMiseAPrix(rs.getInt("prix_initial"));
 		articleVendu.setUtilisateur(this.getUserArticle(rs.getInt("no_utilisateur")));
 		articleVendu.setCategorie(this.getCategoryArticle(rs.getInt("no_categorie")));
+		articleVendu.setPicture(rs.getString("picture"));
 
 		return articleVendu;
 

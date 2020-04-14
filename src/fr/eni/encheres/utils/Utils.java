@@ -115,4 +115,45 @@ public class Utils {
 		return motDePasse;
 	}
 	
+	/**
+	 * Convertit une java.Util.Date vers une date au format SQL
+	 * @param laDate date à convertir
+	 * @return uneDate.
+	 */
+	public static java.sql.Date dateUtilVersSQL(java.util.Date laDate){
+		if (laDate != null)
+			return new java.sql.Date(laDate.getTime());
+		else
+			return null;
+	}
+	
+	/**
+	 * Convertit une java.sql.Date vers une date au format util.Date
+	 * @param laDate date à convertir
+	 * @return uneDate.
+	 */
+	public static java.util.Date dateSQLVersUtil(java.sql.Date laDate){
+		if (laDate != null)
+			return new java.util.Date(laDate.getTime());
+		else
+			return null;
+	}
+	/**
+	 * Convertit un champ string date en util.date.
+	 * @param laDate le champ texte date Ã  convertir
+	 * @return la date de type java.util.Date
+	 * @throws Exception Exception.
+	 */
+	public static java.util.Date stringVersUtil(String laDate) throws Exception{
+		java.util.Date date=null;
+		if (laDate != null){
+			try{
+				date = new SimpleDateFormat("yyyy-MM-dd").parse(laDate);
+			}catch (Exception e){
+				throw new Exception("Date non valide !");
+			}
+		}
+		return date;
+	}
+	
 }

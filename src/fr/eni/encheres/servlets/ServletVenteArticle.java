@@ -60,49 +60,37 @@ public class ServletVenteArticle extends HttpServlet {
 
 		HttpSession session = request.getSession();
 		Utilisateur currentUser = (Utilisateur) session.getAttribute("user");
+
 		// Récupération des champs du formulaire
 		String nom = request.getParameter("nomArticle");
 		String description = request.getParameter("description");
-		int categorieId = Integer.parseInt(request.getParameter("categorie")); // TODO*** Rajouter champ en base pour
-																				// gérer la photo
-		String photo = request.getParameter("file");
+		int categorieId = Integer.parseInt(request.getParameter("categorie"));
+		String photo = (!request.getParameter("file").equals("")) ? request.getParameter("file") : null;
 		int prixInitial = Integer.parseInt(request.getParameter("prix"));
-		String dateDebut = request.getParameter("debutEnchere");
-		String dateFin = request.getParameter("finEnchere");
 
 		String rue = (!request.getParameter("rue").equals("")) ? request.getParameter("rue") : currentUser.getRue();
-		String codePostal =  (!request.getParameter("codePostal").equals(""))  ? request.getParameter("codePostal") : currentUser.getCodePostal();
-		String ville = (!request.getParameter("ville").equals("")) ? request.getParameter("ville") : currentUser.getVille();
-		
+		String codePostal = (!request.getParameter("codePostal").equals("")) ? request.getParameter("codePostal")
+				: currentUser.getCodePostal();
+		String ville = (!request.getParameter("ville").equals("")) ? request.getParameter("ville")
+				: currentUser.getVille();
+
 		// Construction de l'article
 		ArticleVendu article = new ArticleVendu();
 		article.setNomArticle(nom);
 		article.setDescription(description);
 		article.setMiseAPrix(prixInitial);
+		article.setPicture(photo);
 		article.setUtilisateur(currentUser);
 
 		// Gestion des dates
-		/*
-		 * try { Date debutEnchere =
-		 * Utils.stringVersUtil(request.getParameter("debutEnchere")); Date finEnchere =
-		 * Utils.stringVersUtil(request.getParameter("finEnchere"));
-		 * article.setDateDebutEncheres(debutEnchere);
-		 * article.setDateFinEncheres(finEnchere); } catch (Exception e2) {
-		 * e2.printStackTrace(); }
-		 */
 
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		try {
-
-			Date dateDebutParsed = formatter.parse(dateDebut);
-			Date dateFinParsed = formatter.parse(dateFin);
-
-			java.sql.Date dateDebutSql = new java.sql.Date(dateDebutParsed.getTime());
-			java.sql.Date dateFinSql = new java.sql.Date(dateFinParsed.getTime());
-			article.setDateDebutEncheres(dateDebutSql);
-			article.setDateFinEncheres(dateFinSql);
-
-		} catch (ParseException e2) {
+			Date debutEnchere = Utils.stringVersUtil(request.getParameter("debutEnchere"));
+			Date finEnchere = Utils.stringVersUtil(request.getParameter("finEnchere"));
+			article.setDateDebutEncheres(debutEnchere);
+			article.setDateFinEncheres(finEnchere);	
+		
+		} catch (Exception e2) {
 			e2.printStackTrace();
 		}
 
@@ -120,10 +108,10 @@ public class ServletVenteArticle extends HttpServlet {
 		// Insertion article
 		ArticlesManager articleManager = ArticlesManager.getInstance();
 		ArticleVendu articleAjoute = null;
-		
+
 		try {
 			articleAjoute = articleManager.addArticle(article);
-			 
+
 			RetraitManager retraitManager = RetraitManager.getInstance();
 			retraitManager.addRetrait(retrait, articleAjoute);
 

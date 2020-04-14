@@ -62,11 +62,9 @@ public class ServletSuppressionCompte extends HttpServlet {
 		
 		//Sinon redirection vers l'accueil
 		}else {
-			//this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(request, response);
-			this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/Connexion.jsp").forward(request, response); //TODO*** Mettre la bonne redirection
+			this.getServletContext().getRequestDispatcher("/Index").forward(request, response);
+			
 		}
-
-
 	}
 
 	/**

@@ -10,7 +10,8 @@
 	              <a class="nav-link" href="${pageContext.request.contextPath}/ServletConnexion">Se Connecter</a>
 	              <c:if test="${not empty User }">
 			  		<a class="nav-link" href="${pageContext.request.contextPath}/ServletAffichageProfil"> Profil ${User.pseudo} </a>
-					<a class="nav-link" href="${pageContext.request.contextPath}/ServletVenteArticles">Vendre un article</a>	  		 
+					<a class="nav-link" href="${pageContext.request.contextPath}/ServletVenteArticles">Vendre un article</a>	  
+					<a class="nav-link" href="${pageContext.request.contextPath}/ServletDeconnexion">Déconnexion</a>			 
 				</c:if>
 	        </div>
 		</nav>	</div>

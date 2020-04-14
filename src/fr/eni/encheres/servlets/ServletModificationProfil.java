@@ -107,6 +107,7 @@ public class ServletModificationProfil extends HttpServlet {
 				}
 
 			} else {
+				motDePasse = mdpEnBase;
 				errors = true;
 				listeCodesErreur.add(CodesResultatServlets.PASSWORD_ACTUEL_INCORRECT);
 			}

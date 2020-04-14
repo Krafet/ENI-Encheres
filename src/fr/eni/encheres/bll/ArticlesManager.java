@@ -161,9 +161,11 @@ public class ArticlesManager {
 			throw businessException;
 		}
 
-		// TODO*** DATE
-		/*System.out.println(Utils.datesDiff(article.getDateDebutEncheres(),
-				article.getDateFinEncheres()));*/
+		// On vérifie que la date de fin est bien postérieure à la date de début (même si vérifié côté client)
+		if(article.getDateFinEncheres().getTime() <= article.getDateDebutEncheres().getTime()) {
+			businessException.ajouterErreur(CodesResultatBLL.DATES_INCOHERENTE);
+			throw businessException;
+		}
 
 		if (articleVenduDAO.checkIfArticleAlreadyExists(article)) {
 			businessException.ajouterErreur(CodesResultatBLL.ARTICLE_EXISTANT);

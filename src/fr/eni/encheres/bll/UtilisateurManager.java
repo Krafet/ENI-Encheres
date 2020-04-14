@@ -96,21 +96,6 @@ public class UtilisateurManager
 	public Utilisateur getUtilisateurById(int id) throws BusinessException
 	{
 		Utilisateur unUtilisateur =  utilisateurDAO.getUtilisateurById(id);
-		
-		/*Utilisateur unUtilisateur = new Utilisateur();
-		try
-		{
-			unUtilisateur = utilisateurDAO.getUtilisateurById(id);
-		}
-		catch(Exception e) 
-		{
-			e.printStackTrace();
-			
-			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatDAL.UTILISATEUR_INEXISTANT);
-
-			throw businessException;	
-		}*/	
 		return unUtilisateur;	
 	}
 	
@@ -127,56 +112,6 @@ public class UtilisateurManager
 		return utilisateurDAO.getUtilisateurByLoginPassword(login, MotDePasse);
 	}
 	
-	/**
-	 * 
-	 * Méthode en charge d'ajouter un utilisateur
-	 * @param unUtilisateur
-	 * @return Utilisateur
-	 * @throws BusinessException
-	 */
-	/*public Utilisateur addUtilisateur(Utilisateur unUtilisateur) throws BusinessException
-	{		
-		if(unUtilisateur.getPseudo().trim().equals("") 
-				|| unUtilisateur.getPrenom().trim().equals("") 
-				|| unUtilisateur.getNom().trim().equals("") 
-				|| unUtilisateur.getEmail().trim().equals("") 
-				|| unUtilisateur.getRue().trim().equals("") 
-				|| unUtilisateur.getCodePostal().trim().equals("") 
-				|| unUtilisateur.getVille().trim().equals("") 
-				|| unUtilisateur.getMotDePasse().trim().equals(""))
-		{
-			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatBLL.UN_CHAMP_NON_SAISI);
-
-			throw businessException;
-		}
-		
-		Pattern patternPseudo = Pattern.compile("^[A-Za-z0-9]+$");
-		Matcher matcherPseudo = patternPseudo.matcher(unUtilisateur.getPseudo());
-		boolean resultatPseudo = matcherPseudo.matches();
-		if(!resultatPseudo)
-		{
-			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatBLL.PSEUDO_NON_ALPHANUMERIQUE);
-
-			throw businessException;	
-		}
-		
-		Pattern patternEmail = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
-		Matcher matcherEmail = patternEmail.matcher(unUtilisateur.getPseudo());
-		boolean resultatEmail = matcherEmail.matches();
-		if(!resultatEmail)
-		{
-			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatBLL.EMAIL_FORMAT_INCORRECT);
-
-			throw businessException;	
-		}
-		
-		utilisateurDAO.insert(unUtilisateur);		
-		
-		return unUtilisateur;
-	}*/
 	
 	/**
 	 * 
@@ -224,43 +159,6 @@ public class UtilisateurManager
 	 * @return boolean
 	 * @throws BusinessException
 	 */
-	/*public boolean updateUtilisateur(Utilisateur unUtilisateur) throws BusinessException
-	{
-		if(unUtilisateur.getPseudo().trim().equals("") 
-				|| unUtilisateur.getPrenom().trim().equals("") 
-				|| unUtilisateur.getNom().trim().equals("") 
-				|| unUtilisateur.getEmail().trim().equals("") 
-				|| unUtilisateur.getRue().trim().equals("") 
-				|| unUtilisateur.getCodePostal().trim().equals("") 
-				|| unUtilisateur.getVille().trim().equals("") 
-				|| unUtilisateur.getMotDePasse().trim().equals(""))
-		{
-			//todo
-		}
-		
-		try
-		{
-			utilisateurDAO.update(unUtilisateur);
-			return true;
-		}
-		catch(Exception e) 
-		{
-			e.printStackTrace();
-			
-			BusinessException businessException = new BusinessException();
-			businessException.ajouterErreur(CodesResultatDAL.ERREUR_RECUPERATION_UTILISATEURS);
-
-			throw businessException;			
-		}
-	}*/
-	
-	/**
-	 * 
-	 * Méthode en charge de modifier un utilisateur
-	 * @param unUtilisateur
-	 * @return boolean
-	 * @throws BusinessException
-	 */
 	public boolean updateUtilisateur(Utilisateur unUtilisateur) throws BusinessException
 	{
 
@@ -294,7 +192,7 @@ public class UtilisateurManager
 			throw businessException;
 		}
 		
-		//On contrôle les formats des champs
+		//Contrôle format pseudo alphanumérique
 		Pattern patternPseudo = Pattern.compile("^[A-Za-z0-9]+$");
 		Matcher matcherPseudo = patternPseudo.matcher(unUtilisateur.getPseudo());
 		boolean resultatPseudo = matcherPseudo.matches();
@@ -306,6 +204,7 @@ public class UtilisateurManager
 			throw businessException;	
 		}
 		
+		//Contrôle format email
 		Pattern patternEmail = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
 		Matcher matcherEmail = patternEmail.matcher(unUtilisateur.getEmail());
 		boolean resultatEmail = matcherEmail.matches();
@@ -313,6 +212,29 @@ public class UtilisateurManager
 		{
 			businessException = new BusinessException();
 			businessException.ajouterErreur(CodesResultatBLL.EMAIL_FORMAT_INCORRECT);
+
+			throw businessException;	
+		}
+		//Contrôle format téléphone
+		Pattern patternTel = Pattern.compile("[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}");
+		Matcher matcherTel = patternTel.matcher(unUtilisateur.getTelephone());
+		boolean resultatTel= matcherTel.matches();
+		if(!resultatTel)
+		{
+			businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatBLL.TELEPHONE_FORMAT_INCORRECT);
+
+			throw businessException;	
+		}
+		
+		//Contrôle format code postal
+		Pattern patternCp= Pattern.compile("[0-9]{5}");
+		Matcher matcherCp = patternCp.matcher(unUtilisateur.getCodePostal());
+		boolean resultatCp = matcherCp.matches();
+		if(!resultatCp)
+		{
+			businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatBLL.CP_FORMAT_INCORRECT);
 
 			throw businessException;	
 		}

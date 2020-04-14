@@ -13,8 +13,12 @@
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-md-6">
-				<h4 class="text-center">Connexion</h4>
-				<!--  Gestion des erreurs -->
+			
+			<div class="divConnetionTitle"><h6 class="text-center connectionTitle">Connexion</h6></div>
+				
+				<div class="card cardConnect">
+					<article class="card-body">
+<!--  Gestion des erreurs -->
 				<c:if test="${!empty listeCodesErreur}">
 					<div class="alert alert-danger alertConnection text-center" role="alert">
 						<ul class="ulErrors">
@@ -24,9 +28,6 @@
 						</ul>
 					</div>
 				</c:if>
-				<div class="card cardConnect">
-					<article class="card-body">
-
 						<form action="${pageContext.request.contextPath}/ServletConnexion"
 							method="post">
 
@@ -45,7 +46,7 @@
 								<div
 									class="col-sm-3 col-md-5 offset-sm-1 offset-md-6 offset-lg-0">
 									<a class="" href="">
-										<button type="submit" class="btn btn-primary">Connexion</button>
+										<button type="submit" class="btn btn-outline-primary btnCustom">Connexion</button>
 									</a>
 								</div>
 								<div class="col-sm-3 col-md-7 offset-md-7 offset-lg-0">
@@ -65,10 +66,10 @@
 
 					</article>
 				</div>
-				<div class="row btnCreateAccount">
+				<div class="row btnCreateAccount ">
 					<div class="col-sm-12">
 						<a class="" href="${pageContext.request.contextPath}/ServletInscription">
-							<button type="button" class="btn btn-outline-secondary"
+							<button type="button" class="btn btn-outline-primary btnCustom"
 								style="width: 100%;">Créer un compte</button>
 						</a>
 					</div>

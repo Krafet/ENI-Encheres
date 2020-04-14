@@ -2,8 +2,40 @@
 	margin-top: 2%;
 }
 
+a{
+	color:black
+}
+
 .mainDivProfile {
 	margin-top: 5%;
+}
+
+.divConnetionTitle{
+	background-color:#2A88AD;
+	border:1px solid #2A88AD;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+}
+.connectionTitle{
+
+	color:white;
+	margin:0;
+	padding:2.5%;
+}
+
+.modifTitle{
+
+	padding:2% !important;
+}
+
+.btnCustom{
+	border-color: #2A88AD;
+	color:#2A88AD;
+}
+
+.btnCustom:hover{
+	background: #2A88AD;
+	border-color: #2A88AD;
 }
 
 .profileButtons a {
@@ -16,7 +48,7 @@
 }
 
 .modifProfil {
-	margin-top: 3%;
+	/*margin-top: 3%;*/
 	font-size: 14px;
 }
 
@@ -56,11 +88,13 @@
 	margin: 2% auto;
 	width: 30%;
 	text-decoration: none;
-	color: black;
+	color:#2A88AD !important;	
 }
 
+
+
 .divBtn .btn:hover, .divBtn a:hover {
-	color: white;
+	color: white !important;
 }
 
 .card {
@@ -74,8 +108,9 @@
 }
 
 .cardConnect {
-	margin-top: 7%;
+	/*margin-top: 7%;*/
 	padding:1.25rem !important;
+	margin-bottom:2%:
 }
 .cardConnect input{
 	margin-bottom:6%;
@@ -91,13 +126,17 @@
 }
 
 .alertConnection{
-	margin : 6% auto;
+	/*margin : 3% auto;*/
 }
 
 .alertModification{
-	margin : 3% auto;
+	/*margin : 3% auto;*/
 }
 
+.alertInscription{
+	margin : 3% auto;
+	font-size:14px;
+}
 .inputActualPass{
 	font-style: italic;
 	font-size:13px !important;
@@ -124,6 +163,12 @@ legend.scheduler-border {
 
 .imgArticle{
 	border:1px solid black;
+	padding: 12%;
+	width:100%;
+}
+
+.imgUploaded{
+	border:1px solid black;
 	padding: 1%;
 	width:100%;
 }
@@ -133,9 +178,10 @@ legend.scheduler-border {
 }
 
 .form-style-10{
-	width:450px;
+	/*width:450px;*/
+	width:52%;
 	padding:30px;
-	margin:40px auto;
+	margin:40px auto 80px auto;
 	background: #FFF;
 	border-radius: 10px;
 	-webkit-border-radius:10px;
@@ -159,7 +205,8 @@ legend.scheduler-border {
 	-moz-border-radius: 10px 10px 0 0;
 	color: #fff;
 	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12);
-	font: normal 30px 'Bitter', serif;
+
+	font-size:30px;
 	-moz-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
 	-webkit-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
 	box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
@@ -203,7 +250,7 @@ legend.scheduler-border {
 }
 
 .form-style-10 .section{
-	font: normal 20px 'Bitter', serif;
+	font: normal 20px;
 	color: #2A88AD;
 	margin-bottom: 5px;
 }
@@ -229,7 +276,7 @@ legend.scheduler-border {
 	-moz-border-radius: 5px;
 	color: #fff;
 	text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.12);
-	font: normal 30px 'Bitter', serif;
+	font: normal 30px ;
 	-moz-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
 	-webkit-box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
 	box-shadow: inset 0px 2px 2px 0px rgba(255, 255, 255, 0.17);
@@ -246,7 +293,7 @@ legend.scheduler-border {
 .form-style-10 .privacy-policy{
 	float: right;
 	width: 250px;
-	font: 12px Arial, Helvetica, sans-serif;
+	font: 12px;
 	color: #4D4D4D;
 	margin-top: 10px;
 	text-align: right;

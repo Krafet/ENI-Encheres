@@ -26,6 +26,7 @@ public class ArticleVendu implements Serializable {
 	private Utilisateur utilisateur;
 	private Categorie categorie;
 	private Retrait retrait;
+	private String picture;
 	
 	
 	/**
@@ -86,6 +87,54 @@ public class ArticleVendu implements Serializable {
 		this.utilisateur = utilisateur;
 		this.categorie = categorie;
 		this.retrait = retrait;
+	}
+	
+	/**
+	 * 
+	 * Constructeur
+	 * @param noArticle
+	 * @param nomArticle
+	 * @param description
+	 * @param dateDebutEncheres
+	 * @param dateFinEncheres
+	 * @param miseAPrix
+	 * @param prixVente
+	 * @param etatVente
+	 * @param utilisateur
+	 * @param categorie
+	 * @param retrait
+	 * @param picture
+	 */
+	public ArticleVendu(int noArticle, String nomArticle, String description, Date dateDebutEncheres,
+			Date dateFinEncheres, int miseAPrix, int prixVente, boolean etatVente, Utilisateur utilisateur,
+			Categorie categorie, Retrait retrait, String picture) {
+		this(nomArticle,description,dateDebutEncheres,dateFinEncheres, miseAPrix,prixVente,etatVente,utilisateur,categorie, retrait);
+		this.noArticle = noArticle;
+		this.picture = picture;
+
+	}
+	
+	/**
+	 * 
+	 * Constructeur
+	 * @param nomArticle
+	 * @param description
+	 * @param dateDebutEncheres
+	 * @param dateFinEncheres
+	 * @param miseAPrix
+	 * @param prixVente
+	 * @param etatVente
+	 * @param utilisateur
+	 * @param categorie
+	 * @param retrait
+	 * @param picture
+	 */
+	public ArticleVendu(String nomArticle, String description, Date dateDebutEncheres,
+			Date dateFinEncheres, int miseAPrix, int prixVente, boolean etatVente, Utilisateur utilisateur,
+			Categorie categorie, Retrait retrait, String picture) {
+		this(nomArticle,description,dateDebutEncheres,dateFinEncheres, miseAPrix,prixVente,etatVente,utilisateur,categorie, retrait);
+		this.picture = picture;
+
 	}
 
 	
@@ -272,13 +321,32 @@ public class ArticleVendu implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	
 
-	@Override
 	/**
-	 * 
+	 * Getter pour picture.
+	 * @return the picture
+	 */
+	public String getPicture() {
+		return picture;
+	}
+
+	/**
+	 * Setter pour picture.
+	 * @param picture the picture to set
+	 */
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
+
+
+	/**
 	 * {@inheritDoc}
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("ArticleVendu [noArticle=");
@@ -303,6 +371,8 @@ public class ArticleVendu implements Serializable {
 		builder.append(categorie);
 		builder.append(", retrait=");
 		builder.append(retrait);
+		builder.append(", picture=");
+		builder.append(picture);
 		builder.append("]");
 		return builder.toString();
 	}
