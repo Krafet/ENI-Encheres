@@ -3,6 +3,7 @@ package fr.eni.encheres.dal.jdbc;
 import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
@@ -76,6 +78,30 @@ public class EnchereDAOJdbcImplTest {
 		}
 	}
 
+	@AfterEach
+	public void tearDownAfterEach() throws Exception {
+		// On reset pour obtenir de nouveau le jeu d'essai de base de notre application
+		try {
+			Utils.executeQuery("db/jeu_essai_application.sql");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void selectByIdTest() throws BusinessException {
+
+		Enchere enchereAttendu = enchereBuilder();
+		Enchere enchereInsertion = enchereDAO.insert(enchereAttendu);
+
+		Enchere enchereRecupere = enchereDAO.selectById(enchereInsertion.getUnUtilisateur().getNoUtilisateur(),
+				enchereInsertion.getUnArticleVendu().getNoArticle());
+
+		assertEquals(enchereAttendu, enchereRecupere);
+		// assertEquals(enchereAttendu.getMontantEnchere(),
+		// enchereRecupere.getMontantEnchere());
+	}
+
 	@Test
 	public void insertTest() throws BusinessException {
 		int avantInsertion = enchereDAO.selectAll().size();
@@ -86,6 +112,16 @@ public class EnchereDAOJdbcImplTest {
 		int apresInsertion = enchereDAO.selectAll().size();
 
 		assertEquals(apresInsertion, avantInsertion + 1);
+	}
+
+	@Test
+	public void deleteTest() throws BusinessException {
+
+		Enchere enchereTest = enchereBuilder();
+		enchereDAO.insert(enchereTest);
+		boolean result = enchereDAO.delete(enchereTest.getUnUtilisateur().getNoUtilisateur(),
+				enchereTest.getUnArticleVendu().getNoArticle());
+		assertEquals(result, true);
 	}
 
 	@Test
@@ -104,40 +140,17 @@ public class EnchereDAOJdbcImplTest {
 		Enchere enchereMiseAJour = enchereDAO.selectById(recuperationInsertion.getUnUtilisateur().getNoUtilisateur(),
 				recuperationInsertion.getUnArticleVendu().getNoArticle());
 
-		//assertEquals(recuperationInsertion, enchereMiseAJour);
-		assertEquals(recuperationInsertion.getMontantEnchere(), enchereMiseAJour.getMontantEnchere());
-	
+		assertEquals(recuperationInsertion, enchereMiseAJour);
+		// assertEquals(recuperationInsertion.getMontantEnchere(),
+		// enchereMiseAJour.getMontantEnchere());
 
 	}
 
 	@Test
-	public void selectAllTest() throws BusinessException {
+	public void selectAllTest() throws Exception {
 
 		List<Enchere> listeEnchere = enchereDAO.selectAll();
-
 		assertEquals(3, listeEnchere.size());
-	}
-
-	// @Test
-	public void deleteTest() throws BusinessException {
-
-		Enchere enchereTest = enchereBuilder();
-		enchereDAO.insert(enchereTest);
-		boolean result = enchereDAO.delete(enchereTest.getUnUtilisateur().getNoUtilisateur(),
-				enchereTest.getUnArticleVendu().getNoArticle());
-		assertEquals(result, true);
-	}
-
-	@Test
-	public void selectByIdTest() throws BusinessException {
-
-		Enchere enchereAttendu = enchereBuilder();
-		Enchere enchereInsertion = enchereDAO.insert(enchereAttendu);
-
-		Enchere enchereRecupere = enchereDAO.selectById(enchereInsertion.getUnUtilisateur().getNoUtilisateur(),
-				enchereInsertion.getUnArticleVendu().getNoArticle());
-
-		assertEquals(enchereAttendu.getMontantEnchere(), enchereRecupere.getMontantEnchere());
 	}
 
 	/**
@@ -157,8 +170,14 @@ public class EnchereDAOJdbcImplTest {
 		uneEnchere.setUnUtilisateur(utilisateur);
 		uneEnchere.setUnArticleVendu(article);
 		uneEnchere.setMontantEnchere(500);
+		try {
+			uneEnchere.setDateEnchere(Utils.stringVersUtil("2020-12-04 "));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		uneEnchere.setDateEnchere(new java.util.Date());
 		return uneEnchere;
 	}
+
 }
