@@ -152,7 +152,9 @@ public class ServletModificationProfil extends HttpServlet {
 
 			// Sinon on redirige vers le profil avec les modifs effectuées
 		} else {
-
+			List<Integer> listeCodeSuccess = new ArrayList<>();
+			listeCodeSuccess.add(CodesResultatServlets.MODIFICATION_REUSSIE);
+			request.setAttribute("listeCodesSuccess",listeCodeSuccess);
 			request.getSession().setAttribute("user", newInfosUser); // On met à jour la session
 			this.getServletContext().getRequestDispatcher("/ServletAffichageProfil").forward(request, response);
 		}

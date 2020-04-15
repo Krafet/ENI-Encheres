@@ -88,6 +88,9 @@ public class ServletInscription extends HttpServlet {
 		try
 		{
 			utilisateurManager.addUtilisateur(unUtilisateur);
+			List<Integer> listeCodeSuccess = new ArrayList<>();
+			listeCodeSuccess.add(CodesResultatServlets.INSCRIPTION_REUSSIE);
+			request.setAttribute("listeCodesSuccess",listeCodeSuccess);
 			RequestDispatcher rd = request.getRequestDispatcher("/Index");
 			rd.forward(request, response);
 		}

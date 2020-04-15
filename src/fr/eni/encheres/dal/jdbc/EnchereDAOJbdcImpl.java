@@ -57,10 +57,11 @@ public class EnchereDAOJbdcImpl implements EnchereDAO {
 			PreparedStatement stm = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			stm.setInt(1, uneEnchere.getMontantEnchere());
 			
-			java.util.Date date_util =  uneEnchere.getDateEnchere();
+			/*java.util.Date date_util =  uneEnchere.getDateEnchere();
 			java.sql.Date date_sql = new java.sql.Date(date_util.getTime());
-			stm.setDate(2, date_sql);
+			stm.setDate(2, date_sql);*/
 			
+			stm.setDate(2, Utils.dateUtilVersSQL(uneEnchere.getDateEnchere()));
 			stm.setInt(3, uneEnchere.getUnUtilisateur().getNoUtilisateur());
 			stm.setInt(4, uneEnchere.getUnArticleVendu().getNoArticle());
 
@@ -195,9 +196,9 @@ public class EnchereDAOJbdcImpl implements EnchereDAO {
 		try (Connection cnx = Utils.getConnection()) {
 			
 			PreparedStatement pstmt = cnx.prepareStatement(UPDATE);
-			java.util.Date date_util =  uneEnchere.getDateEnchere();
-			java.sql.Date date_sql = new java.sql.Date(date_util.getTime());
-			pstmt.setDate(1, date_sql);
+			/*java.util.Date date_util =  uneEnchere.getDateEnchere();
+			java.sql.Date date_sql = new java.sql.Date(date_util.getTime());*/
+			pstmt.setDate(2, Utils.dateUtilVersSQL(uneEnchere.getDateEnchere()));
 			pstmt.setInt(2, uneEnchere.getMontantEnchere());		
 			pstmt.setInt(3, uneEnchere.getUnUtilisateur().getNoUtilisateur());
 			pstmt.setInt(4, uneEnchere.getUnArticleVendu().getNoArticle());

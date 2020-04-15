@@ -3,6 +3,7 @@ package fr.eni.encheres.servlets;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -147,6 +148,9 @@ public class ServletVenteArticle extends HttpServlet {
 
 			// Sinon on redirige vers l'accueil
 		} else {
+			List<Integer> listeCodeSuccess = new ArrayList<>();
+			listeCodeSuccess.add(CodesResultatServlets.ARTICLE_AJOUTE);
+			request.setAttribute("listeCodesSuccess",listeCodeSuccess);
 			this.getServletContext().getRequestDispatcher("/Index").forward(request, response);
 		}
 	}

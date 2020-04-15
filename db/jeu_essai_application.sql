@@ -25,8 +25,10 @@ INSERT INTO ARTICLES_VENDUS (nom_article,description, date_debut_encheres,date_f
 INSERT INTO RETRAITS (no_article, rue, code_postal, ville) VALUES(3,'Rue1', '75000', 'Paris');
 INSERT INTO RETRAITS (no_article, rue, code_postal, ville) VALUES(2,'Rue2', '35000', 'Rennes');
 
-INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES(1, 3, '2020-04-12', 500);
-INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES(2, 1, '2018-04-10', 400);
-INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES(2, 2, '2018-04-10', 300);
-INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES(3, 4, '2018-04-10', 300);
+SET DateFormat YMD
+
+INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES(1, 3, '2020-05-19', 500);
+INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES(2, 1, '2018-05-15', 400);
+INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES(2, 2, '2018-05-16', 300);
+INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES(3, 4, '2018-03-10', 300);
 

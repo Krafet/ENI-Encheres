@@ -62,6 +62,9 @@ public class ServletSuppressionCompte extends HttpServlet {
 		
 		//Sinon redirection vers l'accueil
 		}else {
+			List<Integer> listeCodeSuccess = new ArrayList<>();
+			listeCodeSuccess.add(CodesResultatServlets.SUPPRESSION_REUSSIE);
+			request.setAttribute("listeCodesSuccess",listeCodeSuccess);
 			this.getServletContext().getRequestDispatcher("/Index").forward(request, response);
 			
 		}
