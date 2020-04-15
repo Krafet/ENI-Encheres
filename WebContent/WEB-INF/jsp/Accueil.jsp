@@ -45,14 +45,12 @@
 							placeholder="Le nom de l'article contient" value="${Recherche}"
 							class="form-control border-left-0">
 					</div>
-
-
 					<div class="col-auto my-1">
 						<label class="mr-sm-2" for="inlineFormCustomSelect">Catégorie
 							:</label> <select class="custom-select mr-sm-2 col-sm-2"
 							id="inlineFormCustomSelect" name="Categorie">
 							<c:choose>
-								<c:when test="${Categorie == 'Toutes' }">
+								<c:when test="${Categorie eq 'Toutes' }">
 									<option selected>Toutes</option>
 								</c:when>
 								<c:otherwise>
@@ -61,7 +59,7 @@
 							</c:choose>
 							<c:forEach items="${Categories}" var="element">
 								<c:choose>
-									<c:when test="${Categorie == element }">
+									<c:when test="${Categorie eq element.libelle}">
 										<option selected>${element.libelle}</option>
 									</c:when>
 									<c:otherwise>
