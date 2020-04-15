@@ -1,13 +1,11 @@
 package fr.eni.encheres.dal.jdbc;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
@@ -15,7 +13,6 @@ import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dal.ArticleVenduDAO;
 import fr.eni.encheres.dal.CategorieDAO;
 import fr.eni.encheres.dal.CodesResultatDAL;
-import fr.eni.encheres.dal.ConnectionProvider;
 import fr.eni.encheres.dal.DAOFactory;
 import fr.eni.encheres.dal.UtilisateurDAO;
 import fr.eni.encheres.utils.Utils;
@@ -39,10 +36,8 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 			+ "prix_initial=?,prix_vente=?,no_utilisateur=?,no_categorie=?, picture=? WHERE no_article=?";
 	private static final String SELECT = "SELECT * FROM ARTICLES_VENDUS WHERE no_article = ?";
 	private static final String SELECT_ALL = "SELECT * FROM ARTICLES_VENDUS";
-	/*private static final String CHECK_IF_ARTICLE_ALREADY_EXISTS = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article=? AND description=? AND date_debut_encheres=? AND date_fin_encheres = ? AND" 
-			 +"prix_initial = ? AND prix_vente = ? AND no_utilisateur = ? AND no_categorie=? "; */
-	private static final String CHECK_IF_ARTICLE_ALREADY_EXISTS = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article=? AND description=? AND prix_initial = ? AND prix_vente = ? AND no_utilisateur = ? AND no_categorie=? AND no_article <> ?"; 
-
+	private static final String CHECK_IF_ARTICLE_ALREADY_EXISTS = "SELECT * FROM ARTICLES_VENDUS WHERE nom_article=? AND description=? AND date_debut_encheres=? AND date_fin_encheres = ? AND" 
+			 +" prix_initial = ? AND prix_vente = ? AND no_utilisateur = ? AND no_categorie=? ";
 	
 	@Override
 	/**
@@ -64,8 +59,6 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 			PreparedStatement pstmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, article.getNomArticle());
 			pstmt.setString(2, article.getDescription());
-			/*pstmt.setDate(3, (Date) article.getDateDebutEncheres());
-			pstmt.setDate(4, (Date) article.getDateFinEncheres());*/
 			pstmt.setDate(3, Utils.dateUtilVersSQL(article.getDateDebutEncheres()));
 			pstmt.setDate(4, Utils.dateUtilVersSQL(article.getDateFinEncheres()));
 			pstmt.setInt(5, article.getMiseAPrix());
@@ -156,8 +149,8 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 			PreparedStatement pstmt = cnx.prepareStatement(UPDATE);
 			pstmt.setString(1, article.getNomArticle());
 			pstmt.setString(2, article.getDescription());
-			pstmt.setDate(3, (Date) (article.getDateDebutEncheres()));
-			pstmt.setDate(4, (Date) article.getDateFinEncheres());
+			pstmt.setDate(3, Utils.dateUtilVersSQL(article.getDateDebutEncheres()));
+			pstmt.setDate(4, Utils.dateUtilVersSQL(article.getDateFinEncheres()));
 			pstmt.setInt(5, article.getMiseAPrix());
 			pstmt.setInt(6, article.getPrixVente());
 			pstmt.setInt(7, article.getUtilisateur().getNoUtilisateur());
@@ -246,25 +239,14 @@ public class ArticleVenduDAOJdbcImpl implements ArticleVenduDAO {
 		try (Connection cnx = Utils.getConnection()) 
 		{
 			PreparedStatement pstmt = cnx.prepareStatement(CHECK_IF_ARTICLE_ALREADY_EXISTS);
-			/*pstmt.setString(1, articleToAdd.getNomArticle());
+			pstmt.setString(1, articleToAdd.getNomArticle());
 			pstmt.setString(2, articleToAdd.getDescription());
-			//pstmt.setDate(3, (Date) (articleToAdd.getDateDebutEncheres()));
-			//pstmt.setDate(4, (Date) articleToAdd.getDateFinEncheres());
-			pstmt.setDate(3, new java.sql.Date(articleToAdd.getDateDebutEncheres().getTime()));
-			pstmt.setDate(4, new java.sql.Date(articleToAdd.getDateFinEncheres().getTime()));
+			pstmt.setDate(3,Utils.dateUtilVersSQL(articleToAdd.getDateDebutEncheres()));
+			pstmt.setDate(4,Utils.dateUtilVersSQL(articleToAdd.getDateFinEncheres()));
 			pstmt.setInt(5, articleToAdd.getMiseAPrix());
 			pstmt.setInt(6, articleToAdd.getPrixVente());
 			pstmt.setInt(7, articleToAdd.getUtilisateur().getNoUtilisateur());
-			pstmt.setInt(8, articleToAdd.getCategorie().getNoCategorie());*/
-			
-			pstmt.setString(1, articleToAdd.getNomArticle());
-			pstmt.setString(2, articleToAdd.getDescription());
-			pstmt.setInt(3, articleToAdd.getMiseAPrix());
-			pstmt.setInt(4, articleToAdd.getPrixVente());
-			pstmt.setInt(5, articleToAdd.getUtilisateur().getNoUtilisateur());
-			pstmt.setInt(6, articleToAdd.getCategorie().getNoCategorie());
-			pstmt.setInt(7, articleToAdd.getNoArticle());
-
+			pstmt.setInt(8, articleToAdd.getCategorie().getNoCategorie());
 
             ResultSet rs = pstmt.executeQuery();
             

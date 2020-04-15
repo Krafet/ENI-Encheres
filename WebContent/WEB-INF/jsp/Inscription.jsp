@@ -37,20 +37,20 @@
 			<form method="post" action="${pageContext.request.contextPath}/ServletInscription">
 			    <div class="section"><span>1</span>Informations personnelles</div>
 			    <div class="inner-wrap">
-			        <label>Pseudo <input type="text" id="pseudo" name="pseudo" value="test" required/></label>
-			        <label>Nom  <input type="text" id="nom" name="nom" value="test" required/></label>
-			        <label>Prénom  <input type="text" id="prenom" name="prenom" value="test" required/></label>
-			        <label>Email  <input type="text" id="email" name="email"  value="test@t.com"required/></label>
-			        <label>Téléphone  <input type="text" id="telephone" name="telephone" value="0613523078" pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}"/></label>
-			        <label>Rue  <input type="text" id="rue" name="rue" value="test" required/></label>
+			        <label>Pseudo <input type="text" id="pseudo" name="pseudo" value="alicesmith" required/></label>
+			        <label>Nom  <input type="text" id="nom" name="nom" value="Smith" required/></label>
+			        <label>Prénom  <input type="text" id="prenom" name="prenom" value="Alice" required/></label>
+			        <label>Email  <input type="text" id="email" name="email"  value="asmith@free.fr"required/></label>
+			        <label>Téléphone  <input type="text" id="telephone" name="telephone" value="0612587896" pattern="[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}"/></label>
+			        <label>Rue  <input type="text" id="rue" name="rue" value="36 rue Vasselot" required/></label>
 			        <label>Code postal  <input type="text" id="codePostal" name="codePostal" value="35000" max="99999" pattern="[0-9]{5}" required/></label>
-			        <label>Ville  <input type="text" id="ville" name="ville" value="test" required/></label>
+			        <label>Ville  <input type="text" id="ville" name="ville" value="Rennes" required/></label>
 			    </div>
 			
 			    <div class="section"><span>2</span>Sécurité</div>
 			        <div class="inner-wrap">
-			        <label>Mot de passe <input type="password" id="mdp" name="mdp" value="test" required/></label>
-			        <label>Confirmation <input type="password" id="mdpConfirmation"value="test"  name="mdpConfirmation" required/></label>
+			        <label>Mot de passe <input type="password" id="mdp" name="mdp" value="root" required/></label>
+			        <label>Confirmation <input type="password" id="mdpConfirmation"value="root"  name="mdpConfirmation" required/></label>
 			    </div>
 			    <div class="button-section">
 				     <input type="submit" Value="Valider"/>
