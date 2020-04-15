@@ -101,10 +101,10 @@
 							</div>							
 						</fieldset>
 						<div class="row divbtnVente profileButtons">
-							<div class="col-sm-4 offset-sm-1">
+							<div class="col-sm-4">
 								<a class="btn btn-lg" ><button type="submit" class="btn btn-outline-secondary btnCustom">Enregistrer</button></a>
 							</div>
-							<div class="col-sm-4 offset-sm-3">
+							<div class="col-sm-4 offset-sm-2">
 								<a class="btn btn-lg" href="${pageContext.request.contextPath}/Index"><button type="button" class="btn btn-outline-secondary btnCustom">Annuler</button></a>
 							</div>
 						</div>
