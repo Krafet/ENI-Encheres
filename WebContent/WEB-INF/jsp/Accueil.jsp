@@ -6,6 +6,7 @@
 <%@ page import="fr.eni.encheres.bo.Categorie"%>
 <%@ page import="java.util.List"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html>
@@ -77,26 +78,37 @@
 		</div>
 	</div>
 
-	<h3>Liste des enchères</h3>
 
-	<div class="container">
-
+	<div class="container text-center">
+					<h3>Liste des enchères</h3>
 		<div class="row justify-content-center">
+	<c:choose>
+<c:when test="${fn:length(Encheres) gt 0}">
 
-			<c:forEach items="${Encheres}" var="element">
+
+<c:forEach items="${Encheres}" var="element">
 				<div class="card" style="width: 18rem;">
 
 					<div class="card-body">
+						<img src="./img/${element.unArticleVendu.picture }" width="300" height="150">
 						<h5 class="card-title">${element.unArticleVendu.nomArticle}</h5>
 						<p class="card-text">Prix : ${element.montantEnchere }</p>
 						<p class="card-text">Fin de l'enchere ${element.dateEnchere }</p>
 						<a
 							href="${pageContext.request.contextPath}/ServletAffichageProfil?profil=${element.unUtilisateur.noUtilisateur}">
 							<p class="card-text">Vendeur : ${element.unUtilisateur.pseudo }</p>
-						</a> <a href="#" class="btn btn-primary">Go</a>
+						</a> <a href="${pageContext.request.contextPath}/ServletDetailVente?idUser=${element.unUtilisateur.noUtilisateur}&idArticle=${element.unArticleVendu.noArticle}" class="btn btn-primary">Go</a>
+						
 					</div>
 				</div>
 			</c:forEach>
+</c:when>
+<c:otherwise>
+<h6> Aucunes encheres disponible pour la selection</h6>
+</c:otherwise>
+</c:choose>
+
+			
 
 		</div>
 	</div>
