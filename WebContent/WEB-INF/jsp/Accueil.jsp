@@ -6,7 +6,7 @@
 <%@ page import="fr.eni.encheres.bo.Categorie"%>
 <%@ page import="java.util.List"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html>
 <html>
@@ -51,14 +51,14 @@
 						<label class="mr-sm-2" for="inlineFormCustomSelect">Catégorie
 							:</label> <select class="custom-select mr-sm-2 col-sm-2"
 							id="inlineFormCustomSelect" name="Categorie">
-								<c:choose>
-									<c:when test="${Categorie == 'Toutes' }">
-										<option selected>Toutes</option>
-									</c:when>
-									<c:otherwise>
-										<option>Toutes</option>
-									</c:otherwise>
-								</c:choose>
+							<c:choose>
+								<c:when test="${Categorie == 'Toutes' }">
+									<option selected>Toutes</option>
+								</c:when>
+								<c:otherwise>
+									<option>Toutes</option>
+								</c:otherwise>
+							</c:choose>
 							<c:forEach items="${Categories}" var="element">
 								<c:choose>
 									<c:when test="${Categorie == element }">
@@ -79,38 +79,44 @@
 	</div>
 
 
-	<div class="container text-center">
-					<h3>Liste des enchères</h3>
+	<div class="container">
+		<h3 class="text-center">Liste des enchères</h3>
 		<div class="row justify-content-center">
-	<c:choose>
-<c:when test="${fn:length(Encheres) gt 0}">
+
+			<c:choose>
+				<c:when test="${fn:length(Encheres) gt 0}">
 
 
-<c:forEach items="${Encheres}" var="element">
-				<div class="card" style="width: 18rem;">
+					<c:forEach items="${Encheres}" var="element">
 
-					<div class="card-body">
-						<img src="./img/${element.unArticleVendu.picture }" width="300" height="150">
-						<h5 class="card-title">${element.unArticleVendu.nomArticle}</h5>
-						<p class="card-text">Prix : ${element.montantEnchere }</p>
-						<p class="card-text">Fin de l'enchere ${element.dateEnchere }</p>
-						<a
-							href="${pageContext.request.contextPath}/ServletAffichageProfil?profil=${element.unUtilisateur.noUtilisateur}">
-							<p class="card-text">Vendeur : ${element.unUtilisateur.pseudo }</p>
-						</a> <a href="${pageContext.request.contextPath}/ServletDetailVente?idUser=${element.unUtilisateur.noUtilisateur}&idArticle=${element.unArticleVendu.noArticle}" class="btn btn-primary">Go</a>
-						
-					</div>
-				</div>
-			</c:forEach>
-</c:when>
-<c:otherwise>
-<h6> Aucunes encheres disponible pour la selection</h6>
-</c:otherwise>
-</c:choose>
-
-			
-
+						<div class="col-lg-4 d-flex align-items-stretch">
+							<a href="${pageContext.request.contextPath}/ServletDetailVente?idUser=${element.unUtilisateur.noUtilisateur}&idArticle=${element.unArticleVendu.noArticle}">
+								<div class="card" style="width: 18rem;">
+									<img class="card-img-top"
+										src="./img/${element.unArticleVendu.picture }" height="150">
+									<div class="card-body">
+										<h5 class="card-title">${element.unArticleVendu.nomArticle}</h5>
+										<p class="card-text">Prix : ${element.montantEnchere }</p>
+										<p> Fin de l'enchere ${element.dateEnchere }</p>
+										<a
+											href="${pageContext.request.contextPath}/ServletAffichageProfil?profil=${element.unUtilisateur.noUtilisateur}">
+											<p class="card-text">Vendeur :
+												${element.unUtilisateur.pseudo }</p>
+										</a>
+									</div>
+							</a>
+						</div>
 		</div>
+		</c:forEach>
+		</c:when>
+		<c:otherwise>
+			<h6>Aucunes encheres disponible pour la selection</h6>
+		</c:otherwise>
+		</c:choose>
+
+
+
+	</div>
 	</div>
 
 
