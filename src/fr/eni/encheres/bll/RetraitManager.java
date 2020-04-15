@@ -36,14 +36,21 @@ public class RetraitManager {
 		bindDatas();
 	}
 	
-	public static RetraitManager getInstance() throws BusinessException
+	public static RetraitManager getInstance()
 	{
-		if(instance == null)
-		{
-			instance = new RetraitManager();
-		}
+		try {
+			if(instance == null)
+			{
+				instance = new RetraitManager();
+			}
 
-		return instance;		
+			return instance;	
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		
 	}
 	
 	
