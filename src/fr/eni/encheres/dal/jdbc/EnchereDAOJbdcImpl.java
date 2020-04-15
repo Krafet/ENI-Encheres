@@ -232,7 +232,6 @@ public class EnchereDAOJbdcImpl implements EnchereDAO {
 		uneEnchere.setDateEnchere(rs.getDate("date_enchere"));
 		uneEnchere.setUnArticleVendu(articleDAO.selectById(rs.getInt("no_article")));
 		uneEnchere.setUnUtilisateur(utilisateurDAO.getUtilisateurById(rs.getInt("no_utilisateur")));
-
 		return uneEnchere;
 
 	}
