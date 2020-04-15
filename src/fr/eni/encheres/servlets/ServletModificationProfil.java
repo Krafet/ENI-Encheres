@@ -47,6 +47,8 @@ public class ServletModificationProfil extends HttpServlet {
 			request.setAttribute("listeCodesErreur", listeCodesErreur);
 		}
 
+		request.setAttribute("displayNav", false); //On ne veux pas afficher de menu sur cette page
+		
 		// Redirection vers le formulaire de modif
 		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/ModificationProfil.jsp").forward(request, response);
 	}

@@ -15,6 +15,7 @@ a{
 	border:1px solid #2A88AD;
 	border-top-left-radius: 20px;
 	border-top-right-radius: 20px;
+	margin-top:1%;
 }
 .connectionTitle{
 
@@ -23,6 +24,12 @@ a{
 	padding:2.5%;
 }
 
+.venteTitle{
+	color:white;
+	padding:1.25%;
+	margin:0;
+
+}
 .modifTitle{
 
 	padding:2% !important;
@@ -57,7 +64,7 @@ a{
 }
 
 .cardVente {
-	margin-top: 3%;
+	/*margin-top: 3%;*/
 	font-size: 13px;
 }
 
@@ -145,8 +152,7 @@ a{
 
 .newSellTitle{
 	text-align: center;
-	margin-bottom: 6%;
-	margin-top:2%;
+
 }
 
 .divbtnVente{

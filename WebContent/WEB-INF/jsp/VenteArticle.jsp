@@ -11,6 +11,7 @@
 <body class="container">
 
 	<div class="container">
+		<div class="divConnetionTitle"><h6 class="text-center venteTitle">Nouvelle vente</h6></div>
 		<div class="card cardVente">
 		<div class="card-body">
 			<div class="row">
@@ -19,9 +20,7 @@
 						<img id="imageArticle"class="imgArticle" id="" src="${pageContext.request.contextPath}/img/close2.png" alt="image" />
 					</div>
 				</div>
-				<div class="col-sm-12 col-md-12 col-lg-8">
-					
-					<h2 class="newSellTitle">Nouvelle vente</h2>
+				<div class="col-sm-12 col-md-12 col-lg-8">		
 						<!--  Gestion des erreurs -->
 						<c:if test="${!empty listeCodesErreur}">
 							<div class="alert alert-danger alertModification text-center" role="alert">
@@ -103,10 +102,10 @@
 						</fieldset>
 						<div class="row divbtnVente profileButtons">
 							<div class="col-sm-4 offset-sm-1">
-								<a class="btn btn-lg" ><button type="submit" class="btn btn-secondary">Enregistrer</button></a>
+								<a class="btn btn-lg" ><button type="submit" class="btn btn-outline-secondary btnCustom">Enregistrer</button></a>
 							</div>
 							<div class="col-sm-4 offset-sm-3">
-								<a class="btn btn-lg" href="${pageContext.request.contextPath}/Index"><button type="button" class="btn btn-secondary">Annuler</button></a>
+								<a class="btn btn-lg" href="${pageContext.request.contextPath}/Index"><button type="button" class="btn btn-outline-secondary btnCustom">Annuler</button></a>
 							</div>
 						</div>
 					</form>

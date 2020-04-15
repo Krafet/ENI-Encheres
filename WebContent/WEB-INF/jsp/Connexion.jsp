@@ -18,7 +18,7 @@
 				
 				<div class="card cardConnect">
 					<article class="card-body">
-<!--  Gestion des erreurs -->
+				<!--  Gestion des erreurs -->
 				<c:if test="${!empty listeCodesErreur}">
 					<div class="alert alert-danger alertConnection text-center" role="alert">
 						<ul class="ulErrors">

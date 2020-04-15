@@ -46,6 +46,7 @@ public class ServletVenteArticle extends HttpServlet {
 			throws ServletException, IOException {
 
 		this.getInfosSellForm(request);
+		request.setAttribute("displayNav", false); //On ne veux pas afficher de menu sur cette page
 		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/VenteArticle.jsp").forward(request, response);
 	}
 

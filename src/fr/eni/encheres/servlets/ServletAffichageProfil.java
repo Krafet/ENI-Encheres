@@ -63,6 +63,7 @@ public class ServletAffichageProfil extends HttpServlet {
 			
 		}
 		request.setAttribute("isCurrentUser",isCurrentUser);
+		request.setAttribute("displayNav", false); //On ne veux pas afficher de menu sur cette page
 		
 		//Redirection vers la page de profil
 		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/AffichageProfil.jsp").forward(request, response);
