@@ -35,13 +35,13 @@
 						<div class="form-group row">
 							<label class="col-sm-3 col-md-3 col-lg-3">Article :<br></label>
 							<div class="col-sm-6 col-md-9 col-lg-8">
-								<input type="text" name="nomArticle" class="form-control" required value="test">
+								<input type="text" name="nomArticle" class="form-control" required value="Clavier bluetooth">
 							</div>
 						</div>
 							<div class="form-group row">
 							<label class="col-sm-3 col-md-3 col-lg-3">Description :<br></label>
 							<div class="col-sm-6 col-md-9 col-lg-8">
-								<textarea name="description" class="form-control noResize" required>test</textarea>
+								<textarea name="description" class="form-control noResize" required>Peu utilisé, trè bonne qualité</textarea>
 							</div>
 						</div>
 						<div class="form-group row">
@@ -58,13 +58,12 @@
 							<label class="col-sm-3 col-md-3 col-lg-3">Photo de l'article</label>
 							<div class="col-sm-6 col-md-9 col-lg-8">
 								<input type="file" onchange="changePicture(this)" name="file" id="file"/>
- 								<!-- <label class="custom-file-label" for="inputGroupFile01">Choose file</label> -->
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-sm-3 col-md-3 col-lg-3">Mise à prix : </label>
 							<div class="col-sm-6 col-md-9 col-lg-8">
-								<input class="form-control" value="1" type="number" id="prix" name="prix" min="1" required >	
+								<input class="form-control" value="50" type="number" id="prix" name="prix" min="1" required >	
 							</div>
 						</div>
 						<div class="form-group row">

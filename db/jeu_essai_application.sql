@@ -28,4 +28,4 @@ INSERT INTO RETRAITS (no_article, rue, code_postal, ville) VALUES(2,'Rue2', '350
 INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES(1, 3, '2020-04-12', 500);
 INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES(2, 1, '2018-04-10', 400);
 INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES(2, 2, '2018-04-10', 300);
-
+INSERT INTO ENCHERES (no_utilisateur, no_article, date_enchere, montant_enchere) VALUES(3, 4, '2018-04-10', 300);
