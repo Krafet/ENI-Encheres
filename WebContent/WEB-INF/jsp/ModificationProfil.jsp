@@ -105,9 +105,9 @@
 				
 				<div class="row divBtn">
 					<button type="submit" class="btn btn-sm btn-outline-secondary btnCustom" value="valider">Enregistrer les modifications</button>
-					<button class="btn btn-sm btn-outline-secondary btnCustom" >
+					<button class="btn btn-outline-secondary btnCustom" >
 					 <a href="${pageContext.request.contextPath}/ServletSuppressionCompte"  onclick="if (!confirm('Etes-vous sûr(e) de supprimer votre compte ? Cela entrainement la suppression de toutes vos enchères et articles en vente.')) return false;">Supprimer mon compte</a></button>
-					<button class="btn btn-sm btn-outline-primary btnCustom" name="choix"><a href="${pageContext.request.contextPath}/ServletAffichageProfil">Retour</a></button>
+					<button class="btn btn-outline-primary btnCustom" name="choix"><a href="${pageContext.request.contextPath}/ServletAffichageProfil">Retour</a></button>
 		
 					</form>
 				</div>
