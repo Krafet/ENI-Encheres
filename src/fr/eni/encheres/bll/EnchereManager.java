@@ -60,7 +60,14 @@ public class EnchereManager {
 	
 	public List<Enchere> getEncheres()
 	{
-		  return Collections.unmodifiableList(listeEncheres);
+		try {
+			return enchereDAO.selectAll();
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	

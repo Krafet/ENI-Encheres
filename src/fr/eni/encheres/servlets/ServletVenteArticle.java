@@ -16,9 +16,11 @@ import javax.servlet.http.HttpSession;
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bll.ArticlesManager;
 import fr.eni.encheres.bll.CategorieManager;
+import fr.eni.encheres.bll.EnchereManager;
 import fr.eni.encheres.bll.RetraitManager;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
+import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.utils.Utils;
@@ -109,6 +111,8 @@ public class ServletVenteArticle extends HttpServlet {
 		// Insertion article
 		ArticlesManager articleManager = ArticlesManager.getInstance();
 		ArticleVendu articleAjoute = null;
+		
+		
 
 		try {
 			articleAjoute = articleManager.addArticle(article);
@@ -120,6 +124,25 @@ public class ServletVenteArticle extends HttpServlet {
 			errors = true;
 			request.setAttribute("listeCodesErreur", e1.getListeCodesErreur());
 		}
+		
+		
+		//Creation enchere
+		Enchere enchere = new Enchere();
+		enchere.setUnArticleVendu(articleAjoute);
+		enchere.setUnUtilisateur(currentUser);
+		enchere.setDateEnchere(article.getDateFinEncheres());
+		enchere.setMontantEnchere(prixInitial);
+		
+		
+		EnchereManager enchereManager = EnchereManager.getEnchereManager();
+		try {
+			enchereManager.insert(enchere);
+		} catch (BusinessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 
 		// S'il y a des erreurs on redirige vers le formulaire de login et on affiche le message
 		if (errors) {
