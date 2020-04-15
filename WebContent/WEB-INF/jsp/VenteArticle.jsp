@@ -41,7 +41,7 @@
 							<div class="form-group row">
 							<label class="col-sm-3 col-md-3 col-lg-3">Description :<br></label>
 							<div class="col-sm-6 col-md-9 col-lg-8">
-								<textarea name="description" class="form-control noResize" required>Peu utilisé, trè bonne qualité</textarea>
+								<textarea name="description" class="form-control noResize" required>Peu utilisé, très bonne qualité</textarea>
 							</div>
 						</div>
 						<div class="form-group row">

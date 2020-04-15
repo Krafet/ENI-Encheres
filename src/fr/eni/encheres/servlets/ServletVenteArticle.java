@@ -68,14 +68,12 @@ public class ServletVenteArticle extends HttpServlet {
 		String nom = request.getParameter("nomArticle");
 		String description = request.getParameter("description");
 		int categorieId = Integer.parseInt(request.getParameter("categorie"));
-		String photo = (!request.getParameter("file").equals("")) ? request.getParameter("file") : null;
+		String photo = (!request.getParameter("file").equals("")) ? request.getParameter("file") : "close2.png";
 		int prixInitial = Integer.parseInt(request.getParameter("prix"));
 
 		String rue = (!request.getParameter("rue").equals("")) ? request.getParameter("rue") : currentUser.getRue();
-		String codePostal = (!request.getParameter("codePostal").equals("")) ? request.getParameter("codePostal")
-				: currentUser.getCodePostal();
-		String ville = (!request.getParameter("ville").equals("")) ? request.getParameter("ville")
-				: currentUser.getVille();
+		String codePostal = (!request.getParameter("codePostal").equals("")) ? request.getParameter("codePostal") : currentUser.getCodePostal();
+		String ville = (!request.getParameter("ville").equals("")) ? request.getParameter("ville") : currentUser.getVille();
 
 		// Construction de l'article
 		ArticleVendu article = new ArticleVendu();
@@ -119,31 +117,29 @@ public class ServletVenteArticle extends HttpServlet {
 
 			RetraitManager retraitManager = RetraitManager.getInstance();
 			retraitManager.addRetrait(retrait, articleAjoute);
+			
+			//Creation enchere
+			Enchere enchere = new Enchere();
+			enchere.setUnArticleVendu(articleAjoute);
+			enchere.setUnUtilisateur(currentUser);
+			enchere.setDateEnchere(article.getDateFinEncheres());
+			enchere.setMontantEnchere(prixInitial);
+			
+			
+			EnchereManager enchereManager = EnchereManager.getEnchereManager();
+			try {
+				enchereManager.insert(enchere);
+			} catch (BusinessException e) {
+				errors = true;
+				request.setAttribute("listeCodesErreur", e.getListeCodesErreur());
+			}
 
 		} catch (BusinessException e1) {
 			errors = true;
 			request.setAttribute("listeCodesErreur", e1.getListeCodesErreur());
 		}
+				
 		
-		
-		//Creation enchere
-		Enchere enchere = new Enchere();
-		enchere.setUnArticleVendu(articleAjoute);
-		enchere.setUnUtilisateur(currentUser);
-		enchere.setDateEnchere(article.getDateFinEncheres());
-		enchere.setMontantEnchere(prixInitial);
-		
-		
-		EnchereManager enchereManager = EnchereManager.getEnchereManager();
-		try {
-			enchereManager.insert(enchere);
-		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-
 		// S'il y a des erreurs on redirige vers le formulaire de login et on affiche le message
 		if (errors) {
 			this.getInfosSellForm(request);
@@ -151,8 +147,7 @@ public class ServletVenteArticle extends HttpServlet {
 
 			// Sinon on redirige vers l'accueil
 		} else {
-			this.getServletContext().getRequestDispatcher("/Index").forward(request, response); // TODO***MODE CONNECTE
-																								// ?
+			this.getServletContext().getRequestDispatcher("/Index").forward(request, response);
 		}
 	}
 
