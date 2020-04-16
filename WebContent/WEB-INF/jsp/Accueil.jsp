@@ -69,17 +69,50 @@
 							</c:forEach>
 						</select>
 					</div>
+
+					<c:if test="${not empty User}">
+						<div>
+							<input type="radio" id="MesAchats" name="ChoixModeAffichage"
+								value="MesAchats"
+									<c:choose> 
+										<c:when test ="${ChoixModeAffichage eq 'MesAchats'}">
+											checked
+										</c:when>
+									</c:choose>
+								>
+								<label for="MesAchats">Mes Encheres</label>
+						</div>
+
+						<div>
+							<input type="radio" id="MesVentes" name="ChoixModeAffichage"
+								value="MesVentes"
+									<c:choose> 
+										<c:when test ="${ChoixModeAffichage eq 'MesVentes'}">
+											checked
+										</c:when>
+									</c:choose>
+								> <label for="MesVentes">Mes
+								Ventes</label>
+						</div>
+
+						<div>
+							<input type="radio" id="Tous" name="ChoixModeAffichage"
+								value="Tous"
+									<c:choose> 
+										<c:when test ="${ChoixModeAffichage eq 'Tous'}">
+											checked
+										</c:when>
+									</c:choose>
+								> <label for="Tous">Tous</label>
+						</div>
+					</c:if>
 					<input type="submit" value="Rechercher">
 				</form>
 
 			</div>
 		</div>
 	</div>
-	
-	
-	<c:if test="${not empty User}">
-	
-	</c:if>
+
 
 
 	<div class="container">
@@ -90,18 +123,20 @@
 				<c:when test="${fn:length(Encheres) gt 0}">
 
 
-					<c:forEach items="${Encheres}" var="element">			
+					<c:forEach items="${Encheres}" var="element">
 
 						<div class="col-lg-4 d-flex align-items-stretch">
-							<a href="${pageContext.request.contextPath}/ServletDetailVente?idUser=${element.unUtilisateur.noUtilisateur}&idArticle=${element.unArticleVendu.noArticle}">
+							<a
+								href="${pageContext.request.contextPath}/ServletDetailVente?idUser=${element.unArticleVendu.utilisateur.noUtilisateur}&idArticle=${element.unArticleVendu.noArticle}">
 								<div class="card" style="width: 18rem;">
 									<img class="card-img-top"
 										src="./img/${element.unArticleVendu.picture }" height="150">
 									<div class="card-body">
 										<h5 class="card-title">${element.unArticleVendu.nomArticle}</h5>
 										<p class="card-text">Prix : ${element.montantEnchere }</p>
-										<p class="card-text"> Meilleur encherisseur : ${element.unUtilisateur.pseudo }
-										<p> Fin de l'enchere ${element.dateEnchere }</p>
+										<p class="card-text">Meilleur encherisseur :
+											${element.unArticleVendu.utilisateur.pseudo }
+										<p>Fin de l'enchere ${element.dateEnchere }</p>
 										<a
 											href="${pageContext.request.contextPath}/ServletAffichageProfil?profil=${element.unUtilisateur.noUtilisateur}">
 											<p class="card-text">Vendeur :
@@ -117,47 +152,8 @@
 			<h6>Aucunes encheres disponible pour la selection</h6>
 		</c:otherwise>
 		</c:choose>
-		
-		
-		
-		
-		<c:choose>
-				<c:when test="${fn:length(MesEncheres) gt 0}">
 
 
-					<c:forEach items="${MesEncheres}" var="element">			
-
-						<div class="col-lg-4 d-flex align-items-stretch">
-							<a href="${pageContext.request.contextPath}/ServletDetailVente?idUser=${element.unUtilisateur.noUtilisateur}&idArticle=${element.unArticleVendu.noArticle}">
-								<div class="card" style="width: 18rem;">
-									<img class="card-img-top"
-										src="./img/${element.unArticleVendu.picture }" height="150">
-									<div class="card-body">
-										<h5 class="card-title">${element.unArticleVendu.nomArticle}</h5>
-										<p class="card-text">Prix : ${element.montantEnchere }</p>
-									
-										<p> Fin de l'enchere ${element.dateEnchere }</p>
-										<a
-											href="${pageContext.request.contextPath}/ServletAffichageProfil?profil=${element.unArticleVendu.unUtilisateur.noUtilisateur}">
-											<p class="card-text">Vendeur :
-												${element.unUtilisateur.pseudo }</p>
-										</a>
-									</div>
-							</a>
-						</div>
-		</div>
-		</c:forEach>
-		</c:when>
-		<c:otherwise>
-			<h6>Aucunes encheres disponible pour la selection</h6>
-		</c:otherwise>
-		</c:choose>
-		
-		
-		
-		
-		
-		
 
 
 

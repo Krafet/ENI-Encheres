@@ -76,27 +76,38 @@ public class ServletAccueil extends HttpServlet {
 			
 			
 			Utilisateur myself = (Utilisateur) session.getAttribute("user");
-			
-			System.out.println(myself);
+						
+			if(choix != null)
+			{
+				switch(choix)
+				{
+				case("MesAchats"):
+					for(int i = 0; i < listEnchere.size(); i++)
+					{
+						if(listEnchere.get(i).getUnUtilisateur().equals(myself))
+						{
+							processEnchere.add(listEnchere.get(i));
+						}
+					}
+					listEnchere = processEnchere;
+					break;
 				
-			//1
-			for(int i = 0; i < listEnchere.size(); i++)
-			{
-				if(listEnchere.get(i).getUnUtilisateur().equals(myself))
-				{
-					mesEncheres.add(listEnchere.get(i));
+				case("MesVentes"):
+					
+					for(int i = 0; i < listEnchere.size(); i++)
+					{
+						if(listEnchere.get(i).getUnArticleVendu().getUtilisateur().equals(myself))
+						{
+							processEnchere.add(listEnchere.get(i));
+						}
+					}
+					listEnchere = processEnchere;
+					break;
 				}
+				
+				
 			}
-			
-			//2
-			for(int i = 0; i < listEnchere.size(); i++)
-			{
-				if(listEnchere.get(i).getUnArticleVendu().getUtilisateur().equals(myself))
-				{
-					mesVentes.add(listEnchere.get(i));
-				}
-			}
-			
+		
 		}
 		
 	
@@ -161,10 +172,10 @@ public class ServletAccueil extends HttpServlet {
 		
 		request.setAttribute("Categories", listCat);
 		request.setAttribute("Encheres", processEnchere);
-		request.setAttribute("EnchereDEBUG", mesEncheres);
 		
 		request.setAttribute("Categorie", categorie);
 		request.setAttribute("Recherche", recherche);
+		request.setAttribute("ChoixModeAffichage", choix);
 	
 		
 
