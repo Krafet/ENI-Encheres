@@ -1,7 +1,10 @@
 package fr.eni.encheres.servlets;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,8 +16,10 @@ import javax.servlet.http.HttpSession;
 
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bll.ArticlesManager;
+import fr.eni.encheres.bll.EnchereManager;
 import fr.eni.encheres.bll.UtilisateurManager;
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Utilisateur;
 
 /**
@@ -50,6 +55,7 @@ public class ServletEncherirVente extends HttpServlet {
 		
 		UtilisateurManager utilisateurManager = UtilisateurManager.getInstance();
 		ArticlesManager articlesManager = ArticlesManager.getInstance();
+		EnchereManager enchereManager = EnchereManager.getEnchereManager();
 		
 		Utilisateur unUtilisateur = new Utilisateur();
 		
@@ -72,21 +78,26 @@ public class ServletEncherirVente extends HttpServlet {
 			if(proposition > meilleureOffre)
 			{
 				listeCodesErreur.add(CodesResultatServlets.PROPOSITION_INFERIEURE_A_MEILLEURE_OFFRE);
-				this.getServletContext().getRequestDispatcher("/ServletDetailVente").forward(request, response);
+				this.getServletContext().getRequestDispatcher("/ServletAccueil").forward(request, response);
 			}
 						
 			if(userSession.getCredit() < proposition)
 			{
 				listeCodesErreur.add(CodesResultatServlets.CREDIT_INSUFFISANT);
-				this.getServletContext().getRequestDispatcher("/ServletDetailVente").forward(request, response);
-			}			
+				this.getServletContext().getRequestDispatcher("/ServletAccueil").forward(request, response);
+			}
 			
 			ArticleVendu unArticle = articlesManager.getArticleById(idArticle);
 			unArticle.setMiseAPrix(proposition);
-			unArticle.setUtilisateur(userSession);
 			
 			articlesManager.updateArticle(unArticle);
 			
+			Date date = new Date();
+
+			System.out.println(proposition + idArticle + meilleureOffre + date.toString());
+			Enchere uneEnchere = new Enchere(proposition, date ,userSession, unArticle);
+			
+			enchereManager.insert(uneEnchere);
 		}
 		catch(BusinessException e) 
 		{

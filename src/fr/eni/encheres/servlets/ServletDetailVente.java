@@ -61,7 +61,8 @@ public class ServletDetailVente extends HttpServlet {
 		
 		
 		Enchere uneEnchere = new Enchere();
-		Utilisateur unUtilisateur = new Utilisateur();
+		Utilisateur unUtilisateurVendeur = new Utilisateur();
+		Utilisateur unUtilisateurAcheteur = new Utilisateur();
 		ArticleVendu unArticleVendu = new ArticleVendu();
 		Retrait unRetrait = new Retrait();
 		
@@ -77,9 +78,15 @@ public class ServletDetailVente extends HttpServlet {
 		
 		try 
 		{
-			unUtilisateur = userManager.getUtilisateurById(idUser);
+			unUtilisateurVendeur = userManager.getUtilisateurById(idUser); //idUser = id du vendeur
+			unUtilisateurAcheteur = userManager.getUtilisateurById(userSession.getNoUtilisateur()); //userSession peut aussi être le vendeur
+			
 			unArticleVendu = articleManager.getArticleById(idArticle);
-			System.out.println(unArticleVendu);
+			
+			System.out.println(unUtilisateurVendeur);
+			
+			System.out.println(unUtilisateurAcheteur);
+			
 			//Formattage de la date
 			String dateFin = Utils.getDateFormate(unArticleVendu.getDateFinEncheres(), "dd/MM/YYYY");
 			request.setAttribute("dateFin", dateFin);
@@ -89,7 +96,7 @@ public class ServletDetailVente extends HttpServlet {
 			
 			unArticleVendu.setRetrait(unRetrait);
 			
-			uneEnchere.setUnUtilisateur(unUtilisateur);
+			uneEnchere.setUnUtilisateur(unUtilisateurAcheteur);
 			uneEnchere.setUnArticleVendu(unArticleVendu);				
 			
 			uneEnchere = enchereManager.selectById(uneEnchere);
@@ -98,7 +105,8 @@ public class ServletDetailVente extends HttpServlet {
 			request.setAttribute("uneEnchere", uneEnchere);
 			request.setAttribute("unRetrait", unRetrait);
 			request.setAttribute("unArticleVendu", unArticleVendu);
-			request.setAttribute("utilisateurEnchere", unUtilisateur);
+			request.setAttribute("utilisateurVendeur", unUtilisateurVendeur);
+			request.setAttribute("utilisateurEnchere", unUtilisateurAcheteur);
 			
 			BusinessException e = new BusinessException();
 			request.setAttribute("listeCodesErreur",e.getListeCodesErreur());
