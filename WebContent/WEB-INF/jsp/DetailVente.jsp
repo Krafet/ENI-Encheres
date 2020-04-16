@@ -33,7 +33,7 @@
 								</ul>
 							</div>
 						</c:if>
-					<form action="${pageContext.request.contextPath}/ServletEncherirVente?idArticle=${unArticleVendu.noArticle}" method="post">
+					<form action="${pageContext.request.contextPath}/ServletEncherirVente?idArticle=${unArticleVendu.noArticle}&idVendeur=${unArticleVendu.utilisateur.noUtilisateur}" method="post">
 						<div class="form-group row">							
 							<div class="col-sm-6 col-md-9 col-lg-8">
 								<label class="form-control">${unArticleVendu.nomArticle}</label>

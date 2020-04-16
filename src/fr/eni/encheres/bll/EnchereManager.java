@@ -130,6 +130,23 @@ public class EnchereManager {
 	}
 	
 	/**
+	 * 
+	 * Méthode en charge de mettre à jour une enchère via un article
+	 * @param uneEnchere
+	 * @param idNewUser
+	 * @return
+	 * @throws BusinessException
+	 */
+	public boolean updateByArticle(Enchere uneEnchere, int idNewUser) throws BusinessException
+	{
+		return enchereDAO.updateByArticle(uneEnchere, idNewUser);
+	}
+	
+	
+	public Enchere selectByArticle(int idArticle) throws BusinessException {
+		return enchereDAO.selectByArticle(idArticle);
+	}
+	/**
 	 * Méthode récupérant une enchère spécifiquement par les deux id 
 	 * @author José Luis FERREIRA DA SILVA
 	 * @param uneEnchere

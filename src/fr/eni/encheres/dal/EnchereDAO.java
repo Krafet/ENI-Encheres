@@ -67,4 +67,18 @@ public interface EnchereDAO {
 	 * @throws BusinessException
 	 */
 	boolean deleteByUserOrArticle(int idUtilisateur, int idArticle) throws BusinessException;
+	/**
+	 * Méthode en charge de mettre à jour l'enchère lié à un article
+	 * @param uneEnchere, idNewUser
+	 * @return
+	 * @throws BusinessException
+	 */
+	boolean updateByArticle(Enchere uneEnchere,int idNewUser) throws BusinessException;
+	/**
+	 * Méthode en charge de sélectionner une enchère via son article
+	 * @param idArticle
+	 * @return
+	 * @throws BusinessException
+	 */
+	Enchere selectByArticle(int idArticle) throws BusinessException;
 }

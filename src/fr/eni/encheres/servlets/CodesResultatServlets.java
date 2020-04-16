@@ -42,7 +42,14 @@ public class CodesResultatServlets {
 	/**
 	 * Si la proposition est inférieure à la meilleure offre.
 	 */
-	public static final int PROPOSITION_INFERIEURE_A_MEILLEURE_OFFRE=30004;
+	public static final int PROPOSITION_INFERIEURE_A_MEILLEURE_OFFRE=30005;
+	
+	/**
+	 * Si aucune proposition n'a été faite pour l'enchère.
+	 */
+	public static final int AUCUNE_PROPOSITION=30006;
+	
+
 	
 	/******************
 	 * SUCCESS
@@ -67,6 +74,13 @@ public class CodesResultatServlets {
 	 * Suppression réussie
 	 */
 	public static final int SUPPRESSION_REUSSIE = 30103;
+	
+
+	/**
+	 * Enchère ajoutée
+	 */
+	public static final int ENCHERE_AJOUTEE = 30104;
+	
 	
 	
 

@@ -35,7 +35,7 @@ public class ServletDeconnexion extends HttpServlet {
 		session.invalidate();
 		
 		//Redirection vers l'accueil
-		this.getServletContext().getRequestDispatcher("/Index").forward(request, response); //TODO*** Mettre la bonne page
+		this.getServletContext().getRequestDispatcher("/Index").forward(request, response); 
 	}
 
 	/**

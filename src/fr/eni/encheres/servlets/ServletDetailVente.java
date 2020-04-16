@@ -49,6 +49,10 @@ public class ServletDetailVente extends HttpServlet {
 		
 		//Initialisation des erreurs
 		List<Integer> listeCodesErreur=new ArrayList<>();
+		if (listeCodesErreur.size() > 0) 
+		{
+			request.setAttribute("listeCodesErreur", listeCodesErreur);
+		}
 		
 		UtilisateurManager userManager = UtilisateurManager.getInstance(); 
 		EnchereManager enchereManager = EnchereManager.getEnchereManager();
@@ -108,9 +112,7 @@ public class ServletDetailVente extends HttpServlet {
 			request.setAttribute("utilisateurVendeur", unUtilisateurVendeur);
 			request.setAttribute("utilisateurEnchere", unUtilisateurAcheteur);
 			
-			BusinessException e = new BusinessException();
-			request.setAttribute("listeCodesErreur",e.getListeCodesErreur());
-			
+		
 			request.setAttribute("displayNav", false); //On ne veux pas afficher de menu sur cette page
 			request.setAttribute("canUpdate", true); //Apparition du bouton modifier ou non
 	

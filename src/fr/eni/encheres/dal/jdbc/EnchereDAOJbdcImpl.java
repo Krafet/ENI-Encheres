@@ -32,8 +32,9 @@ public class EnchereDAOJbdcImpl implements EnchereDAO {
 	private static final String INSERT = "INSERT INTO Encheres(montant_enchere, date_enchere, no_utilisateur, no_article) VALUES (?, ?, ?, ?)";
 	private static final String DELETE = "DELETE from Encheres WHERE no_utilisateur=? AND no_article=?";
 	private static final String DELETE_BY_USER_OR_ARTICLE = "DELETE ENCHERES WHERE no_utilisateur=? OR no_article=?";
-
-
+	private static final String UPDATE_BY_ARTICLE = "UPDATE Encheres SET no_utilisateur=?, date_enchere=?, montant_enchere=? WHERE no_article=?";
+	private static final String SELECT_BY_ARTICLE = "SELECT * FROM Encheres WHERE no_article=?";
+	
 	@Override
 	/**
 	 * 
@@ -213,6 +214,63 @@ public class EnchereDAOJbdcImpl implements EnchereDAO {
 			throw businessException;
 		}
 		return nbLignesSuppr > 0;
+	}
+	
+	@Override
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.EnchereDAO#update(fr.eni.encheres.bo.Enchere)
+	 */
+	public boolean updateByArticle(Enchere uneEnchere, int idNewUser) throws BusinessException {
+		int nbLignesSuppr = 0;
+
+		try (Connection cnx = Utils.getConnection()) {
+			
+			PreparedStatement pstmt = cnx.prepareStatement(UPDATE_BY_ARTICLE);
+
+			pstmt.setInt(1,idNewUser);
+			pstmt.setDate(2, Utils.dateUtilVersSQL(uneEnchere.getDateEnchere()));
+			pstmt.setInt(3, uneEnchere.getMontantEnchere());		
+			pstmt.setInt(4, uneEnchere.getUnArticleVendu().getNoArticle());
+
+			pstmt.executeUpdate();
+
+			nbLignesSuppr = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.MODIFICATION_ENCHERE_ERREUR);
+			throw businessException;
+		}
+		return nbLignesSuppr > 0;
+	}
+	
+	@Override
+	/**
+	 * 
+	 * {@inheritDoc}
+	 * @see fr.eni.encheres.dal.EnchereDAO#selectById(int, int)
+	 */
+	public Enchere selectByArticle(int idArticle) throws BusinessException {
+
+		Enchere uneEnchere = null;
+		try (Connection cnx = Utils.getConnection()) {
+			PreparedStatement pstmt = cnx.prepareStatement(SELECT_BY_ARTICLE);
+			pstmt.setInt(1, idArticle);
+			ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				uneEnchere = enchereBuilder(rs);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			BusinessException businessException = new BusinessException();
+			businessException.ajouterErreur(CodesResultatDAL.SELECTION_ENCHERE_ERREUR);
+			throw businessException;
+		}
+
+		return uneEnchere;
 	}
 
 	/**
