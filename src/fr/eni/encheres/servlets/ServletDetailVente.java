@@ -72,6 +72,7 @@ public class ServletDetailVente extends HttpServlet {
 		
 		//Récupération des paramètres idUser et idArticle
 		int idUser = Integer.parseInt((request.getParameter("idUser")));
+		int idAcheteur = Integer.parseInt((request.getParameter("idAcheteur")));
 		int idArticle = Integer.parseInt((request.getParameter("idArticle")));
 		
 		if(userSession == null)
@@ -83,14 +84,11 @@ public class ServletDetailVente extends HttpServlet {
 		try 
 		{
 			unUtilisateurVendeur = userManager.getUtilisateurById(idUser); //idUser = id du vendeur
-			unUtilisateurAcheteur = userManager.getUtilisateurById(userSession.getNoUtilisateur()); //userSession peut aussi être le vendeur
+			//unUtilisateurAcheteur = userManager.getUtilisateurById(userSession.getNoUtilisateur()); //userSession peut aussi être le vendeur
+			unUtilisateurAcheteur = userManager.getUtilisateurById(idAcheteur); //userSession peut aussi être le vendeur
 			
 			unArticleVendu = articleManager.getArticleById(idArticle);
-			
-			System.out.println(unUtilisateurVendeur);
-			
-			System.out.println(unUtilisateurAcheteur);
-			
+
 			//Formattage de la date
 			String dateFin = Utils.getDateFormate(unArticleVendu.getDateFinEncheres(), "dd/MM/YYYY");
 			request.setAttribute("dateFin", dateFin);
