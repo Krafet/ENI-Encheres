@@ -1,7 +1,10 @@
 package fr.eni.encheres.servlets;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -14,6 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bll.ArticlesManager;
+import fr.eni.encheres.bll.CodesResultatBLL;
 import fr.eni.encheres.bll.EnchereManager;
 import fr.eni.encheres.bll.RetraitManager;
 import fr.eni.encheres.bll.UtilisateurManager;
@@ -21,6 +25,7 @@ import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.utils.Utils;
 
 /**
  * Servlet implementation class ServletDetailVente
@@ -74,6 +79,10 @@ public class ServletDetailVente extends HttpServlet {
 		{
 			unUtilisateur = userManager.getUtilisateurById(idUser);
 			unArticleVendu = articleManager.getArticleById(idArticle);
+			System.out.println(unArticleVendu);
+			//Formattage de la date
+			String dateFin = Utils.getDateFormate(unArticleVendu.getDateFinEncheres(), "dd/MM/YYYY");
+			request.setAttribute("dateFin", dateFin);
 			
 			unRetrait = retraitManager.selectById(idArticle);
 			
@@ -88,10 +97,26 @@ public class ServletDetailVente extends HttpServlet {
 			request.setAttribute("userSession", userSession);
 			request.setAttribute("uneEnchere", uneEnchere);
 			request.setAttribute("unRetrait", unRetrait);
+			request.setAttribute("unArticleVendu", unArticleVendu);
+			request.setAttribute("utilisateurEnchere", unUtilisateur);
 			
 			BusinessException e = new BusinessException();
 			request.setAttribute("listeCodesErreur",e.getListeCodesErreur());
 			
+			request.setAttribute("displayNav", false); //On ne veux pas afficher de menu sur cette page
+			request.setAttribute("canUpdate", true); //Apparition du bouton modifier ou non
+	
+			//Local date instance
+	        LocalDate localDate = LocalDate.now();
+	         
+	        //Get LocalDate from SQL date
+	        java.sql.Date today = java.sql.Date.valueOf( localDate );
+	
+			//On  vérifie que l'enchère n'a pas commencé (si commencée, le vendeur ne peut plus la modifier)
+			if(today.getTime() > Utils.dateUtilVersSQL(unArticleVendu.getDateDebutEncheres()).getTime()) {
+				request.setAttribute("canUpdate", false);
+			}
+
 			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/DetailVente.jsp");
 			rd.forward(request, response);
 		}

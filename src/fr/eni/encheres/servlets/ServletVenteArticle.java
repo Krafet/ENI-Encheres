@@ -81,6 +81,7 @@ public class ServletVenteArticle extends HttpServlet {
 		article.setNomArticle(nom);
 		article.setDescription(description);
 		article.setMiseAPrix(prixInitial);
+		article.setPrixVente(prixInitial);
 		article.setPicture(photo);
 		article.setUtilisateur(currentUser);
 
