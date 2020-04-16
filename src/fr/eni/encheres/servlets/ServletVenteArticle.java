@@ -49,6 +49,7 @@ public class ServletVenteArticle extends HttpServlet {
 			throws ServletException, IOException {
 
 		this.getInfosSellForm(request);
+		request.setCharacterEncoding("UTF-8");
 		request.setAttribute("displayNav", false); //On ne veux pas afficher de menu sur cette page
 		this.getServletContext().getRequestDispatcher("/WEB-INF/jsp/VenteArticle.jsp").forward(request, response);
 	}
@@ -60,6 +61,7 @@ public class ServletVenteArticle extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		request.setCharacterEncoding("UTF-8");
 		boolean errors = false;
 
 		HttpSession session = request.getSession();
@@ -150,6 +152,7 @@ public class ServletVenteArticle extends HttpServlet {
 			// Sinon on redirige vers l'accueil
 		} else {
 			List<Integer> listeCodeSuccess = new ArrayList<>();
+			request.setCharacterEncoding("UTF-8");
 			listeCodeSuccess.add(CodesResultatServlets.ARTICLE_AJOUTE);
 			request.setAttribute("listeCodesSuccess",listeCodeSuccess);
 			this.getServletContext().getRequestDispatcher("/Index").forward(request, response);
