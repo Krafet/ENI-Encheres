@@ -34,6 +34,16 @@ public class CodesResultatServlets {
 	 */
 	public static final int USER_NON_CONNECTER=30003;
 	
+	/**
+	 * Si les crédits de l'utilisateur sont insuffisants pour enchérir.
+	 */
+	public static final int CREDIT_INSUFFISANT=30004;
+	
+	/**
+	 * Si la proposition est inférieure à la meilleure offre.
+	 */
+	public static final int PROPOSITION_INFERIEURE_A_MEILLEURE_OFFRE=30004;
+	
 	/******************
 	 * SUCCESS
 	 *****************/
