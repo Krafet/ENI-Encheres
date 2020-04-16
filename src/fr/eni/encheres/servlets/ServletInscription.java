@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fr.eni.encheres.BusinessException;
 import fr.eni.encheres.bll.UtilisateurManager;
@@ -90,6 +91,11 @@ public class ServletInscription extends HttpServlet {
 			utilisateurManager.addUtilisateur(unUtilisateur);
 			List<Integer> listeCodeSuccess = new ArrayList<>();
 			listeCodeSuccess.add(CodesResultatServlets.INSCRIPTION_REUSSIE);
+			
+			//Mise en place de la session utilisateur
+			HttpSession session = request.getSession();
+			session.setAttribute("user", unUtilisateur);
+			
 			request.setAttribute("listeCodesSuccess",listeCodeSuccess);
 			RequestDispatcher rd = request.getRequestDispatcher("/Index");
 			rd.forward(request, response);

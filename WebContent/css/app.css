@@ -10,6 +10,10 @@ a{
 	margin-top: 5%;
 }
 
+.btn-danger{
+	border-radius: 8px;
+}
+
 .divConnetionTitle{
 	background-color:#2A88AD;
 	border:1px solid #2A88AD;
