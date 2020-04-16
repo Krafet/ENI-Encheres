@@ -16,7 +16,7 @@
 			<div class="row">
 				<div class="col-sm-3">
 					<div id="imageVente">
-						<img id="imageArticle"class="imgArticle" id="" src="${pageContext.request.contextPath}/img/close.png" alt="image" />
+						<img id="imageArticle"class="imgArticle" id="" src="./img/${element.unArticleVendu.picture }" alt="image" />
 					</div>
 				</div>
 				<div class="col-sm-12 col-md-12 col-lg-8">
@@ -33,7 +33,7 @@
 								</ul>
 							</div>
 						</c:if>
-						
+					<form action="ServletEncherirVente" method="post">
 						<div class="form-group row">							
 							<div class="col-sm-6 col-md-9 col-lg-8">
 								<label class="form-control">${uneEnchere.unArticleVendu.nomArticle}</label>
@@ -84,7 +84,7 @@
 						<div class="form-group row">
 							<label class="col-sm-3 col-md-3 col-lg-3">Ma proposition :</label>
 							<div class="col-sm-6 col-md-9 col-lg-8">
-								<input type="text" class="form-control">
+								<input type="text" class="form-control" name="proposition">
 							</div>
 						</div>
 						
@@ -93,7 +93,7 @@
 						<c:when test="${userSession != null && userSession.noUtilisateur != uneEnchere.unUtilisateur.noUtilisateur}">
 							<div class="col-sm-4 offset-sm-1">
 								<a class="btn btn-lg" ><button type="submit" class="btn btn-secondary">Enchérir</button></a>
-							</div>
+							</div>							
 						</c:when>
 						<c:when test="${userSession.noUtilisateur == uneEnchere.unUtilisateur.noUtilisateur}">
 							<div class="col-sm-4 offset-sm-1">
@@ -106,6 +106,7 @@
 								<a class="btn btn-lg" href="${pageContext.request.contextPath}/Index"><button type="button" class="btn btn-secondary">Annuler</button></a>
 							</div>
 						</div>
+					</form>
 				</div>
 			</div>
 		</div>
