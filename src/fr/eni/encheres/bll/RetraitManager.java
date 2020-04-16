@@ -68,6 +68,11 @@ public class RetraitManager {
 		articleVendu.setRetrait(null);
 	}
 	
+	public Retrait selectById(int id) throws BusinessException
+	{
+		return retraitDAO.selectById(id);
+	}
+	
 	
 	private void bindDatas() throws BusinessException
 	{
