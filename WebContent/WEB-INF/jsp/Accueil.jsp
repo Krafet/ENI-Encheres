@@ -135,12 +135,12 @@
 										<h5 class="card-title">${element.unArticleVendu.nomArticle}</h5>
 										<p class="card-text">Prix : ${element.montantEnchere }</p>
 										<p class="card-text">Meilleur encherisseur :
-											${element.unArticleVendu.utilisateur.pseudo }
+											${element.utilisateur.pseudo }
 										<p>Fin de l'enchere ${element.dateEnchere }</p>
 										<a
 											href="${pageContext.request.contextPath}/ServletAffichageProfil?profil=${element.unUtilisateur.noUtilisateur}">
 											<p class="card-text">Vendeur :
-												${element.unUtilisateur.pseudo }</p>
+												${element.unArticleVendu.unUtilisateur.pseudo }</p>
 										</a>
 									</div>
 							</a>

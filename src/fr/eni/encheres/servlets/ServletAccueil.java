@@ -30,8 +30,8 @@ public class ServletAccueil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
 	String recherche = null;
-	String categorie = null;
-	String choix;
+	String categorie = "Toutes";
+	String choix = "Tous";
 	
 	
 	UtilisateurManager utilisateurManager = UtilisateurManager.getInstance();
@@ -61,13 +61,6 @@ public class ServletAccueil extends HttpServlet {
 		
 		List<Enchere> processEnchere = new ArrayList<>();
 	
-		
-		//1
-		List<Enchere> mesEncheres = new ArrayList<>();
-		
-		//2
-		List<Enchere> mesVentes = new ArrayList<>();
-		
 		
 		HttpSession session = request.getSession();
 		if(session.getAttribute("user") != null)
@@ -141,19 +134,19 @@ public class ServletAccueil extends HttpServlet {
 						processEnchere.add(listEnchere.get(i));
 					}
 				}
+			
+				
 			}	
 		}
-		else
-		{
-			processEnchere = listEnchere;
-		}
-		
+
+	
 		
 		
 		if(recherche != null)
 		{
 			listEnchere = processEnchere;
 			processEnchere = new ArrayList<>();
+		
 			for(int i = 0; i < listEnchere.size(); i++)
 			{
 				CharSequence c = recherche.toUpperCase();
@@ -197,6 +190,10 @@ public class ServletAccueil extends HttpServlet {
 		
 		choix = request.getParameter("ChoixModeAffichage");
 
+		if(choix == null)
+		{
+			choix = "Tous";
+		}
 		
 		doGet(request, response);
 	}
