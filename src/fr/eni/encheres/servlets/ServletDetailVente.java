@@ -67,7 +67,7 @@ public class ServletDetailVente extends HttpServlet {
 		if(userSession == null)
 		{
 			listeCodesErreur.add(CodesResultatServlets.USER_NON_CONNECTER);
-			//this.getServletContext().getRequestDispatcher("/ServletConnexion").forward(request, response);
+			this.getServletContext().getRequestDispatcher("/ServletConnexion").forward(request, response);
 		}
 		
 		try 
