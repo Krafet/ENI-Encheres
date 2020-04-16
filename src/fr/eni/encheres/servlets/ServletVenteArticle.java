@@ -69,7 +69,7 @@ public class ServletVenteArticle extends HttpServlet {
 		String nom = request.getParameter("nomArticle");
 		String description = request.getParameter("description");
 		int categorieId = Integer.parseInt(request.getParameter("categorie"));
-		String photo = (!request.getParameter("file").equals("")) ? request.getParameter("file") : "close2.png";
+		String photo = (!request.getParameter("file").equals("")) ? request.getParameter("file") : "nothing.png";
 		int prixInitial = Integer.parseInt(request.getParameter("prix"));
 
 		String rue = (!request.getParameter("rue").equals("")) ? request.getParameter("rue") : currentUser.getRue();
