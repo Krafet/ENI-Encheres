@@ -121,8 +121,6 @@
 
 			<c:choose>
 				<c:when test="${fn:length(Encheres) gt 0}">
-
-
 					<c:forEach items="${Encheres}" var="element">
 
 						<div class="col-lg-4 d-flex align-items-stretch">
@@ -135,18 +133,18 @@
 										<h5 class="card-title">${element.unArticleVendu.nomArticle}</h5>
 										<p class="card-text">Prix : ${element.montantEnchere }</p>
 										<p class="card-text">Meilleur encherisseur :
-											${element.utilisateur.pseudo }
+											${element.unUtilisateur.pseudo }
 										<p>Fin de l'enchere ${element.dateEnchere }</p>
-										<a
-											href="${pageContext.request.contextPath}/ServletAffichageProfil?profil=${element.unUtilisateur.noUtilisateur}">
-											<p class="card-text">Vendeur :
-												${element.unArticleVendu.unUtilisateur.pseudo }</p>
+										<a href="${pageContext.request.contextPath}/ServletAffichageProfil?profil=${element.unArticleVendu.utilisateur.noUtilisateur}">
+											<p class="card-text">
+											Vendeur :	${element.unArticleVendu.utilisateur.pseudo }
+											</p>
 										</a>
 									</div>
+								</div>
 							</a>
 						</div>
-		</div>
-		</c:forEach>
+				</c:forEach>
 		</c:when>
 		<c:otherwise>
 			<h6>Aucunes encheres disponible pour la selection</h6>
@@ -158,7 +156,7 @@
 
 
 	</div>
-	</div>
+
 
 
 </body>
