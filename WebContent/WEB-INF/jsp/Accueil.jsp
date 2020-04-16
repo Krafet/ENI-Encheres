@@ -75,6 +75,11 @@
 			</div>
 		</div>
 	</div>
+	
+	
+	<c:if test="${not empty User}">
+	
+	</c:if>
 
 
 	<div class="container">
@@ -85,7 +90,7 @@
 				<c:when test="${fn:length(Encheres) gt 0}">
 
 
-					<c:forEach items="${Encheres}" var="element">
+					<c:forEach items="${Encheres}" var="element">			
 
 						<div class="col-lg-4 d-flex align-items-stretch">
 							<a href="${pageContext.request.contextPath}/ServletDetailVente?idUser=${element.unUtilisateur.noUtilisateur}&idArticle=${element.unArticleVendu.noArticle}">
@@ -95,6 +100,7 @@
 									<div class="card-body">
 										<h5 class="card-title">${element.unArticleVendu.nomArticle}</h5>
 										<p class="card-text">Prix : ${element.montantEnchere }</p>
+										<p class="card-text"> Meilleur encherisseur : ${element.unUtilisateur.pseudo }
 										<p> Fin de l'enchere ${element.dateEnchere }</p>
 										<a
 											href="${pageContext.request.contextPath}/ServletAffichageProfil?profil=${element.unUtilisateur.noUtilisateur}">
@@ -111,6 +117,47 @@
 			<h6>Aucunes encheres disponible pour la selection</h6>
 		</c:otherwise>
 		</c:choose>
+		
+		
+		
+		
+		<c:choose>
+				<c:when test="${fn:length(MesEncheres) gt 0}">
+
+
+					<c:forEach items="${MesEncheres}" var="element">			
+
+						<div class="col-lg-4 d-flex align-items-stretch">
+							<a href="${pageContext.request.contextPath}/ServletDetailVente?idUser=${element.unUtilisateur.noUtilisateur}&idArticle=${element.unArticleVendu.noArticle}">
+								<div class="card" style="width: 18rem;">
+									<img class="card-img-top"
+										src="./img/${element.unArticleVendu.picture }" height="150">
+									<div class="card-body">
+										<h5 class="card-title">${element.unArticleVendu.nomArticle}</h5>
+										<p class="card-text">Prix : ${element.montantEnchere }</p>
+									
+										<p> Fin de l'enchere ${element.dateEnchere }</p>
+										<a
+											href="${pageContext.request.contextPath}/ServletAffichageProfil?profil=${element.unArticleVendu.unUtilisateur.noUtilisateur}">
+											<p class="card-text">Vendeur :
+												${element.unUtilisateur.pseudo }</p>
+										</a>
+									</div>
+							</a>
+						</div>
+		</div>
+		</c:forEach>
+		</c:when>
+		<c:otherwise>
+			<h6>Aucunes encheres disponible pour la selection</h6>
+		</c:otherwise>
+		</c:choose>
+		
+		
+		
+		
+		
+		
 
 
 
