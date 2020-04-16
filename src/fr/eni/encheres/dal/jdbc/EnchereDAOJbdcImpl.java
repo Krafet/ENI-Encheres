@@ -198,7 +198,7 @@ public class EnchereDAOJbdcImpl implements EnchereDAO {
 			PreparedStatement pstmt = cnx.prepareStatement(UPDATE);
 			/*java.util.Date date_util =  uneEnchere.getDateEnchere();
 			java.sql.Date date_sql = new java.sql.Date(date_util.getTime());*/
-			pstmt.setDate(2, Utils.dateUtilVersSQL(uneEnchere.getDateEnchere()));
+			pstmt.setDate(1, Utils.dateUtilVersSQL(uneEnchere.getDateEnchere()));
 			pstmt.setInt(2, uneEnchere.getMontantEnchere());		
 			pstmt.setInt(3, uneEnchere.getUnUtilisateur().getNoUtilisateur());
 			pstmt.setInt(4, uneEnchere.getUnArticleVendu().getNoArticle());
