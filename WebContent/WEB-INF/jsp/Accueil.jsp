@@ -31,17 +31,16 @@
 
 <!--  Gestion des succes -->
 <c:if test="${!empty listeCodesSuccess}">
-    <div class="alert alert-success alertAccueil text-center"
-        role="alert">
-        <ul class="ulErrors">
-            <c:forEach var="code" items="${listeCodesSuccess}">
-                <li>${LecteurSuccess.getMessage(code)}</li>
-            </c:forEach>
-        </ul>
-    </div>
+	<div class="alert alert-success alertAccueil text-center" role="alert">
+		<ul class="ulErrors">
+			<c:forEach var="code" items="${listeCodesSuccess}">
+				<li>${LecteurSuccess.getMessage(code)}</li>
+			</c:forEach>
+		</ul>
+	</div>
 </c:if>
 
-	<c:if test="${not empty User}">
+<c:if test="${not empty User}">
 	Mes crédits : ${User.credit }
 	</c:if>
 
@@ -49,7 +48,7 @@
 
 	<div class="container">
 		<div class="row justify-content-center">
-			<div class="col-md-10">
+			<div class="col-md-12">
 				Filtres :
 
 				<form method="post" action="/ENI-Encheres/Index">
@@ -87,48 +86,73 @@
 							</c:forEach>
 						</select>
 					</div>
-
-					<c:if test="${not empty User}">
-						<div>
-							<input type="radio" id="MesAchats" name="ChoixModeAffichage"
-								value="MesAchats"
-									<c:choose> 
+			</div>
+			<div class="col-md-3">
+				<c:if test="${not empty User}">
+					<div>
+						<input type="radio" id="MesAchats" name="ChoixModeAffichage"
+							value="MesAchats"
+							<c:choose> 
 										<c:when test ="${ChoixModeAffichage eq 'MesAchats'}">
 											checked
 										</c:when>
-									</c:choose>
-								>
-								<label for="MesAchats">Mes Encheres</label>
-						</div>
+									</c:choose>>
+						<label for="MesAchats">Mes Encheres</label>
+					</div>
 
-						<div>
-							<input type="radio" id="MesVentes" name="ChoixModeAffichage"
-								value="MesVentes"
-									<c:choose> 
+					<div>
+						<input type="radio" id="MesVentes" name="ChoixModeAffichage"
+							value="MesVentes"
+							<c:choose> 
 										<c:when test ="${ChoixModeAffichage eq 'MesVentes'}">
 											checked
 										</c:when>
-									</c:choose>
-								> <label for="MesVentes">Mes
-								Ventes</label>
-						</div>
+									</c:choose>>
+						<label for="MesVentes">Mes Ventes</label>
+					</div>
 
-						<div>
-							<input type="radio" id="Tous" name="ChoixModeAffichage"
-								value="Tous"
-									<c:choose> 
+					<div>
+						<input type="radio" id="Tous" name="ChoixModeAffichage"
+							value="Tous"
+							<c:choose> 
 										<c:when test ="${ChoixModeAffichage eq 'Tous'}">
 											checked
 										</c:when>
-									</c:choose>
-								> <label for="Tous">Tous</label>
-						</div>
-					</c:if>
-					<input type="submit" value="Rechercher">
-				</form>
-
+									</c:choose>>
+						<label for="Tous">Tous</label>
+					</div>
+				</c:if>
 			</div>
+			<div class="col-md-3">
+
+				<c:if test="${not empty User}">
+					<div>
+						<input type="radio" id="EnCours" name="ChoixTime" value="EnCours"
+							<c:choose> 
+										<c:when test ="${ChoixTime eq 'EnCours'}">
+											checked
+										</c:when>
+									</c:choose>>
+						<label for="EnCours">En cours</label>
+					</div>
+
+					<div>
+						<input type="radio" id="Termines" name="ChoixTime"
+							value="Termines"
+							<c:choose> 
+										<c:when test ="${ChoixTime eq 'Termines'}">
+											checked
+										</c:when>
+									</c:choose>>
+						<label for="Termines">Terminés</label>
+					</div>
+				</c:if>
+			</div>
+			<input type="submit" value="Rechercher">
+			</form>
+
 		</div>
+	</div>
 	</div>
 
 
@@ -142,28 +166,60 @@
 					<c:forEach items="${Encheres}" var="element">
 
 						<div class="col-lg-4 d-flex align-items-stretch">
-							<a
-								href="${pageContext.request.contextPath}/ServletDetailVente?idVendeur=${element.unArticleVendu.utilisateur.noUtilisateur}
-								&idArticle=${element.unArticleVendu.noArticle}&idAcheteur=${element.unUtilisateur.noUtilisateur}">
+								<c:choose>
+									<c:when test="${ChoixTime eq 'EnCours'}">		
+									 <a href="${pageContext.request.contextPath}/ServletDetailVente?idVendeur=${element.unArticleVendu.utilisateur.noUtilisateur}&idArticle=${element.unArticleVendu.noArticle}&idAcheteur=${element.unUtilisateur.noUtilisateur}">
+								</c:when>
+									<c:otherwise>
+									 <a href="${pageContext.request.contextPath}/ServletRemportEnchere?idVendeur=${element.unArticleVendu.utilisateur.noUtilisateur}&idArticle=${element.unArticleVendu.noArticle}&idAcheteur=${element.unUtilisateur.noUtilisateur}">
+									</c:otherwise>
+								</c:choose>
+								
 								<div class="card" style="width: 18rem;">
 									<img class="card-img-top"
-										src="./img/${element.unArticleVendu.picture }" height="150">
-									<div class="card-body">
-										<h5 class="card-title">${element.unArticleVendu.nomArticle}</h5>
-										<p class="card-text">Prix : ${element.montantEnchere }</p>
-										<p class="card-text">Meilleur encherisseur :
-											${element.unUtilisateur.pseudo }
-										<p>Fin de l'enchere ${element.dateEnchere }</p>
-										<a href="${pageContext.request.contextPath}/ServletAffichageProfil?profil=${element.unArticleVendu.utilisateur.noUtilisateur}">
-											<p class="card-text">
-											Vendeur :	${element.unArticleVendu.utilisateur.pseudo }
-											</p>
-										</a>
-									</div>
+										<c:choose>
+											<c:when test="${not empty element.unArticleVendu.picture}">
+												src="./img/${element.unArticleVendu.picture }"
+											</c:when>
+											<c:otherwise>
+												src="./img/empty.png"
+											</c:otherwise>
+										</c:choose>
+										height="150">
+									<c:choose>
+										<c:when test="${ChoixTime eq 'EnCours'}">
+											<div class="card-body">
+												<h5 class="card-title">${element.unArticleVendu.nomArticle}</h5>
+												<p class="card-text">Prix : ${element.montantEnchere }</p>
+												<p class="card-text">Meilleur encherisseur :
+													${element.unUtilisateur.pseudo }
+												<p>Fin de l'enchere ${element.dateEnchere }</p>
+												<a
+													href="${pageContext.request.contextPath}/ServletAffichageProfil?profil=${element.unArticleVendu.utilisateur.noUtilisateur}">
+													<p class="card-text">Vendeur :
+														${element.unArticleVendu.utilisateur.pseudo }</p>
+												</a>
+										</c:when>
+										<c:otherwise>
+											<div class="card-body">
+												<h5 class="card-title">${element.unArticleVendu.nomArticle}</h5>
+												<p class="card-text">Remport : ${element.montantEnchere }</p>
+												<p class="card-text">Enchere gagné par
+													${element.unUtilisateur.pseudo }
+												<p>Enchere fini le ${element.dateEnchere }</p>
+												<a
+													href="${pageContext.request.contextPath}/ServletAffichageProfil?profil=${element.unArticleVendu.utilisateur.noUtilisateur}">
+													<p class="card-text">Vendeur :
+														${element.unArticleVendu.utilisateur.pseudo }</p>
+												</a>
+										</c:otherwise>
+									</c:choose>
+
 								</div>
-							</a>
 						</div>
-				</c:forEach>
+						</a>
+		</div>
+		</c:forEach>
 		</c:when>
 		<c:otherwise>
 			<h6>Aucunes encheres disponible pour la selection</h6>
@@ -175,7 +231,7 @@
 
 
 	</div>
-
+	</div>
 
 
 </body>

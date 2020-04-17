@@ -117,23 +117,35 @@ public class ServletEncherirVente extends HttpServlet {
 			unArticle.setPrixVente(proposition);
 			articlesManager.updateArticle(unArticle);
 			
-			//Mise à jour de l'enchère avec les dernières informations (ou Insert ? 
+			//Mise à jour de l'enchère avec les dernières informations
 			Date date = new Date();
-
-			//DEVAIT PAS FAIRE UN UPDATE AU FINAL ? car sinon un utilisateur ne peut enchérir deux fois sur le même, conflit de clé déjà existante + on a des doublons sur l'accueil
-			/*Enchere uneEnchere = new Enchere(proposition, date ,userSession, unArticle);	
-			enchereManager.insert(uneEnchere); */
 			
-			//TEST avec l'update => fonctionnel
+			Utilisateur ancienUserMeilleurOffre = new Utilisateur();			
 			Enchere enchereAUpdater = enchereManager.selectByArticle(idArticle);
+			
+			//Récupération de l'ancien détenteur du meilleure offre
+			ancienUserMeilleurOffre = enchereAUpdater.getUnUtilisateur();
+			
 			enchereAUpdater.setMontantEnchere(proposition);
 			enchereAUpdater.setDateEnchere(date);
 			enchereAUpdater.setUnUtilisateur(userSession);
 
 			enchereManager.updateByArticle(enchereAUpdater, userSession.getNoUtilisateur());
 			
-			//TODO*** gérer crédit et débit ++++++
 			
+			//Débite les points à l'user qui vient d'enréchir		
+			int creditAvantProposition = userSession.getCredit();
+			int creditApresProposition = creditAvantProposition - proposition;
+			userSession.setCredit(creditApresProposition);	
+			
+			utilisateurManager.updateUtilisateur(userSession);
+						
+			//Rembourse les points à l'ancien user qui détenait la meilleure offre
+			
+			int creditAvantRemboursement = ancienUserMeilleurOffre.getCredit();
+			int creditApresRemboursement = creditAvantRemboursement + meilleureOffre;
+			ancienUserMeilleurOffre.setCredit(creditApresRemboursement);
+			utilisateurManager.updateUtilisateur(ancienUserMeilleurOffre);	
 			
 			List<Integer> listeCodeSuccess = new ArrayList<>();
 			listeCodeSuccess.add(CodesResultatServlets.ENCHERE_AJOUTEE);
