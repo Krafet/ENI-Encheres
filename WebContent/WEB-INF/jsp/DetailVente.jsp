@@ -101,7 +101,7 @@
 						</c:when>
 						<c:when test="${userSession.noUtilisateur == unArticleVendu.utilisateur.noUtilisateur && canUpdate}">
 							<div class="col-sm-4 ">
-								<a class="btn btn-lg" ><button type="submit" class="btn btn-outline-secondary btnCustom">Modifier
+								<a class="btn btn-lg" href="${pageContext.request.contextPath}/modifier_article?idArticle=${unArticleVendu.noArticle}&idVendeur=${unArticleVendu.utilisateur.noUtilisateur}&idAcheteur=${meilleurEncherisseur.noUtilisateur}"><button type="button" class="btn btn-outline-secondary btnCustom">Modifier
 								</button></a>
 							</div>	
 						</c:when>
