@@ -53,6 +53,11 @@ public class ServletAccueil extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		if(choix == null)
+		{
+			choix = "Tous";
+		}
+		
 		request.setCharacterEncoding("UTF-8");
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/Accueil.jsp");
 		
@@ -96,6 +101,8 @@ public class ServletAccueil extends HttpServlet {
 					}
 					listEnchere = processEnchere;
 					break;
+				case("Tous"):
+					break;
 				}
 				
 				
@@ -104,42 +111,39 @@ public class ServletAccueil extends HttpServlet {
 		}
 		
 	
-		
+		processEnchere = new ArrayList<>();
 		//Process enchere win TEMP
 		
-		for(int i = 0; i < listEnchere.size(); i++)
+	/*	for(int i = 0; i < listEnchere.size(); i++)
 		{
 			if(listEnchere.get(i).getDateEnchere().after(Date.valueOf(LocalDate.now())))
 			{
 				System.out.println("Enchere fini");
 			}
-		}
+		}*/
 		
 		
 
 
-		if(categorie != null)
+		if(categorie == null)
 		{
-			
-			if(categorie.equals("Toutes"))
-			{
-				processEnchere = listEnchere;
-			}
-			else
-			{
-				for(int i = 0; i < listEnchere.size(); i++)
-				{
-					if(listEnchere.get(i).getUnArticleVendu().getCategorie().getLibelle().equals(categorie))
-					{
-						processEnchere.add(listEnchere.get(i));
-					}
-				}
-			
-				
-			}	
+			categorie = "Toutes";
 		}
-
-	
+			
+		if(categorie.equals("Toutes"))
+		{
+			processEnchere = listEnchere;
+		}
+		else
+		{
+			for(int i = 0; i < listEnchere.size(); i++)
+			{
+			if(listEnchere.get(i).getUnArticleVendu().getCategorie().getLibelle().equals(categorie))
+				{
+					processEnchere.add(listEnchere.get(i));
+				}
+			}		
+		}	
 		
 		
 		if(recherche != null)
@@ -159,8 +163,6 @@ public class ServletAccueil extends HttpServlet {
 		}
 		
 
-		
-		
 		processEnchere.forEach(c -> System.out.println(c.toString()));
 		
 		request.setAttribute("Categories", listCat);
@@ -169,11 +171,6 @@ public class ServletAccueil extends HttpServlet {
 		request.setAttribute("Categorie", categorie);
 		request.setAttribute("Recherche", recherche);
 		request.setAttribute("ChoixModeAffichage", choix);
-	
-		
-
-		
-	
 	
 		rd.forward(request, response);	
 	}
