@@ -33,7 +33,7 @@ public class ServletModificationArticle extends HttpServlet {
      */
     public ServletModificationArticle() {
         super();
-        // TODO Auto-generated constructor stub 
+        // TODO Auto-generated constructor stub
     }
 
 	/**
