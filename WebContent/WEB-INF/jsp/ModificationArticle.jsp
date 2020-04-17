@@ -81,7 +81,7 @@
 										</c:forEach>
 									</select>
 								</div>					
-								<div class="col form-group">
+								<div class="col form-group"> 
 
 								</div>
 						
@@ -91,7 +91,7 @@
 				
 				<div class="row divBtn">
 					<button type="submit" class="btn btn-sm btn-outline-secondary btnCustom" value="valider">Enregistrer les modifications</button>
-					<button class="btn btn-outline-primary btnCustom" name="choix"><a href="${pageContext.request.contextPath}/ServletAffichageProfil">Retour</a></button>
+					<button class="btn btn-outline-primary btnCustom" name="choix"><a href="${pageContext.request.contextPath}/ServletDetailVente?idArticle=${article.noArticle}&idVendeur=${article.utilisateur.noUtilisateur}&idAcheteur=${idAcheteur}">Retour</a></button>
 		
 					</form>
 				</div>
