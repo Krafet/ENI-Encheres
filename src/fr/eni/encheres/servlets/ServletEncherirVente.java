@@ -118,7 +118,7 @@ public class ServletEncherirVente extends HttpServlet {
 			articlesManager.updateArticle(unArticle);
 			
 			//Mise à jour de l'enchère avec les dernières informations
-			Date date = new Date();
+			//Date date = new Date();
 			
 			Utilisateur ancienUserMeilleurOffre = new Utilisateur();			
 			Enchere enchereAUpdater = enchereManager.selectByArticle(idArticle);
@@ -127,7 +127,7 @@ public class ServletEncherirVente extends HttpServlet {
 			ancienUserMeilleurOffre = enchereAUpdater.getUnUtilisateur();
 			
 			enchereAUpdater.setMontantEnchere(proposition);
-			enchereAUpdater.setDateEnchere(date);
+			//enchereAUpdater.setDateEnchere(date);
 			enchereAUpdater.setUnUtilisateur(userSession);
 
 			enchereManager.updateByArticle(enchereAUpdater, userSession.getNoUtilisateur());
