@@ -3,6 +3,7 @@ package fr.eni.encheres.servlets;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +73,20 @@ public class ServletAccueil extends HttpServlet {
 		List<Enchere> processEnchere = new ArrayList<>();
 
 		HttpSession session = request.getSession();
+		
+		
+		for (int i = 0; i < listEnchere.size(); i++) {
+			if (listEnchere.get(i).getUnArticleVendu().getDateDebutEncheres().before(Date.valueOf(LocalDate.now().plusDays(1)))) {
+				processEnchere.add(listEnchere.get(i));
+
+			}
+		}
+		
+
+		listEnchere = processEnchere;	
+		processEnchere = new ArrayList<>();
+		
+		
 		if (session.getAttribute("user") != null) {
 			request.setAttribute("User", session.getAttribute("user"));
 
@@ -99,18 +114,9 @@ public class ServletAccueil extends HttpServlet {
 
 			}
 			
-			listEnchere = processEnchere;	
-			processEnchere = new ArrayList<>();
+	
 			
 			
-			for (int i = 0; i < listEnchere.size(); i++) {
-				if (listEnchere.get(i).getUnArticleVendu().getDateDebutEncheres().after(Date.valueOf(LocalDate.now()))) {
-					processEnchere.add(listEnchere.get(i));
-					System.out.println(listEnchere.get(i));
-				}
-			}
-			
-			System.out.println("bjr");
 
 			listEnchere = processEnchere;	
 			processEnchere = new ArrayList<>();
