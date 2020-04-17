@@ -5,9 +5,12 @@
 <%@ page import="fr.eni.encheres.messages.LecteurMessage"%>
 <%@ page import="fr.eni.encheres.bo.Categorie"%>
 <%@ page import="java.util.List"%>
+<%@ page import="fr.eni.encheres.utils.Utils"%>
 <%@ page import="fr.eni.encheres.messages.LecteurSuccess"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+
 
 <!DOCTYPE html>
 <html>
@@ -193,7 +196,7 @@
 												<p class="card-text">Prix : ${element.montantEnchere }</p>
 												<p class="card-text">Meilleur encherisseur :
 													${element.unUtilisateur.pseudo }
-												<p>Fin de l'enchere ${element.dateEnchere }</p>
+												<p>Fin de l'enchere <fmt:formatDate pattern = "dd/MM/yyyy" value="${element.dateEnchere }"/></p>
 												<a
 													href="${pageContext.request.contextPath}/ServletAffichageProfil?profil=${element.unArticleVendu.utilisateur.noUtilisateur}">
 													<p class="card-text">Vendeur :
@@ -206,7 +209,7 @@
 												<p class="card-text">Remport : ${element.montantEnchere }</p>
 												<p class="card-text">Enchere gagné par
 													${element.unUtilisateur.pseudo }
-												<p>Enchere fini le ${element.dateEnchere }</p>
+												<p>Enchere fini le  <fmt:formatDate  pattern = "dd/MM/yyyy" value="${element.dateEnchere }"/></p>
 												<a
 													href="${pageContext.request.contextPath}/ServletAffichageProfil?profil=${element.unArticleVendu.utilisateur.noUtilisateur}">
 													<p class="card-text">Vendeur :
