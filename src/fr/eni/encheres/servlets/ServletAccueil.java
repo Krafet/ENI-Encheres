@@ -81,7 +81,7 @@ public class ServletAccueil extends HttpServlet {
 				filtreChoix = "EnCours";
 			}
 
-			if (filtreChoix == "EnCours") {
+			if (filtreChoix.equals("EnCours")) {
 				for (int i = 0; i < listEnchere.size(); i++) {
 
 					if (listEnchere.get(i).getDateEnchere().after(Date.valueOf(LocalDate.now()))) {
@@ -162,7 +162,6 @@ public class ServletAccueil extends HttpServlet {
 			}
 		}
 
-		processEnchere.forEach(c -> System.out.println(c.toString()));
 
 		request.setAttribute("Categories", listCat);
 		request.setAttribute("Encheres", processEnchere);
@@ -189,6 +188,7 @@ public class ServletAccueil extends HttpServlet {
 		choix = request.getParameter("ChoixModeAffichage");
 		filtreChoix = request.getParameter("ChoixTime");
 
+		
 		if (choix == null) {
 			choix = "Tous";
 		}
