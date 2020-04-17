@@ -125,7 +125,8 @@
 
 						<div class="col-lg-4 d-flex align-items-stretch">
 							<a
-								href="${pageContext.request.contextPath}/ServletDetailVente?idUser=${element.unArticleVendu.utilisateur.noUtilisateur}&idArticle=${element.unArticleVendu.noArticle}">
+								href="${pageContext.request.contextPath}/ServletDetailVente?idVendeur=${element.unArticleVendu.utilisateur.noUtilisateur}
+								&idArticle=${element.unArticleVendu.noArticle}&idAcheteur=${element.unUtilisateur.noUtilisateur}">
 								<div class="card" style="width: 18rem;">
 									<img class="card-img-top"
 										src="./img/${element.unArticleVendu.picture }" height="150">
