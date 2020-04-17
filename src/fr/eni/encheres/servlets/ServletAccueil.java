@@ -98,8 +98,21 @@ public class ServletAccueil extends HttpServlet {
 				}
 
 			}
+			
+			listEnchere = processEnchere;	
+			processEnchere = new ArrayList<>();
+			
+			
+			for (int i = 0; i < listEnchere.size(); i++) {
+				if (listEnchere.get(i).getUnArticleVendu().getDateDebutEncheres().after(Date.valueOf(LocalDate.now()))) {
+					processEnchere.add(listEnchere.get(i));
+					System.out.println(listEnchere.get(i));
+				}
+			}
+			
+			System.out.println("bjr");
 
-			listEnchere = processEnchere;
+			listEnchere = processEnchere;	
 			processEnchere = new ArrayList<>();
 
 			if (choix != null) {
@@ -123,6 +136,7 @@ public class ServletAccueil extends HttpServlet {
 					listEnchere = processEnchere;
 					break;
 				case ("Tous"):
+									
 					break;
 				}
 
