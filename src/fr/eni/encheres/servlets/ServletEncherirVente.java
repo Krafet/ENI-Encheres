@@ -140,14 +140,22 @@ public class ServletEncherirVente extends HttpServlet {
 
 			enchereManager.updateByArticle(enchereAUpdater, userSession.getNoUtilisateur());
 			
-			//TODO*** gérer crédit et débit ++++++
-			//Débite les points à l'user qui vient d'enréchir			
-			userSession.setCredit(userSession.getCredit() - proposition);			
-			utilisateurManager.updateUtilisateur(userSession);
 			
+			//Débite les points à l'user qui vient d'enréchir		
+			int creditAvantProposition = userSession.getCredit();
+			int creditApresProposition = creditAvantProposition - proposition;
+			userSession.setCredit(creditApresProposition);	
+			
+			utilisateurManager.updateUtilisateur(userSession);
+						
 			//Rembourse les points à l'ancien user qui détenait la meilleure offre
-			ancienUserMeilleurOffre.setCredit(ancienUserMeilleurOffre.getCredit() + meilleureOffre);
+			
+			int creditAvantRemboursement = ancienUserMeilleurOffre.getCredit();
+			int creditApresRemboursement = creditAvantRemboursement + meilleureOffre;
+			ancienUserMeilleurOffre.setCredit(creditApresRemboursement);
 			utilisateurManager.updateUtilisateur(ancienUserMeilleurOffre);
+			
+			
 			
 			List<Integer> listeCodeSuccess = new ArrayList<>();
 			listeCodeSuccess.add(CodesResultatServlets.ENCHERE_AJOUTEE);
