@@ -100,7 +100,7 @@
 											checked
 										</c:when>
 									</c:choose>>
-						<label for="MesAchats">Mes Encheres</label>
+						<label for="MesAchats">Mes Enchères</label>
 					</div>
 
 					<div>
@@ -147,7 +147,7 @@
 											checked
 										</c:when>
 									</c:choose>>
-						<label for="Termines">Terminés</label>
+						<label for="Termines">Terminées</label>
 					</div>
 				</c:if>
 			</div>
@@ -207,7 +207,7 @@
 											<div class="card-body">
 												<h5 class="card-title">${element.unArticleVendu.nomArticle}</h5>
 												<p class="card-text">Remport : ${element.montantEnchere }</p>
-												<p class="card-text">Enchere gagné par
+												<p class="card-text">Enchère gagnée par
 													${element.unUtilisateur.pseudo }
 												<p>Enchere fini le  <fmt:formatDate  pattern = "dd/MM/yyyy" value="${element.dateEnchere }"/></p>
 												<a
@@ -225,7 +225,7 @@
 		</c:forEach>
 		</c:when>
 		<c:otherwise>
-			<h6>Aucunes encheres disponible pour la selection</h6>
+			<h6>Aucunes enchères disponible pour la selection</h6>
 		</c:otherwise>
 		</c:choose>
 
