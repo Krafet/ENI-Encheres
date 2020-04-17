@@ -49,7 +49,7 @@
 
 	<div class="container">
 		<div class="row justify-content-center">
-			<div class="col-md-10">
+			<div class="col-md-12">
 				Filtres :
 
 				<form method="post" action="/ENI-Encheres/Index">
@@ -87,7 +87,8 @@
 							</c:forEach>
 						</select>
 					</div>
-
+</div>
+			<div class="col-md-3">
 					<c:if test="${not empty User}">
 						<div>
 							<input type="radio" id="MesAchats" name="ChoixModeAffichage"
@@ -124,7 +125,8 @@
 								> <label for="Tous">Tous</label>
 						</div>
 					</c:if>
-					
+					</div>
+								<div class="col-md-3">
 					
 						<c:if test="${not empty User}">
 						<div>
@@ -150,7 +152,7 @@
 								> <label for="Termines">Terminés</label>
 						</div>
 					</c:if>
-					
+					</div>
 					<input type="submit" value="Rechercher">
 				</form>
 
