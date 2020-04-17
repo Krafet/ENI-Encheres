@@ -150,8 +150,7 @@ public class ServletEncherirVente extends HttpServlet {
 			List<Integer> listeCodeSuccess = new ArrayList<>();
 			listeCodeSuccess.add(CodesResultatServlets.ENCHERE_AJOUTEE);
 			request.setAttribute("listeCodesSuccess",listeCodeSuccess);
-			request.setAttribute("User", userSession);
-			rd = request.getRequestDispatcher("/WEB-INF/jsp/Accueil.jsp");
+			rd = request.getRequestDispatcher("/Index");
 			rd.forward(request, response);
 		}
 		catch(BusinessException e) 
