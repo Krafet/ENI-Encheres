@@ -63,52 +63,43 @@ public class ServletDetailVente extends HttpServlet {
 		HttpSession session = request.getSession();		
 		Utilisateur userSession = (Utilisateur) session.getAttribute("user");
 		
-		
-		Enchere uneEnchere = new Enchere();
+		//Initialisation des objets
 		Utilisateur unUtilisateurVendeur = new Utilisateur();
 		Utilisateur unUtilisateurAcheteur = new Utilisateur();
-		ArticleVendu unArticleVendu = new ArticleVendu();
+		ArticleVendu unArticleVendu =new ArticleVendu();
 		Retrait unRetrait = new Retrait();
 		
-		//Récupération des paramètres idUser et idArticle
-		int idUser = Integer.parseInt((request.getParameter("idUser")));
+		//Récupération des paramètres (id acheteur, vendeur et article)
+		int idVendeur = Integer.parseInt((request.getParameter("idVendeur")));
 		int idAcheteur = Integer.parseInt((request.getParameter("idAcheteur")));
 		int idArticle = Integer.parseInt((request.getParameter("idArticle")));
 		
+		//Si aucun utilisateur n'est conneccté => erreur (mais cas qui ne devrait pas être envisageable car le détail est accessibles aux users connectés)
 		if(userSession == null)
 		{
 			listeCodesErreur.add(CodesResultatServlets.USER_NON_CONNECTER);
-			this.getServletContext().getRequestDispatcher("/ServletConnexion").forward(request, response);
+
+			RequestDispatcher rd = request.getRequestDispatcher("/ServletConnexion");
+			rd.forward(request, response);		
 		}
 		
 		try 
 		{
-			unUtilisateurVendeur = userManager.getUtilisateurById(idUser); //idUser = id du vendeur
-			//unUtilisateurAcheteur = userManager.getUtilisateurById(userSession.getNoUtilisateur()); //userSession peut aussi être le vendeur
-			unUtilisateurAcheteur = userManager.getUtilisateurById(idAcheteur); //userSession peut aussi être le vendeur
-			
+			unUtilisateurVendeur = userManager.getUtilisateurById(idVendeur); 
+			unUtilisateurAcheteur = userManager.getUtilisateurById(idAcheteur); 	
 			unArticleVendu = articleManager.getArticleById(idArticle);
 
 			//Formattage de la date
 			String dateFin = Utils.getDateFormate(unArticleVendu.getDateFinEncheres(), "dd/MM/YYYY");
 			request.setAttribute("dateFin", dateFin);
 			
-			unRetrait = retraitManager.selectById(idArticle);
-			
-			
+			unRetrait = retraitManager.selectById(idArticle); //Retrait associé à l'article
 			unArticleVendu.setRetrait(unRetrait);
-			
-			uneEnchere.setUnUtilisateur(unUtilisateurAcheteur);
-			uneEnchere.setUnArticleVendu(unArticleVendu);				
-			
-			uneEnchere = enchereManager.selectById(uneEnchere);
-			
+
 			request.setAttribute("userSession", userSession);
-			request.setAttribute("uneEnchere", uneEnchere);
-			request.setAttribute("unRetrait", unRetrait);
 			request.setAttribute("unArticleVendu", unArticleVendu);
 			request.setAttribute("utilisateurVendeur", unUtilisateurVendeur);
-			request.setAttribute("utilisateurEnchere", unUtilisateurAcheteur);
+			request.setAttribute("meilleurEncherisseur", unUtilisateurAcheteur);
 			
 		
 			request.setAttribute("displayNav", false); //On ne veux pas afficher de menu sur cette page
@@ -131,7 +122,10 @@ public class ServletDetailVente extends HttpServlet {
 		catch(BusinessException e)
 		{
 			e.printStackTrace();
-			request.setAttribute("listeCodesErreur",e.getListeCodesErreur());	
+			request.setAttribute("listeCodesErreur",e.getListeCodesErreur());
+
+			RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/jsp/DetailVente.jsp");
+			rd.forward(request, response);
 		}
 		
 	}

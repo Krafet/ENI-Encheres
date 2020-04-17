@@ -69,6 +69,7 @@ public class ServletEncherirVente extends HttpServlet {
 		int meilleureOffre = Integer.parseInt(request.getParameter("meilleureOffre"));
 		int idArticle = Integer.parseInt(request.getParameter("idArticle"));
 		int idVendeur = Integer.parseInt(request.getParameter("idVendeur"));
+		int idAcheteur = Integer.parseInt(request.getParameter("idAcheteur"));
 		
 		
 		if(userSession == null)
@@ -87,7 +88,7 @@ public class ServletEncherirVente extends HttpServlet {
 				listeCodesErreur.add(CodesResultatServlets.AUCUNE_PROPOSITION);
 				request.setAttribute("listeCodesErreur", listeCodesErreur);
 		
-				rd = request.getRequestDispatcher("/ServletDetailVente?idUser=" + idVendeur + "&idArticle=" + idArticle);
+				rd = request.getRequestDispatcher("/ServletDetailVente?idVendeur=" + idVendeur + "&idArticle=" + idArticle + "&idAcheteur=" + idAcheteur);
 				rd.forward(request, response);
 			
 			}

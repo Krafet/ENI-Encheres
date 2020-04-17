@@ -33,7 +33,7 @@
 								</ul>
 							</div>
 						</c:if>
-					<form action="${pageContext.request.contextPath}/ServletEncherirVente?idArticle=${unArticleVendu.noArticle}&idVendeur=${unArticleVendu.utilisateur.noUtilisateur}" method="post">
+					<form action="${pageContext.request.contextPath}/ServletEncherirVente?idArticle=${unArticleVendu.noArticle}&idVendeur=${unArticleVendu.utilisateur.noUtilisateur}&idAcheteur=${meilleurEncherisseur.noUtilisateur}" method="post">
 						<div class="form-group row">							
 							<div class="col-sm-6 col-md-9 col-lg-8">
 								<label class="form-control">${unArticleVendu.nomArticle}</label>
@@ -54,7 +54,7 @@
 						<div class="form-group row">
 							<label class="col-sm-3 col-md-3 col-lg-3">Meilleure offre : </label>
 							<div class="col-sm-6 col-md-9 col-lg-8">
-								<label class="form-control">${unArticleVendu.prixVente} points par ${utilisateurEnchere.pseudo}</label>	
+								<label class="form-control">${unArticleVendu.prixVente} points par ${meilleurEncherisseur.pseudo}</label>	
 								<input type="hidden" value="${unArticleVendu.prixVente}" name="meilleureOffre" />	
 							</div>
 						</div>
@@ -73,7 +73,7 @@
 						<div class="form-group row">
 							<label class="col-sm-3 col-md-3 col-lg-3">Retrait :</label>
 							<div class="col-sm-6 col-md-9 col-lg-8">
-								<label class="form-control">${unRetrait.rue}, ${unRetrait.codePostal} ${unRetrait.ville}</label>
+								<label class="form-control">${unArticleVendu.retrait.rue}, ${unArticleVendu.retrait.codePostal} ${unArticleVendu.retrait.ville}</label>
 							</div>
 						</div>
 						<div class="form-group row">
