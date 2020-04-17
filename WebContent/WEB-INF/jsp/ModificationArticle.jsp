@@ -43,7 +43,7 @@
 							<div class="form-row">
 								<div class="col form-group">
 									<label>Date début des enchères </label> <br><span>${article.dateDebutEncheres}</span>;
-								</div>
+								</div> 
 								<div class="col form-group">
 									<label>Date fin des enchères</label> <br><span>${article.dateFinEncheres}</span>;
 								</div>

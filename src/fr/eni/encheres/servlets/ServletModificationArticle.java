@@ -33,7 +33,7 @@ public class ServletModificationArticle extends HttpServlet {
      */
     public ServletModificationArticle() {
         super();
-        // TODO Auto-generated constructor stub
+        // TODO Auto-generated constructor stub 
     }
 
 	/**
@@ -140,7 +140,7 @@ public class ServletModificationArticle extends HttpServlet {
 			
 			try 
 			{
-				//On récupère l'article correspondant
+				//On récupère l'article correspondant 
 				ArticleVendu unArticle = (ArticleVendu) articlesManager.getArticleById(idArticle);
 				
 				//On applique les changements
