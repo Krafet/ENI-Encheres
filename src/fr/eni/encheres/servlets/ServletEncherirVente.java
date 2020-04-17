@@ -117,18 +117,10 @@ public class ServletEncherirVente extends HttpServlet {
 			unArticle.setPrixVente(proposition);
 			articlesManager.updateArticle(unArticle);
 			
-			//Mise à jour de l'enchère avec les dernières informations (ou Insert ? 
+			//Mise à jour de l'enchère avec les dernières informations
 			Date date = new Date();
-
-			//DEVAIT PAS FAIRE UN UPDATE AU FINAL ? car sinon un utilisateur ne peut enchérir deux fois sur le même, conflit de clé déjà existante + on a des doublons sur l'accueil
-			/*Enchere uneEnchere = new Enchere(proposition, date ,userSession, unArticle);	
-			enchereManager.insert(uneEnchere); */
 			
-			
-			//TEST avec l'update => fonctionnel
-			
-			Utilisateur ancienUserMeilleurOffre = new Utilisateur();
-			
+			Utilisateur ancienUserMeilleurOffre = new Utilisateur();			
 			Enchere enchereAUpdater = enchereManager.selectByArticle(idArticle);
 			
 			//Récupération de l'ancien détenteur du meilleure offre
@@ -153,9 +145,7 @@ public class ServletEncherirVente extends HttpServlet {
 			int creditAvantRemboursement = ancienUserMeilleurOffre.getCredit();
 			int creditApresRemboursement = creditAvantRemboursement + meilleureOffre;
 			ancienUserMeilleurOffre.setCredit(creditApresRemboursement);
-			utilisateurManager.updateUtilisateur(ancienUserMeilleurOffre);
-			
-			
+			utilisateurManager.updateUtilisateur(ancienUserMeilleurOffre);	
 			
 			List<Integer> listeCodeSuccess = new ArrayList<>();
 			listeCodeSuccess.add(CodesResultatServlets.ENCHERE_AJOUTEE);
