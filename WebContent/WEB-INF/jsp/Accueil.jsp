@@ -5,6 +5,7 @@
 <%@ page import="fr.eni.encheres.messages.LecteurMessage"%>
 <%@ page import="fr.eni.encheres.bo.Categorie"%>
 <%@ page import="java.util.List"%>
+<%@ page import="fr.eni.encheres.messages.LecteurSuccess"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
@@ -26,6 +27,23 @@
 		</ul>
 	</div>
 </c:if>
+
+
+<!--  Gestion des succes -->
+<c:if test="${!empty listeCodesSuccess}">
+    <div class="alert alert-success alertAccueil text-center"
+        role="alert">
+        <ul class="ulErrors">
+            <c:forEach var="code" items="${listeCodesSuccess}">
+                <li>${LecteurSuccess.getMessage(code)}</li>
+            </c:forEach>
+        </ul>
+    </div>
+</c:if>
+
+	<c:if test="${not empty User}">
+	Mes crédits : ${User.credit }
+	</c:if>
 
 <body class="container">
 
