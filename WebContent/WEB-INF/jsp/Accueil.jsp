@@ -124,6 +124,33 @@
 								> <label for="Tous">Tous</label>
 						</div>
 					</c:if>
+					
+					
+						<c:if test="${not empty User}">
+						<div>
+							<input type="radio" id="EnCours" name="ChoixTime"
+								value="EnCours"
+									<c:choose> 
+										<c:when test ="${ChoixTime eq 'EnCours'}">
+											checked
+										</c:when>
+									</c:choose>
+								>
+								<label for="EnCours">En cours</label>
+						</div>
+
+						<div>
+							<input type="radio" id="Termines" name="ChoixTime"
+								value="Termines"
+									<c:choose> 
+										<c:when test ="${ChoixTime eq 'Termines'}">
+											checked
+										</c:when>
+									</c:choose>
+								> <label for="Termines">Terminés</label>
+						</div>
+					</c:if>
+					
 					<input type="submit" value="Rechercher">
 				</form>
 
@@ -147,7 +174,18 @@
 								&idArticle=${element.unArticleVendu.noArticle}&idAcheteur=${element.unUtilisateur.noUtilisateur}">
 								<div class="card" style="width: 18rem;">
 									<img class="card-img-top"
-										src="./img/${element.unArticleVendu.picture }" height="150">
+										
+										<c:choose>
+											<c:when test="${not empty element.unArticleVendu.picture}">
+												src="./img/${element.unArticleVendu.picture }"
+											</c:when>
+											<c:otherwise>
+												src="./img/empty.png"
+											</c:otherwise>
+										</c:choose>
+					
+										
+										 height="150">
 									<div class="card-body">
 										<h5 class="card-title">${element.unArticleVendu.nomArticle}</h5>
 										<p class="card-text">Prix : ${element.montantEnchere }</p>
@@ -175,7 +213,7 @@
 
 
 	</div>
-
+</div>
 
 
 </body>
