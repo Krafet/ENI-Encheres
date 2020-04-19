@@ -48,15 +48,19 @@
 	</c:if>
 
 <body class="container">
-
+	<hr>
+	<h3 class="text-center">Liste des enchères</h3>
+	<hr>
 	<div class="container">
 		<div class="row justify-content-center">
-			<div class="col-md-12">
-				Filtres :
+			<div class="col-md-12 divAccueil">
+			<div class="col-auto my-1s">
+					<p>Filtres :</p>
+				</div>
 
 				<form method="post" action="/ENI-Encheres/Index">
 
-					<div class="input-group input-focus col-sm-8">
+					<div class="input-group input-focus col-sm-5">
 						<div class="input-group-prepend">
 							<span class="input-group-text bg-white"><i
 								class="fa fa-search"></i></span>
@@ -88,7 +92,9 @@
 								</c:choose>
 							</c:forEach>
 						</select>
+								<input type="submit" class="btn btn-secondary" value="Rechercher">
 					</div>
+					
 			</div>
 			<div class="col-md-3">
 				<c:if test="${not empty User}">
@@ -151,7 +157,7 @@
 					</div>
 				</c:if>
 			</div>
-			<input type="submit" value="Rechercher">
+	
 			</form>
 
 		</div>
@@ -160,8 +166,7 @@
 
 
 
-	<div class="container">
-		<h3 class="text-center">Liste des enchères</h3>
+	<div class="container divEncheres">
 		<div class="row justify-content-center">
 
 			<c:choose>

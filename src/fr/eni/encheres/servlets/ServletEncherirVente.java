@@ -29,138 +29,131 @@ import fr.eni.encheres.bo.Utilisateur;
 @WebServlet("/ServletEncherirVente")
 public class ServletEncherirVente extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ServletEncherirVente() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ServletEncherirVente() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
-		//Initialisation des erreurs
-		List<Integer> listeCodesErreur=new ArrayList<>();
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// Initialisation des erreurs
+		List<Integer> listeCodesErreur = new ArrayList<>();
+		boolean errors = false;
 
 		UtilisateurManager utilisateurManager = UtilisateurManager.getInstance();
 		ArticlesManager articlesManager = ArticlesManager.getInstance();
 		EnchereManager enchereManager = EnchereManager.getEnchereManager();
-		
+
 		Utilisateur unUtilisateur = new Utilisateur();
-		
-		//Récupération de l'utilisateur session
-		HttpSession session = request.getSession();		
+
+		// Récupération de l'utilisateur session
+		HttpSession session = request.getSession();
 		Utilisateur userSession = (Utilisateur) session.getAttribute("user");
 		RequestDispatcher rd = null;
-		
+
 		int proposition = 0;
 		int meilleureOffre = Integer.parseInt(request.getParameter("meilleureOffre"));
 		int idArticle = Integer.parseInt(request.getParameter("idArticle"));
 		int idVendeur = Integer.parseInt(request.getParameter("idVendeur"));
 		int idAcheteur = Integer.parseInt(request.getParameter("idAcheteur"));
-		
-		
-		if(userSession == null)
-		{
-			listeCodesErreur.add(CodesResultatServlets.USER_NON_CONNECTER);
-			this.getServletContext().getRequestDispatcher("/ServletConnexion").forward(request, response);
-		}
-		
-		try 
-		{
-		
-			//On  vérifie qu'une proposition a été faite
-			if(!request.getParameter("proposition").equals("")) {
-				 proposition = Integer.parseInt(request.getParameter("proposition"));
-			}else {
-				listeCodesErreur.add(CodesResultatServlets.AUCUNE_PROPOSITION);
-				request.setAttribute("listeCodesErreur", listeCodesErreur);
-		
-				rd = request.getRequestDispatcher("/ServletDetailVente?idVendeur=" + idVendeur + "&idArticle=" + idArticle + "&idAcheteur=" + idAcheteur);
-				rd.forward(request, response);
-			
-			}
-		
-			//On vérifie que la proposition est bien supérieure a la meilleure offre
-			if(proposition < meilleureOffre)
-			{
-				listeCodesErreur.add(CodesResultatServlets.PROPOSITION_INFERIEURE_A_MEILLEURE_OFFRE);
-				request.setAttribute("listeCodesErreur", listeCodesErreur);
-				
-				rd = request.getRequestDispatcher("/ServletDetailVente?idUser=" + idVendeur + "&idArticle=" + idArticle);
-				rd.forward(request, response);
-			}
-				
-			//On vérifie que l'encherisseur a suffisamment de crédit par rapport à sa proposition
-			if(userSession.getCredit() < proposition)
-			{
-				listeCodesErreur.add(CodesResultatServlets.CREDIT_INSUFFISANT);
-				request.setAttribute("listeCodesErreur", listeCodesErreur);
-				rd = request.getRequestDispatcher("/ServletDetailVente?idUser=" + idVendeur + "&idArticle=" + idArticle);
-				rd.forward(request, response);
-			}
-			
-			//Mise à jour du prix de vente de l'article avec le nouveau montant
-			ArticleVendu unArticle = articlesManager.getArticleById(idArticle);
-			unArticle.setPrixVente(proposition);
-			articlesManager.updateArticle(unArticle);
-			
-			//Mise à jour de l'enchère avec les dernières informations
-			//Date date = new Date();
-			
-			Utilisateur ancienUserMeilleurOffre = new Utilisateur();			
-			Enchere enchereAUpdater = enchereManager.selectByArticle(idArticle);
-			
-			//Récupération de l'ancien détenteur du meilleure offre
-			ancienUserMeilleurOffre = enchereAUpdater.getUnUtilisateur();
-			
-			enchereAUpdater.setMontantEnchere(proposition);
-			//enchereAUpdater.setDateEnchere(date);
-			enchereAUpdater.setUnUtilisateur(userSession);
 
-			enchereManager.updateByArticle(enchereAUpdater, userSession.getNoUtilisateur());
-			
-			
-			//Débite les points à l'user qui vient d'enréchir		
-			int creditAvantProposition = userSession.getCredit();
-			int creditApresProposition = creditAvantProposition - proposition;
-			userSession.setCredit(creditApresProposition);	
-			
-			utilisateurManager.updateUtilisateur(userSession);
-						
-			//Rembourse les points à l'ancien user qui détenait la meilleure offre
-			
-			int creditAvantRemboursement = ancienUserMeilleurOffre.getCredit();
-			int creditApresRemboursement = creditAvantRemboursement + meilleureOffre;
-			ancienUserMeilleurOffre.setCredit(creditApresRemboursement);
-			utilisateurManager.updateUtilisateur(ancienUserMeilleurOffre);	
-			
-			List<Integer> listeCodeSuccess = new ArrayList<>();
-			listeCodeSuccess.add(CodesResultatServlets.ENCHERE_AJOUTEE);
-			request.setAttribute("listeCodesSuccess",listeCodeSuccess);
-			rd = request.getRequestDispatcher("/Index");
-			rd.forward(request, response);
-		}
-		catch(BusinessException e) 
-		{
-			e.printStackTrace();			
-			request.setAttribute("listeCodesErreur",e.getListeCodesErreur());	
+		try {
+
+			// On vérifie qu'une proposition a été faite
+			if (!request.getParameter("proposition").equals("")) {
+				proposition = Integer.parseInt(request.getParameter("proposition"));
+			} else {
+				listeCodesErreur.add(CodesResultatServlets.AUCUNE_PROPOSITION);
+				errors = true;
+			}
+
+			// On vérifie que la proposition est bien supérieure a la meilleure offre
+			if (proposition < meilleureOffre) {
+				listeCodesErreur.add(CodesResultatServlets.PROPOSITION_INFERIEURE_A_MEILLEURE_OFFRE);
+				errors = true;
+
+			}
+
+			// On vérifie que l'encherisseur a suffisamment de crédit par rapport à sa
+			// proposition
+			if (userSession.getCredit() < proposition) {
+				listeCodesErreur.add(CodesResultatServlets.CREDIT_INSUFFISANT);
+				errors = true;
+			}
+
+			if (errors == true) {
+				request.setAttribute("listeCodesErreur", listeCodesErreur);
+				rd = request
+						.getRequestDispatcher("/ServletDetailVente?idUser=" + idVendeur + "&idArticle=" + idArticle);
+				rd.forward(request, response);
+
+			} else {
+
+				// Mise à jour du prix de vente de l'article avec le nouveau montant
+				ArticleVendu unArticle = articlesManager.getArticleById(idArticle);
+				unArticle.setPrixVente(proposition);
+				articlesManager.updateArticle(unArticle);
+
+				// Mise à jour de l'enchère avec les dernières informations
+				// Date date = new Date();
+
+				Utilisateur ancienUserMeilleurOffre = new Utilisateur();
+				Enchere enchereAUpdater = enchereManager.selectByArticle(idArticle);
+
+				// Récupération de l'ancien détenteur du meilleure offre
+				ancienUserMeilleurOffre = enchereAUpdater.getUnUtilisateur();
+
+				enchereAUpdater.setMontantEnchere(proposition);
+				// enchereAUpdater.setDateEnchere(date);
+				enchereAUpdater.setUnUtilisateur(userSession);
+
+				enchereManager.updateByArticle(enchereAUpdater, userSession.getNoUtilisateur());
+
+				// Débite les points à l'user qui vient d'enréchir
+				int creditAvantProposition = userSession.getCredit();
+				int creditApresProposition = creditAvantProposition - proposition;
+				userSession.setCredit(creditApresProposition);
+
+				utilisateurManager.updateUtilisateur(userSession);
+
+				// Rembourse les points à l'ancien user qui détenait la meilleure offre
+
+				int creditAvantRemboursement = ancienUserMeilleurOffre.getCredit();
+				int creditApresRemboursement = creditAvantRemboursement + meilleureOffre;
+				ancienUserMeilleurOffre.setCredit(creditApresRemboursement);
+				utilisateurManager.updateUtilisateur(ancienUserMeilleurOffre);
+
+				List<Integer> listeCodeSuccess = new ArrayList<>();
+				listeCodeSuccess.add(CodesResultatServlets.ENCHERE_AJOUTEE);
+				request.setAttribute("listeCodesSuccess", listeCodeSuccess);
+				rd = request.getRequestDispatcher("/Index");
+				rd.forward(request, response);
+			}
+		} catch (BusinessException e) {
+			e.printStackTrace();
+			request.setAttribute("listeCodesErreur", e.getListeCodesErreur());
 			rd = request.getRequestDispatcher("/ServletDetailVente?idUser=" + idVendeur + "&idArticle=" + idArticle);
 			rd.forward(request, response);
 		}
-		
+
 	}
 
 }

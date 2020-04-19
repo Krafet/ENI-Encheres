@@ -13,13 +13,25 @@ a{
 .btn-danger{
 	border-radius: 8px;
 }
+.divAccueil{
+	margin-top:2%;
+	margin-bottom:2%;
+}
 
+.divEncheres{
+	margin-top:3%;
+}
 .divConnetionTitle{
 	background-color:#2A88AD;
 	border:1px solid #2A88AD;
 	border-top-left-radius: 20px;
 	border-top-right-radius: 20px;
 	margin-top:1%;
+}
+
+.beforeCat{
+	margin-bottom:2%;
+	
 }
 .connectionTitle{
 
